@@ -1,27 +1,28 @@
 import { Bell, Home, Settings, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import "./ui.css";
 
 
 function Navbar() {
     return (
-        <nav className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
-                    <Link to="/" className="text-2xl font-semibold text-faithbook-accent">
+        <nav className="nav-main">
+            <div className="nav-container">
+                <div className="flex" style={{ height: "4rem"}}>
+                    <Link to="/" className="faithbook-accent deco-none">
                         Faithbook
                     </Link>
-                    <div className="flex items-center space-x-6">
-                        <Link to="/feed" className="text-gray-600 hover:text-faithbook-accent">
-                            <Home className="h-6 w-6" />
+                    <div className="flex nav-icon-container">
+                        <Link to="/feed" className="deco-none nav-icon">
+                            <Home style={{ height: "1.5rem", width: "1.5rem" }} />
                         </Link>
-                        <Link to="/notifications" className="text-gray-600 hover:text-faithbook-accent">
-                            <Bell className="h-6 w-6" />
+                        <Link to="/notifications" className="deco-none nav-icon">
+                            <Bell style={{ height: "1.5rem", width: "1.5rem" }} />
                         </Link>
-                        <Link to="/profile" className="text-gray-600 hover:text-faithbook-accent">
-                            <User className="h-6 w-6" />
+                        <Link to="/profile" className="deco-none nav-icon">
+                            <User style={{ height: "1.5rem", width: "1.5rem" }} />
                         </Link>
-                        <Link to="/settings" className="text-gray-600 hover:text-faithbook-accent">
-                            <Settings className="h-6 w-6" />
+                        <Link to="/settings" className="deco-none nav-icon">
+                            <Settings style={{ height: "1.5rem", width: "1.5rem" }} />
                         </Link>
                     </div>
                 </div>

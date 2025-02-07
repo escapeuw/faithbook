@@ -18,7 +18,7 @@ function Feed() {
         },
     ];
     return (
-        <div className="container mx-auto px-4 pt-20 pb-10">
+        <div className="wrapper">
             <div className="max-w-2xl mx-auto space-y-6">
                 {posts.map((post, index) => (
                     <DevotionPost key={index} {...post} />

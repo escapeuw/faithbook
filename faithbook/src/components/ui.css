@@ -1,0 +1,218 @@
+/* colours */
+:root {
+    --accent: #9b87f5;
+    --sub-accent: #4b5563;
+}
+
+.wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 5rem 1rem 2.5rem;
+}
+
+.faithbook-accent {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--accent);
+}
+
+.nav-main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.profile-container {
+    max-width: 42rem;
+    /* max-w-2xl equivalent: 42rem (672px) */
+    margin-left: auto;
+    /* mx-auto equivalent */
+    margin-right: auto;
+    /* mx-auto equivalent */
+}
+
+.center {
+    text-align: center;
+    padding: 1rem;
+}
+
+.purple-bar {
+    border-left: 0.25rem solid var(--accent);
+    padding: 0 1rem;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+
+/* Apply vertical space between direct children */
+.profile-container>*:not(:last-child) {
+    margin-bottom: 2rem;
+    /* space-y-8 equivalent: 2rem (32px) */
+}
+
+.nav-container {
+    max-width: 80rem;
+    /* max-w-7xl */
+    margin-left: auto;
+    /* mx-auto */
+    margin-right: auto;
+    /* mx-auto */
+    padding-left: 1rem;
+    /* px-4 */
+    padding-right: 1rem;
+    /* px-4 */
+}
+
+.deco-none {
+    text-decoration: none;
+
+}
+
+.nav-icon-container>*:not(:last-child) {
+    margin-right: 1.5rem;
+}
+
+.nav-icon {
+    color: var(--sub-accent);
+}
+
+.nav-icon:hover {
+    color: var(--accent);
+
+}
+
+/* sm: breakpoint (>= 640px) */
+@media (min-width: 640px) {
+    .nav-container {
+        padding-left: 1.5rem;
+        /* sm:px-6 */
+        padding-right: 1.5rem;
+        /* sm:px-6 */
+    }
+
+    .wrapper {
+        max-width: 640px;
+    }
+}
+
+@media (min-width: 768px) {
+    .wrapper {
+        max-width: 768px;
+    }
+}
+
+/* lg: breakpoint (>= 1024px) */
+@media (min-width: 1024px) {
+    .nav-container {
+        padding-left: 2rem;
+        /* lg:px-8 */
+        padding-right: 2rem;
+        /* lg:px-8 */
+    }
+
+    .wrapper {
+        max-width: 1024px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .wrapper {
+        max-width: 1280px;
+        /* Equivalent to Tailwind's xl container size */
+    }
+}
+
+@media (min-width: 1536px) {
+    .wrapper {
+        max-width: 1536px;
+        /* Equivalent to Tailwind's 2xl container size */
+    }
+}
+
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-left {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    height: 4rem;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.this p {
+    line-height: 0.75;
+}
+
+
+
+
+/* General Card Styles */
+.card {
+    border-radius: 0.5rem;
+    /* equivalent to rounded-lg */
+    border: 1px solid #e0e0e0;
+    /* equivalent to border */
+    background-color: #fff;
+    /* background-color for card */
+    color: #333;
+    /* text-color for the card */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    /* shadow-sm */
+}
+
+/* Card Header */
+.card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    /* space-y-1.5 */
+    padding: 1.5rem;
+}
+
+/* Card Title */
+.card-title {
+    font-size: 1.5rem;
+    /* text-2xl */
+    font-weight: 600;
+    /* font-semibold */
+    line-height: 1.25;
+    letter-spacing: -0.01562em;
+}
+
+/* Card Description */
+.card-description {
+    font-size: 0.875rem;
+    /* text-sm */
+    color: #6b7280;
+    /* text-muted-foreground */
+}
+
+/* Card Content */
+.card-content {
+    padding: 1.5rem;
+    padding-top: 0;
+    /* pt-0 */
+}
+
+/* Card Footer */
+.card-footer {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    padding-top: 0;
+    /* pt-0 */
+}
