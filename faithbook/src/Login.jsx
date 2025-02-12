@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +30,7 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <div className="input-wrapper">
-              <i className="icon-mail"></i>
+              <i className="fa fa-envelope"></i>
               <input
                 type="email"
                 value={email}
@@ -40,7 +41,7 @@ const Login = () => {
             </div>
 
             <div className="input-wrapper">
-              <i className="icon-lock"></i>
+              <i className="fa-solid fa-lock"></i>
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
@@ -53,7 +54,7 @@ const Login = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="password-toggle"
               >
-                <i className={showPassword ? "icon-eye-off" : "icon-eye"}></i>
+                <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
               </button>
             </div>
           </div>

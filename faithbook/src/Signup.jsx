@@ -9,15 +9,15 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [title, setTitle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsLoading(false);
-    console.log("Signup attempt with:", { name, email, password });
+    e.preventDefault(); // prevent form from reloading the page on submit
+    
+    setIsLoading(ture); // set loading true
+    
   };
 
   return (
@@ -31,7 +31,7 @@ const Signup = () => {
         <form onSubmit={handleSubmit} className="signup-form">
           <div className="form-group">
             <div className="input-wrapper">
-              <i className="icon-user"></i>
+              <i className="fa-solid fa-user"></i>
               <input
                 type="text"
                 value={name}
@@ -42,7 +42,7 @@ const Signup = () => {
             </div>
 
             <div className="input-wrapper">
-              <i className="icon-mail"></i>
+              <i className="fa fa-envelope"></i>
               <input
                 type="email"
                 value={email}
@@ -53,7 +53,7 @@ const Signup = () => {
             </div>
 
             <div className="input-wrapper">
-              <i className="icon-lock"></i>
+              <i className="fa-solid fa-lock"></i>
               <input
                 type={showPassword ? "text" : "password"}
                 value={password}
@@ -66,12 +66,12 @@ const Signup = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="password-toggle"
               >
-                <i className={showPassword ? "icon-eye-off" : "icon-eye"}></i>
+                <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
               </button>
             </div>
 
             <div className="input-wrapper">
-              <i className="icon-lock"></i>
+              <i className="fa-solid fa-lock"></i>
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 value={confirmPassword}
@@ -84,9 +84,20 @@ const Signup = () => {
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="password-toggle"
               >
-                <i className={showConfirmPassword ? "icon-eye-off" : "icon-eye"}></i>
+                <i className={showConfirmPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
               </button>
             </div>
+
+            <div className="input-wrapper">
+              <select value={title} onChange={(e) => setTitle(e.target.value)} required className="dropdown">
+                <option value="" disabled>Select your title</option>
+                <option value="a">skeptic</option>
+                <option value="b">seeker</option>
+                <option value="c">doubting believer</option>
+                <option value="d">committed believer</option>
+              </select>
+            </div>
+
           </div>
 
           <button
