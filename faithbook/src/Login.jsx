@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 
-const Login = () => {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -12,11 +12,40 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsLoading(false);
-    console.log("Login attempt with:", { email, password, rememberMe });
+    e.preventDefault(); //prevent page reloading
+
+    setIsLoading(true); //loading state
+
+    const userData = { email, password };
+
+    try {
+      // send POST request to backend API for login
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", //json data
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const data = await response.json(); // convert response to JSON
+
+      if (response.ok) {
+        console.log("Login successful", data);
+        // store JWT token somewhere, temporally in local storage
+
+        localStorage.setItem("token", data.token);
+
+        // redirect to home/dashboard
+        window.location.href = "/home"; // change route to /home
+      } else {
+        console.error("Login failed:", data.message);
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    } finally {
+      setIsLoading(false); // no more loading
+    }
   };
 
   return (

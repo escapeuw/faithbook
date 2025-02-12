@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
-const Signup = () => {
+function Signup () {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,9 +15,39 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevent form from reloading the page on submit
-    
-    setIsLoading(ture); // set loading true
-    
+
+    setIsLoading(true); // set loading true
+
+    // send data 
+
+    const userData = { name, email, password, confirmPassword, title };
+
+    try {
+      // send POST request to backend API
+      const response = await fetch("http://localhost:5000/api/auth/signup", { //change link when hosting finishes
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json", //sending JSON data
+        },
+        body: JSON.stringify(userData), // send user data as JSON string
+      });
+
+      // handle the response from the server
+      const data = await response.json();
+
+      if (response.ok) {
+        // singup success , do something maybe redirect back to login
+        console.log("Signup successful:", data);
+      } else {
+        // signup fail
+        console.error("Signup failed:", data.message);
+      } 
+    } catch (error) {
+      // network or unexpected errors
+      console.error("Error during signup", error);
+    } finally {
+      setIsLoading(false); // reset loading state, not loading anymore
+    } 
   };
 
   return (
