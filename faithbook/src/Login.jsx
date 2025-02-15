@@ -37,6 +37,7 @@ function Login() {
         localStorage.setItem("token", data.token);
 
         // redirect to home/dashboard
+        console.log("YOU ARE LOGGED IN TEST SUCCESSFUL!!!!!!");
         window.location.href = "/home"; // change route to /home
       } else {
         console.error("Login failed:", data.message);
