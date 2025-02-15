@@ -121,10 +121,10 @@ function Signup () {
             <div className="input-wrapper">
               <select value={title} onChange={(e) => setTitle(e.target.value)} required className="dropdown">
                 <option value="" disabled>Select your title</option>
-                <option value="a">skeptic</option>
-                <option value="b">seeker</option>
-                <option value="c">doubting believer</option>
-                <option value="d">committed believer</option>
+                <option value="skeptic">skeptic</option>
+                <option value="seeker">seeker</option>
+                <option value="doubting believer">doubting believer</option>
+                <option value="committed believer">committed believer</option>
               </select>
             </div>
 
