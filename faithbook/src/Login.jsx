@@ -20,7 +20,7 @@ function Login() {
 
     try {
       // send POST request to backend API for login
-      const response = await fetch("https://faithbook-production.up.railway.app/api/login", {
+      const response = await fetch("https://faithbook-production.up.railway.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json", //json data
