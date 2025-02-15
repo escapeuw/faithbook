@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://escapeuw.github.io/faithbook",
+  "homepage": "https://escapeuw.github.io/faithbook/faithbook/frontend",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
