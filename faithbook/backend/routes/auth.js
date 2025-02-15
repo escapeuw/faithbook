@@ -9,7 +9,7 @@ const router = express.Router();
 // Signup Route
 router.post("/signup", async (req, res) => {
     try {
-        const { name, email, password, confirmPassword, title } = req.body;
+        const { username, email, password, confirmPassword, title } = req.body;
 
         // Check if user already exists
         let existingUser = await User.findOne({ email });
@@ -26,7 +26,7 @@ router.post("/signup", async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create new user
-        const newUser = await User.create({ name, email, password: hashedPassword, title });
+        const newUser = await User.create({ username, email, password: hashedPassword, title });
        
         res.json({ message: "User registered successfully", user: newUser });
     } catch (error) {
@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
 
         res.json({
             token,
-            name: user.name // sends username back to frontend
+            username: user.username // sends username back to frontend
         });
 
     } catch (error) {

@@ -7,7 +7,7 @@ const User = sequelize.define("User", {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
     },
-    name: {
+    username: {
         type: DataTypes.STRING,
         allowNull: false,
         /* unique: true, */ //shouldnt be unique?? because actual name

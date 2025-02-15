@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 function Signup () {
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -20,7 +20,7 @@ function Signup () {
 
     // send data 
 
-    const userData = { name, email, password, confirmPassword, title };
+    const userData = { username, email, password, confirmPassword, title };
 
     try {
       // send POST request to backend API
@@ -64,8 +64,8 @@ function Signup () {
               <i className="fa-solid fa-user"></i>
               <input
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 placeholder="Full name"
                 required
               />
