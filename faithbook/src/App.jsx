@@ -9,10 +9,10 @@ import Signup from "./Signup.jsx";
 function App() {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/faithbook">
       <div>
         <Routes>
-          <Route path="/faithbook" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/home/*" element={<Home />} />
         </Routes>
