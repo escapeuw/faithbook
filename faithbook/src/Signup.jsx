@@ -24,7 +24,7 @@ function Signup () {
 
     try {
       // send POST request to backend API
-      const response = await fetch("https://faithbook-production.up.railway.app/signup", { //change link when hosting finishes
+      const response = await fetch("https://faithbook-production.up.railway.app/api/signup", { //change link when hosting finishes
         method: "POST",
         headers: {
           "Content-Type": "application/json", //sending JSON data
