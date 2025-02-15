@@ -10,7 +10,7 @@ app.use(cors());
 
 
 // routes
-app.use("/api/auth", authRoutes);
+app.use("/", authRoutes);
 
 
 sequelize.sync().then(() => {
