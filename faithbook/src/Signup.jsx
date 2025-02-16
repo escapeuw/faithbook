@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { toast } from "react-toastify"; // import toast
+import "react-toastify/dist/ReactToastify.css"; // import toast styles
 
 function Signup () {
   const [username, setUsername] = useState("");
@@ -36,15 +38,17 @@ function Signup () {
       const data = await response.json();
 
       if (response.ok) {
-        // singup success , do something maybe redirect back to login
-        console.log("Signup successful:", data);
+        // signup success , do something maybe redirect back to login
+        toast.success("Successfully signed up!");
+        nativate("/");
+
       } else {
         // signup fail
-        console.error("Signup failed:", data.message);
+        toast.error(`Signup failed: ${data.message}`);
       } 
     } catch (error) {
       // network or unexpected errors
-      console.error("Error during signup", error);
+      toast.error(`Something went wrong, please try again later: , ${error}`);
     } finally {
       setIsLoading(false); // reset loading state, not loading anymore
     } 
