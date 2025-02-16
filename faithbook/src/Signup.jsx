@@ -40,7 +40,7 @@ function Signup () {
       if (response.ok) {
         // signup success , do something maybe redirect back to login
         toast.success("Successfully signed up!");
-        nativate("/");
+        navigate("/");
 
       } else {
         // signup fail
