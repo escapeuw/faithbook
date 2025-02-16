@@ -12,15 +12,19 @@ router.post("/signup", async (req, res) => {
     try {
         const { username, email, password, confirmPassword, title } = req.body;
 
+         // password validation
+        if (password !== confirmPassword) {
+            return res.status(400).json({ message: "Passwords do not match" });
+        } else if (password.length < 7) {
+            return res.status(400).json({ message: "Password must be a least 7 characters long" });
+        } else if (password.length > 14) {
+            return res.status(400).json({ message: "Password must be less than 15 characters "});
+        }
+
         // Check if user already exists
         let existingUser = await User.findOne({ where: {email: email } });
         if (existingUser) {
             return res.status(400).json({ message: "User already exists" });
-        }
-
-        // check passwords
-        if (password !== confirmPassword) {
-            return res.status(400).json({ message: "Passwords do not match" });
         }
 
         // Hash password
