@@ -6,6 +6,7 @@ function Profile() {
     const [devotion, setDevotion] = useState("");
     const [bibleVerse, setBibleVerse] = useState("");
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const handlePost = () => {
         console.log("Posted:", { devotion, bibleVerse });
@@ -32,11 +33,17 @@ function Profile() {
                 setUser(data);
             } catch (error) {
                 console.error("Erorr fetching user data:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchUserData();
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
 
     const posts = [
         {
@@ -56,7 +63,7 @@ function Profile() {
     ];
 
     return (
-        <div className="wrapper">
+        (!loading && (<div className="wrapper">
             <div className="profile-container">
                 <div className="profile center card">
                     <img style={{ width: "6rem", height: "6rem", borderRadius: "50%" }}
@@ -67,7 +74,7 @@ function Profile() {
                 </div>
                 <DevotionPost {...posts[0]} />
             </div>
-        </div>
+        </div>))
     )
 }
 
