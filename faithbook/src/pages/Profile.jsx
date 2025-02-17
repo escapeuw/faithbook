@@ -25,7 +25,6 @@ function Profile() {
 
         const fetchUserData = async () => {
             
-
             try {
                 const response = await fetch("https://faithbook-production.up.railway.app/user", {
                     method: "GET",
@@ -71,7 +70,7 @@ function Profile() {
     ];
 
     return (
-        (!user && (<div className="wrapper">
+        (user && (<div className="wrapper">
             <div className="profile-container">
                 <div className="profile center card">
                     <img style={{ width: "6rem", height: "6rem", borderRadius: "50%" }}
