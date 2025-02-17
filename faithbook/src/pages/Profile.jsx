@@ -71,7 +71,7 @@ function Profile() {
     ];
 
     return (
-        (!loading && (<div className="wrapper">
+        (!user && (<div className="wrapper">
             <div className="profile-container">
                 <div className="profile center card">
                     <img style={{ width: "6rem", height: "6rem", borderRadius: "50%" }}
