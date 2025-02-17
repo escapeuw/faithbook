@@ -15,15 +15,9 @@ function Profile() {
     }
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        console.log("Token from localStorage:", token) // debug
-
-        if (!token) {
-            console.error("No TOKEN!");
-            return;
-        }
 
         const fetchUserData = async () => {
+            const token = localStorage.getItem("token");
             
             try {
                 const response = await fetch("https://faithbook-production.up.railway.app/user", {
