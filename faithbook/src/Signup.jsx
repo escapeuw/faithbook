@@ -4,7 +4,7 @@ import "./Login.css";
 import { toast } from "react-toastify"; // import toast
 import "react-toastify/dist/ReactToastify.css"; // import toast styles
 
-function Signup () {
+function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,141 +13,217 @@ function Signup () {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [title, setTitle] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [step, setStep] = useState(1)
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevent form from reloading the page on submit
 
-    setIsLoading(true); // set loading true
+    if (step === 1) {
+      // Move to title selection step
+      if (password !== confirmPassword) {
+        toast.error("Passwords do not match");
+        return;
+      } else if (password.length < 7) {
+        toast.error("Password must be at least 7 characters long");
+        return;
+      } else if (password.length > 14) {
+        toast.error("Password must be less than 15 characters");
+        return;
+      }
 
-    // send data 
+      setStep(2);
 
-    const userData = { username, email, password, confirmPassword, title };
+    } else {
+      // submit the form (step 2)
 
-    try {
-      // send POST request to backend API
-      const response = await fetch("https://faithbook-production.up.railway.app/signup", { //change link when hosting finishes
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", //sending JSON data
-        },
-        body: JSON.stringify(userData), // send user data as JSON string
-      });
+      setIsLoading(true); // set loading true
 
-      // handle the response from the server
-      const data = await response.json();
+      // send data 
 
-      if (response.ok) {
-        // signup success , do something maybe redirect back to login
-        toast.success("Successfully signed up!");
-        navigate("/");
+      const userData = { username, email, password, confirmPassword, title };
 
-      } else {
-        // signup fail
-        toast.error(`Signup failed: ${data.message}`);
-      } 
-    } catch (error) {
-      // network or unexpected errors
-      toast.error(`Something went wrong, please try again later: , ${error}`);
-    } finally {
-      setIsLoading(false); // reset loading state, not loading anymore
-    } 
+      try {
+        // send POST request to backend API
+        const response = await fetch("https://faithbook-production.up.railway.app/signup", { //change link when hosting finishes
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", //sending JSON data
+          },
+          body: JSON.stringify(userData), // send user data as JSON string
+        });
+
+        // handle the response from the server
+        const data = await response.json();
+
+        if (response.ok) {
+          // signup success , do something maybe redirect back to login
+          toast.success("Successfully signed up!");
+          navigate("/");
+
+        } else {
+          // signup fail
+          toast.error(`Signup failed: ${data.message}`);
+        }
+      } catch (error) {
+        // network or unexpected errors
+        toast.error(`Something went wrong, please try again later: , ${error}`);
+      } finally {
+        setIsLoading(false); // reset loading state, not loading anymore
+      }
+    };
   };
+
+  const titleOptions = [
+    {
+      id: "skeptic",
+      icon: "fa-solid fa-question-circle",
+      label: "Skeptic",
+      description: "You have doubts and are questioning faith."
+    },
+    {
+      id: "seeker",
+      icon: "fa-solid fa-search",
+      label: "Seeker",
+      description: "You are exploring and open to discovering more."
+    },
+    {
+      id: "doubting-believer",
+      icon: "fa-solid fa-heart-crack",
+      label: "Doubting Believer",
+      description: "You believe but struggle with uncertainties."
+    },
+    {
+      id: "committed-believer",
+      icon: "fa-solid fa-hands-praying",
+      label: "Committed Believer",
+      description: "You have firm faith and are devoted to your beliefs."
+    }
+  ];
 
   return (
     <div className="signup-container">
       <div className="signup-card">
-        <div className="signup-header">
-          <h1>Create Account</h1>
-          <p>Join Faithbook today</p>
-        </div>
+        {step === 1 && (
+          <div className="signup-header">
+            <h1>Create Account</h1>
+            <p>Join Faithbook today</p>
+          </div>
+        )}
+        {step === 2 && (
+          <div className="signup-header">
+            <h1>Select your Title</h1>
+            <p>Title describes your <em style={{ fontWeight: "bold" }}>current</em> faith stage</p>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="signup-form">
-          <div className="form-group">
-            <div className="input-wrapper">
-              <i className="fa-solid fa-user"></i>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Full name"
-                required
-              />
-            </div>
 
-            <div className="input-wrapper">
-              <i className="fa fa-envelope"></i>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email address"
-                required
-              />
-            </div>
+          {step === 1 && (
+            <div className="form-group">
+              <div className="input-wrapper">
+                <i className="fa-solid fa-user"></i>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Full name"
+                  required
+                />
+              </div>
 
-            <div className="input-wrapper">
-              <i className="fa-solid fa-lock"></i>
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="password-toggle"
-              >
-                <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
+              <div className="input-wrapper">
+                <i className="fa fa-envelope"></i>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email address"
+                  required
+                />
+              </div>
+
+              <div className="input-wrapper">
+                <i className="fa-solid fa-lock"></i>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="password-toggle"
+                >
+                  <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
+                </button>
+              </div>
+
+              <div className="input-wrapper">
+                <i className="fa-solid fa-lock"></i>
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="password-toggle"
+                >
+                  <i className={showConfirmPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
+                </button>
+              </div>
+
+              <button type="submit" className="submit-button">
+                Next
               </button>
             </div>
+          )}
 
-            <div className="input-wrapper">
-              <i className="fa-solid fa-lock"></i>
-              <input
-                type={showConfirmPassword ? "text" : "password"}
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm password"
-                required
-              />
+
+          {step === 2 && (
+            <div className="form-group">
+              <div className="title-selection">
+                {titleOptions.map((option) => (
+                  <div key={option.id}
+                    className={`title-option ${title === option.id ? "selected" : ""}`}
+                    onClick={() => setTitle(option.id)}
+                  >
+                    <i className={option.icon}></i>
+                    <div className="option-description">
+                      <h3>{option.label}</h3>
+                      <p>{option.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button type="button" onClick={() => setStep(1)} className="back-button">
+                Back
+              </button>
+
               <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="password-toggle"
+                type="submit"
+                disabled={isLoading}
+                className={`submit-button ${isLoading ? "loading" : ""}`}
               >
-                <i className={showConfirmPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
+                {isLoading ? (
+                  <span className="loading-text">
+                    <div className="spinner"></div>
+                    Creating account...
+                  </span>
+                ) : (
+                  "Create account"
+                )}
               </button>
             </div>
+          )}
 
-            <div className="input-wrapper">
-              <select value={title} onChange={(e) => setTitle(e.target.value)} required className="dropdown">
-                <option value="" disabled>Select your title</option>
-                <option value="skeptic">skeptic</option>
-                <option value="seeker">seeker</option>
-                <option value="doubting believer">doubting believer</option>
-                <option value="committed believer">committed believer</option>
-              </select>
-            </div>
-
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className={`submit-button ${isLoading ? "loading" : ""}`}
-          >
-            {isLoading ? (
-              <span className="loading-text">
-                <div className="spinner"></div>
-                Creating account...
-              </span>
-            ) : (
-              "Create account"
-            )}
-          </button>
 
           <p className="login-text">
             Already have an account?{" "}
