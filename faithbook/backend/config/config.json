@@ -1,0 +1,12 @@
+{
+  "development": {
+    "dialect": "postgres",
+    "url": "postgresql://postgres:SHxekGoTjtihAAgaXJVtmgJSNIfKacHr@autorack.proxy.rlwy.net:17838/railway"
+  },
+  "production": {
+    "dialect": "postgres",
+    "url": "postgresql://postgres:SHxekGoTjtihAAgaXJVtmgJSNIfKacHr@autorack.proxy.rlwy.net:17838/railway"
+  }
+}
+
+

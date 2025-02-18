@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
+
 const User = require("./User");     // Import User to define relationship
 
 const Post = sequelize.define("Post", {
@@ -39,7 +40,8 @@ const Post = sequelize.define("Post", {
     }
 });
 
-
+// Define relationship
+User.hasMany(Post, { foreignKey: "userId", onDelete: "CASCADE" });
 Post.belongsTo(User, { foreignKey: "userId" });
 
 module.exports = Post;
