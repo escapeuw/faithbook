@@ -19,8 +19,8 @@ sequelize.authenticate()
     .catch((err) => console.error("DB CONNECTION ERROR:", err));
 
 // after seq init
-const User = require("../models/User");
-const Post = require("../models/Post");
+//const User = require("../models/User");
+// const Post = require("../models/Post");
 
 sequelize.sync({ alter: true })     // Sync db structure
     .then(() => console.log("Database synced"))
