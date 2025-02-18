@@ -54,3 +54,4 @@ router.get("/", async (req, res) => {
     order: [["createdAt", "DESC"]],
 }); */
 
+module.exports = router;
