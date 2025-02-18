@@ -10,11 +10,11 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
         },
     },
     logging: false, // True if want to see SQL queries in the console
-}); // 
+}); 
 
 
-const User = require("../models/User");
-const Post = require("../models/Post");
+//const User = require("../models/User");
+//const Post = require("../models/Post");
 
 // sequelize.sync({ alter: true })     // Sync db structure
    // .then(() => console.log("Database synced"))
