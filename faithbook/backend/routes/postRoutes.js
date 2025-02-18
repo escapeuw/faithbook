@@ -2,6 +2,7 @@ const express = require("express");
 const { Op } = require("sequelize");
 const Post = require("../models/Post");
 const User = require("../models/User");
+require("dotenv").config();
 
 const router = express.Router();
 
