@@ -30,8 +30,11 @@ const User = sequelize.define("User", {
     },
 });
 
+const Post = require("./Post"); // Import the Post model
 
 // Define relationship
 User.hasMany(Post, { foreignKey: "userId", onDelete: "CASCADE" });
+Post.belongsTo(User, { foreignKey: "userId" });
+
 
 module.exports = User;
