@@ -30,4 +30,8 @@ const User = sequelize.define("User", {
     },
 });
 
+
+// Define relationship
+User.hasMany(Post, { foreignKey: "userId", onDelete: "CASCADE" });
+
 module.exports = User;
