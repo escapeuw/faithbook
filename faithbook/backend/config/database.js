@@ -13,14 +13,14 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 });
 
 
-const User = require("../models/User");
-const Post = require("../models/Post");
+// const User = require("../models/User");
+// const Post = require("../models/Post");
 
 
 sequelize.sync({ alter: true })     // Sync db structure
     .then(() => console.log("Database synced"))
     .catch(err => console.error("Sync error:", err));
-    
+
 
 sequelize.authenticate()
     .then(() => console.log("DB Connected"))
