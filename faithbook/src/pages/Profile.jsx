@@ -14,7 +14,7 @@ function Profile() {
         const response = await fetch("https://faithbook-production.up.railway.app/posts/create", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId: user.userId, bibleVerse, content: devotion })
+            body: JSON.stringify({ userId: user.id, bibleVerse, content: devotion })
         });
 
         if (response.ok) {
@@ -25,7 +25,6 @@ function Profile() {
             alert("Failed to post.");
         }
     };
-
 
     useEffect(() => {
 
@@ -45,6 +44,7 @@ function Profile() {
 
                 const data = await response.json();
                 setUser(data);
+
             } catch (error) {
                 console.error("Erorr fetching user data:", error);
             } finally {
@@ -58,6 +58,7 @@ function Profile() {
     if (loading) {
         return <div>Loading...</div>
     }
+
 
     const posts = [
         {
@@ -77,7 +78,7 @@ function Profile() {
     ];
 
 
-
+    
     return (
         (user && (
             <div className="wrapper">
