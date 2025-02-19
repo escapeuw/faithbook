@@ -14,7 +14,7 @@ function Profile() {
         const response = await fetch("https://faithbook-production.up.railway.app/posts/create", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId: user.userId, bibleVerse, devotion })
+            body: JSON.stringify({ userId: user.userId, bibleVerse, content: devotion })
         });
 
         if (response.ok) {
