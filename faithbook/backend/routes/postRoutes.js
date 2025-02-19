@@ -12,7 +12,7 @@ router.post("/create", async (req, res) => {
         const { userId, devotion, imageUrl, bibleVerse } = req.body;
 
 
-        if (!userId || !content) {
+        if (!userId || !devotion) {
             return res.status(400).json({ error: "User ID and content are required"});
         }
 
