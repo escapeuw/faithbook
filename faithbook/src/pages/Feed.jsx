@@ -1,5 +1,6 @@
 import DevotionPost from "/src/components/DevotionPost.jsx";
 import { useEffect, useState } from "react";
+import "/src/components/ui.css";
 
 function Feed() {
     const [posts, setPosts] = useState([]);
@@ -53,7 +54,7 @@ function Feed() {
     return (
         (loading ? <div>Loading posts...</div> :
             <div className="wrapper">
-                <div className="max-w-2xl mx-auto space-y-6">
+                <div className="feed-container">
                     {posts.map(post => (
                         <DevotionPost
                             key={post.id}
