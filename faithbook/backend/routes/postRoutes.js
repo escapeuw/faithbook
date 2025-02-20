@@ -28,7 +28,7 @@ router.post("/create", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const posts = await Post.findAll({
-            include: { model: User, attributes: ["username"] }, 
+            include: { model: User, attributes: ["username", "title"] }, 
             order: [["createdAt", "DESC"]], // sort by latest
             limit: 30, // Get only the top 30 posts
         });

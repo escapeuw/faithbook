@@ -1,7 +1,40 @@
 import DevotionPost from "/src/components/DevotionPost.jsx";
+import { useEffect, useState } from "react";
 
 function Feed() {
-    const posts = [
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+
+    useEffect(() => {
+        setLoading(true);
+        const fetchPosts = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch("https://faithbook-production.up.railway.app/posts", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                if (!response.ok) throw new Error("Failed to fetch posts");
+
+                const data = await response.json();
+                setPosts(data);
+
+            } catch (error) {
+                console.error("Erorr fetching posts:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPosts();
+    }, []);
+
+
+    const example = [
         {
             username: "John Doe",
             profilePic: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
@@ -18,13 +51,18 @@ function Feed() {
         },
     ];
     return (
-        <div className="wrapper">
-            <div className="max-w-2xl mx-auto space-y-6">
-                {posts.map((post, index) => (
-                    <DevotionPost key={index} {...post} />
-                ))}
+        (loading ? <div>Loading posts...</div> :
+            <div className="wrapper">
+                <div className="max-w-2xl mx-auto space-y-6">
+                    {posts.map(post => (
+                        <DevotionPost
+                            key={post.id}
+                            {...post}
+                            timestamp={post.createdAt}
+                            username={post.User?.username} /> // access username in User model
+                    ))}
+                </div>
             </div>
-        </div>
-    );
+        ));
 }
 export default Feed;
