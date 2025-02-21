@@ -22,7 +22,7 @@ function DevotionPost({ username, profilePic, likes, reports, content, bibleVers
             </div>
             <div style={{ textAlign: "left" }}>
                 <p className="purple-bar bold">{bibleVerse}</p>
-                <p>
+                <p style={{ whiteSpace: "pre-wrap" }}>
                     {(isExpanded || content.length <= charLimit)
                         ? content
                         : content.substring(0, charLimit) + "..."}

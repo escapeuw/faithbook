@@ -2,7 +2,9 @@ const express = require("express");
 const { Op } = require("sequelize");
 const Post = require("../models/Post");
 const User = require("../models/User");
+const Like = require("../models/Like");
 require("dotenv").config();
+const authenticate = require("../middleware/authenticateToken"); // Middleware to check JWT
 
 const router = express.Router();
 
@@ -13,7 +15,7 @@ router.post("/create", async (req, res) => {
 
 
         if (!userId || !content) {
-            return res.status(400).json({ error: "User ID and content are required"});
+            return res.status(400).json({ error: "User ID and content are required" });
         }
 
         const post = await Post.create({ userId, content, imageUrl, bibleVerse });
@@ -28,13 +30,13 @@ router.post("/create", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const posts = await Post.findAll({
-            include: { model: User, attributes: ["username", "title"] }, 
+            include: { model: User, attributes: ["username", "title"] },
             order: [["createdAt", "DESC"]], // sort by latest
             limit: 30, // Get only the top 30 posts
         });
         res.json(posts);
     } catch (err) {
-        res.status(500).json({ error: "Failed to fetch posts"});
+        res.status(500).json({ error: "Failed to fetch posts" });
     }
 });
 
@@ -53,5 +55,39 @@ router.get("/", async (req, res) => {
     ],
     order: [["createdAt", "DESC"]],
 }); */
+
+// Like a Post
+router.post('/:id/like', authenticate, async (req, res) => {
+    try {
+        const userId = req.user.id; // Retrieved from JWT in authenticate middleware
+        const postId = req.params.id;
+
+        // Ensure the post exists
+        const post = await Post.findByPk(postId);
+        if (!post) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+
+        // Check if this user has already liked the post
+        const existingLike = await Like.findOne({ where: { userId, postId } });
+        if (existingLike) {
+            return res.status(400).json({ error: 'You have already liked this post' });
+        }
+
+        // Create the like record
+        await Like.create({ userId, postId });
+
+        // Atomically increment the "likes" field in the Post model
+        await Post.increment('likes', { by: 1, where: { id: postId } });
+
+        // Optionally, fetch updated post data to return the new count
+        const updatedPost = await Post.findByPk(postId);
+        return res.status(201).json({ message: 'Post liked', likes: updatedPost.likes });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Server error' });
+    }
+});
 
 module.exports = router;
