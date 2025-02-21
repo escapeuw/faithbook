@@ -90,7 +90,7 @@ router.post('/:id/like', authenticate, async (req, res) => {
     }
 });
 // checking like-status
-router.get('/posts/:id/like-status', authenticate, async (req, res) => {
+router.get('/:id/like-status', authenticate, async (req, res) => {
     const userId = req.user.id; // Decoding the JWT token on the server to get user ID
     const postId = req.params.id;
 
