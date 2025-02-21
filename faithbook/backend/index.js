@@ -13,9 +13,9 @@ const corsOptions = {
     methods: 'GET,POST,PUT,DELETE',
     credentials: true,  // Allow credentials (cookies)
   };
-  
+
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 // routes
 app.use("/", authRoutes);
