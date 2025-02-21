@@ -16,11 +16,18 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
 
     const handleLike = async () => {
         const likeUrl = `https://faithbook-production.up.railway.app/posts/${id}/like`; // Ensure this matches the backend route
-    
+        const token = localStorage.getItem('token'); 
+        
         if (isLiked) return; // prevent multiple likes on client side too
 
         try {
-            const response = await axios.post(likeUrl, {}, { withCredentials: true });
+            const response = await axios.post(likeUrl, {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    withCredentials: true
+                });
 
             if (response.status === 201) {
                 setLikeCount(response.data.likes);
