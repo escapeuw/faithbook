@@ -13,7 +13,7 @@ const corsOptions = {
         // Allow the localhost URL and your production URL also github ios
 
         const allowedOrigins = ['http://localhost:5173',
-            'https://faithbook.site/',
+            'https://faithbook.site',
             'https://escapeuw.github.io/faithbook',
             'https://dhwang.dev/faithbook'];
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
