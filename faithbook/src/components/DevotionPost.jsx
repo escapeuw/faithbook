@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import axios from "axios";
-import jwt_decode from 'jwt-decode';
 
 function DevotionPost({ id, username, profilePic, likes, reports, content, bibleVerse, timestamp }) {
     const defaultProfilePic = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158";
@@ -14,9 +13,10 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
     const [isLiked, setIsLiked] = useState(false); // Track if user has liked
 
     const likeUrl = `https://faithbook-production.up.railway.app/posts/${id}/like`;   // Ensure this matches the backend route
+    const likeStatusUrl = `https://faithbook-production.up.railway.app/posts/${id}/like/like-status`;
     const token = localStorage.getItem('token');
     const charLimit = 333;
-  
+
     const handleLike = async () => {
 
         if (isLiked) return; // prevent multiple likes on client side too
@@ -38,6 +38,30 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
             console.error("Error liking the post:", error);
         }
     };
+
+    // Fetch like status
+    const checkLikeStatus = async () => {
+
+        if (!token) return; // If no token, exit (user is not logged in)
+
+        try {
+            const response = await axios.get(likeStatusUrl, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.data.isLiked) {
+                setIsLiked(true);
+            }
+        } catch (error) {
+            console.error('Error fetching like status:', error);
+        }
+    };
+
+    useEffect(() => {
+        checkLikeStatus(); // Check if the user has already liked the post when the component mounts
+    }, [id]);
 
 
     return (
