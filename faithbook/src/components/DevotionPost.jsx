@@ -13,7 +13,7 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
     const [isLiked, setIsLiked] = useState(false); // Track if user has liked
 
     const likeUrl = `https://faithbook-production.up.railway.app/posts/${id}/like`;   // Ensure this matches the backend route
-    const likeStatusUrl = `https://faithbook-production.up.railway.app/posts/${id}/like/like-status`;
+    const likeStatusUrl = `https://faithbook-production.up.railway.app/posts/${id}/like-status`;
     const token = localStorage.getItem('token');
     const charLimit = 333;
 
