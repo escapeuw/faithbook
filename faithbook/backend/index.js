@@ -10,8 +10,12 @@ const app = express();
 
 const corsOptions = {
     origin: (origin, callback) => {
-      // Allow the localhost URL and your production URL
-      const allowedOrigins = ['http://localhost:5173', 'https://faithbook.site/', 'https://escapeuw.github.io'];
+      // Allow the localhost URL and your production URL also github ios
+    
+      const allowedOrigins = ['http://localhost:5173', 
+      'https://faithbook.site/', 
+      'https://escapeuw.github.io/faithbook',
+      'http://dhwang.dev/faithbook'];
       if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
         callback(null, true);  // Origin is allowed
       } else {
