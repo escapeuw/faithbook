@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import axios from "axios";
+import jwt_decode from 'jwt-decode';
 
 function DevotionPost({ id, username, profilePic, likes, reports, content, bibleVerse, timestamp }) {
     const defaultProfilePic = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158";
@@ -12,12 +13,12 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
     const [likeCount, setLikeCount] = useState(likes);
     const [isLiked, setIsLiked] = useState(false); // Track if user has liked
 
+    const likeUrl = `https://faithbook-production.up.railway.app/posts/${id}/like`;   // Ensure this matches the backend route
+    const token = localStorage.getItem('token');
     const charLimit = 333;
-
+  
     const handleLike = async () => {
-        const likeUrl = `https://faithbook-production.up.railway.app/posts/${id}/like`; // Ensure this matches the backend route
-        const token = localStorage.getItem('token'); 
-        
+
         if (isLiked) return; // prevent multiple likes on client side too
 
         try {
@@ -37,6 +38,7 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
             console.error("Error liking the post:", error);
         }
     };
+
 
     return (
         <div className="center card">
@@ -65,7 +67,7 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
                 </p>
                 <p style={{ fontSize: "1.25rem", display: "flex", alignItems: "center", gap: "0.5rem" }} >
                     <Heart
-                        style={{ width: "1.25rem", height: "1.25rem" }}
+                        style={{ width: "1.25rem", height: "1.25rem", color: isLiked ? "red" : "" }}
                         className="inline"
                         onClick={handleLike}
                     />

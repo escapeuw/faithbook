@@ -89,5 +89,24 @@ router.post('/:id/like', authenticate, async (req, res) => {
         return res.status(500).json({ error: 'Server error' });
     }
 });
+// checking like-status
+app.get('/posts/:id/like-status', authenticate, async (req, res) => {
+    const userId = req.user.id; // Decoding the JWT token on the server to get user ID
+    const postId = req.params.id;
+
+    try {
+        // Check if the user has already liked this post
+        const like = await Like.findOne({ where: { postId, userId } });
+
+        if (like) {
+            return res.json({ isLiked: true });
+        }
+
+        return res.json({ isLiked: false });
+    } catch (error) {
+        console.error('Error fetching like status:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+});
 
 module.exports = router;
