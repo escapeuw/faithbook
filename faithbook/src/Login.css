@@ -124,7 +124,6 @@ body {
 
 .input-wrapper {
   position: relative;
-
 }
 
 .input-wrapper i {
@@ -136,8 +135,9 @@ body {
 }
 
 .input-wrapper input {
-  width: 80%;
   /*adjust input box isze */
+  max-width: 14rem; /* testing for mobile  */
+  width: 80%;
   padding: 0.75rem 3rem 0.75rem 2.5rem;
   border: 1px solid var(--border);
   border-radius: 0.5rem;
