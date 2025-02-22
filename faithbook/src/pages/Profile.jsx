@@ -13,7 +13,7 @@ function Profile() {
     const titleComponents = {
         "committed-believer": (
             <div className="user-title" style={{ backgroundColor: "#f2f2f2" }}>
-                <MessageCircleHeart className="title-icon title-believer" />
+                <MessageCircleHeart className="title-icon title-committed" />
                 <span style={{ color: "gray", marginTop: "0.2rem" }}>
                     {user?.title}
                 </span>
