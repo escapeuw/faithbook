@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import axios from "axios";
+import { CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
 import "./ui.css";
 
-function DevotionPost({ id, username, profilePic, likes, reports, content, bibleVerse, timestamp }) {
+function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse, timestamp }) {
     const defaultProfilePic = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158";
     const displayProfilePic = profilePic || defaultProfilePic;
 
@@ -17,6 +18,30 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
     const likeStatusUrl = `https://faithbook-production.up.railway.app/posts/${id}/like-status`;
     const token = localStorage.getItem('token');
     const charLimit = 333;
+
+    const titleBadges = {
+        "committed-believer":
+            <MessageCircleHeart
+                style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem"
+                 }}
+                className="title-icon title-committed"
+                size="1rem" />,
+        "doubting-believer":
+            <MessageCircleMore
+                style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
+                className="title-icon title-doubting"
+                size="1rem" />,
+        "seeker":
+            <Search
+                style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
+                className="title-icon title-seeker"
+                size="1rem" />,
+        "skeptic":
+            <CircleHelp
+                style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
+                className="title-icon title-skeptic"
+                size="1rem" />
+    };
 
     const handleLike = async () => {
 
@@ -73,7 +98,10 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
                 <img style={{ height: "3rem", width: "3rem", borderRadius: "50%" }}
                     src={displayProfilePic} alt={username} />
                 <div className="this">
-                    <p style={{ fontWeight: "600" }}>{username}</p>
+                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                        <p style={{ fontWeight: "600" }}>{username}</p>
+                        {titleBadges[userTitle]}
+                    </div>
                     <p style={{ color: "gray", fontSize: "0.85rem" }}>{formattedTimestamp}</p>
                 </div>
             </div>

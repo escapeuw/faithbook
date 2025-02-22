@@ -4,6 +4,7 @@
     --sub-accent: #4b5563;
     --acdcent: #a290f3;
 }
+
 .like:hover {
     transform: scale(1.2);
 }
@@ -25,6 +26,7 @@ textarea {
 }
 
 .nav-main {
+    z-index: 100000;
     position: fixed;
     top: 0;
     left: 0;
@@ -45,6 +47,8 @@ textarea {
     gap: 1.5rem;
 }
 
+/* Profile and Title related styling */
+
 .profile-container {
     max-width: 42rem;
     /* max-w-2xl equivalent: 42rem (672px) */
@@ -52,6 +56,44 @@ textarea {
     /* mx-auto equivalent */
     margin-right: auto;
     /* mx-auto equivalent */
+}
+
+.title-committed {
+    background-color: #87bdeb;
+}
+
+.title-doubting {
+    background-color: #ace1af;
+}
+
+.title-seeker {
+    background-color: #f9abe7;
+}
+
+.title-skeptic {
+    background-color: #d1bbf9;
+}
+
+.title-icon {
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.user-title {
+    font-size: 0.95rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    text-transform: capitalize;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.25rem;
+    width: 12rem;
+    margin: auto;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 .center {

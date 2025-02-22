@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import DevotionPost from "/src/components/DevotionPost.jsx";
-import { CircleHelp, Home, Settings, User } from "lucide-react";
+import { CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
 import "/src/components/ui.css";
 
 function Profile() {
@@ -8,6 +8,17 @@ function Profile() {
     const [bibleVerse, setBibleVerse] = useState("");
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    const titleComponents = {
+        "committed-believer": (<div className="user-title title-committed">
+            <MessageCircleHeart className="title-icon" />{user?.title}</div>),
+        "doubting-believer": (<div className="user-title title-doubting">
+            <MessageCircleMore className="title-icon" />{user?.title}</div>),
+        "seeker": (<div className="user-title title-seeker">
+            <Search className="title-icon" />{user?.title}</div>),
+        "skeptic": (<div className="user-title title-skeptic">
+            <CircleHelp className="title-icon" />{user?.title}</div>)
+    };
 
     const handlePost = async (e) => {
         e.preventDefault();
@@ -88,7 +99,7 @@ function Profile() {
                         <img style={{ width: "6rem", height: "6rem", borderRadius: "50%" }}
                             src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" />
                         <h2>{user.username}</h2>
-                        <div className="user-title"><CircleHelp />{user.title}</div>
+                        {titleComponents[user.title]}
                         <p>"Walking with faith, sharing daily devotions, and growing in Christ."</p>
                     </div>
                     <form onSubmit={handlePost}>

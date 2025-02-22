@@ -60,6 +60,7 @@ function Feed() {
                             key={post.id}
                             {...post}
                             timestamp={post.createdAt}
+                            userTitle={post.User?.title}
                             username={post.User?.username} /> // access username in User model
                     ))}
                 </div>
