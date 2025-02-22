@@ -2,7 +2,7 @@
 :root {
     --accent: #9b87f5;
     --sub-accent: #4b5563;
-    --acdcent: #a290f3;
+    --light: #aa9af5;
 }
 
 .like:hover {
@@ -58,6 +58,69 @@ textarea {
     /* mx-auto equivalent */
 }
 
+.write-post {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.post-textarea {
+    margin-bottom: 1rem;
+    width: 85%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+.post-textarea .verse {
+    height: 1rem;
+    overflow: hidden;
+}
+.post-textarea .content {
+    height: 10rem;
+}
+
+.input-text {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    line-height: 1.2;
+    color: #333;
+    resize: none;
+    background-color: #f7f7f7;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.input-text:focus {
+    outline: none;
+    border-color: var(--accent);
+    background-color: #fff;
+}
+.input-text::placeholder {
+    color: #aaa;
+}
+
+.post-button {
+    width: 85%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--light);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .post-button:hover:not(:disabled) {
+    background: var(--primary-dark);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
 .title-committed {
     background-color: #87bdeb;
 }
@@ -248,8 +311,6 @@ textarea {
 .this p {
     line-height: 0.1;
 }
-
-
 
 
 /* General Card Styles */

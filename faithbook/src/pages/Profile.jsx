@@ -96,29 +96,45 @@ function Profile() {
                         {titleComponents[user.title]}
                         <p>"Walking with faith, sharing daily devotions, and growing in Christ."</p>
                     </div>
-                    <form onSubmit={handlePost}>
-                        <textarea
-                            value={bibleVerse}
-                            onChange={(e) => setBibleVerse(e.target.value)}
-                            placeholder="include bible verse..."
-                            required
-                        />
-                        <textarea
-                            value={devotion}
-                            onChange={(e) => setDevotion(e.target.value)}
-                            placeholder="Write something..."
-                            required
-                        />
-                        <button type="submit">Post</button>
+                    <form className="write-post" onSubmit={handlePost}>
+                        <div className="post-textarea">
+                            <textarea className="verse input-text"
+                                value={bibleVerse}
+                                onChange={(e) => setBibleVerse(e.target.value)}
+                                placeholder="include bible verse...    e.g. Genesis 1:1"
+                                required
+                                onFocus={(e) => e.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' })}
+                            />
+                        </div>
+                        <div className="post-textarea">
+                            <textarea  className="content input-text"
+                                value={devotion}
+                                onChange={(e) => setDevotion(e.target.value)}
+                                placeholder="write something..."
+                                required
+                                onFocus={(e) => e.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' })}
+                            />
+                        </div>
+                        <button type="submit" className="post-button">Post</button>
                     </form>
-                    {posts.map(post => (
-                        <DevotionPost
-                            key={post.id}
-                            timestamp={post.createdAt}
-                            {...post}
-                            userTitle={post.User?.title}
-                            username={post.User?.username} />
-                    ))}
+                    {posts.length === 0 ?
+                        (<div className="card">
+                            <div style={{ textAlign: "center", height: "7rem" }}>
+                                <p style={{ fontSize: "1.25rem", fontWeight: "500", color: "#666" }}>No posts yet!</p>
+                                <p style={{ fontSize: "0.9rem", color: "#999" }}>
+                                    Start sharing your thoughts with your friends.
+                                </p>
+                            </div>
+                        </div>) :
+                        (posts.map(post => (
+                            <DevotionPost
+                                key={post.id}
+                                timestamp={post.createdAt}
+                                {...post}
+                                userTitle={post.User?.title}
+                                username={post.User?.username} />
+                        )))
+                    }
                 </div>
             </div>
         ))
