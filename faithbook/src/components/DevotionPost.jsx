@@ -117,7 +117,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                     <p style={{ color: "gray", fontSize: "0.85rem" }}>{formattedTimestamp}</p>
                 </div>
             </div>
-            <div style={{ textAlign: "left" }}>
+            <div style={{ textAlign: "left", overflow: "hidden" }}>
                 <p className="purple-bar bold">{bibleVerse}</p>
                 <p style={{ whiteSpace: "pre-wrap" }}>
                     {(isExpanded || content.length <= charLimit)
