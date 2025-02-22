@@ -271,7 +271,9 @@ body {
     margin: 1rem;
     padding: 1.5rem;
   }
+}
 
+@media (max-width: 400px) {
   .input-wrapper input {
     /*adjust input box isze */
     width: 14rem;
