@@ -78,6 +78,36 @@ textarea {
     filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
 }
 
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip {
+    white-space: nowrap;
+    font-size: 0.75rem;
+    width: auto;
+    background-color: rgb(253, 253, 245);
+    border: 1px solid #ccc;
+    visibility: hidden;
+    text-align: center;
+    padding: 0.15rem 0.5rem;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    /* Position above the icon */
+    left: 50%;
+    margin-left: -50%;
+    /* Adjust for center alignment */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
 .user-title {
     font-size: 0.95rem;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);

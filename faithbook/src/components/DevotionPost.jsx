@@ -21,26 +21,38 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
 
     const titleBadges = {
         "committed-believer":
-            <MessageCircleHeart
-                style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem"
-                 }}
-                className="title-icon title-committed"
-                size="1rem" />,
+            (<div className="tooltip-container">
+                <MessageCircleHeart
+                    style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
+                    className="title-icon title-committed"
+                    size="1rem" />
+                <div className="tooltip">Committed-Believer</div>
+            </div>),
+
         "doubting-believer":
-            <MessageCircleMore
-                style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
-                className="title-icon title-doubting"
-                size="1rem" />,
+            (<div className="tooltip-container">
+                <MessageCircleMore
+                    style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
+                    className="title-icon title-doubting"
+                    size="1rem" />
+                <div className="tooltip">Doubting-Believer</div>
+            </div>),
         "seeker":
-            <Search
-                style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
-                className="title-icon title-seeker"
-                size="1rem" />,
+            (<div className="tooltip-container">
+                <Search
+                    style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
+                    className="title-icon title-seeker"
+                    size="1rem" />
+                <div className="tooltip">Seeker</div>
+            </div>),
         "skeptic":
-            <CircleHelp
-                style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
-                className="title-icon title-skeptic"
-                size="1rem" />
+            (<div className="tooltip-container">
+                <CircleHelp
+                    style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
+                    className="title-icon title-skeptic"
+                    size="1rem" />
+                <div className="tooltip">Skeptic</div>
+            </div>)
     };
 
     const handleLike = async () => {
