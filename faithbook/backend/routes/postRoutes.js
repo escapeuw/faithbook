@@ -40,6 +40,21 @@ router.get("/", async (req, res) => {
     }
 });
 
+// Get all posts of User
+router.get("/:userId", async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const posts = await Post.findAll({
+            where: { userId },
+            include: { model: User, attributes: ["username", "title"] },
+            order: [["createdAt", "DESC"]]
+        });
+        res.json(posts);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch posts" });
+    }
+});
+
 /// if I add profile pic
 
 /* const posts = await Post.findAll({
