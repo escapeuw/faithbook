@@ -7,6 +7,7 @@ function Profile() {
     const [devotion, setDevotion] = useState("");
     const [bibleVerse, setBibleVerse] = useState("");
     const [user, setUser] = useState(null);
+    const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const titleComponents = {
@@ -57,6 +58,18 @@ function Profile() {
                 const data = await response.json();
                 setUser(data);
 
+                const response2 = await fetch(`https://faithbook-production.up.railway.app/posts/${data.id}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                });
+
+                if (!response2.ok) throw new Error("Failer to fetch user's posts");
+
+                const data2 = await response2.json();
+                setPosts(data2);
+
             } catch (error) {
                 console.error("Erorr fetching user data:", error);
             } finally {
@@ -70,25 +83,6 @@ function Profile() {
     if (loading) {
         return <div>Loading...</div>
     }
-
-
-    const posts = [
-        {
-            username: "Christine Kim",
-            profilePic: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-            content: "Today I reflected on God's endless love and mercy. It reminds me to be more compassionate to others.",
-            bibleVerse: "1 John 4:19 - We love because he first loved us.",
-            timestamp: "2 hours ago",
-        },
-        {
-            username: "Jane Smith",
-            profilePic: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-            content: "Finding peace in His presence during my morning devotion.",
-            bibleVerse: "Psalm 46:10 - Be still, and know that I am God.",
-            timestamp: "5 hours ago",
-        },
-    ];
-
 
 
     return (
@@ -117,7 +111,14 @@ function Profile() {
                         />
                         <button type="submit">Post</button>
                     </form>
-                    <DevotionPost {...posts[0]} />
+                    {posts.map(post => (
+                        <DevotionPost
+                            key={post.id}
+                            timestamp={post.createdAt}
+                            {...post}
+                            userTitle={post.User?.title}
+                            username={post.User?.username} />
+                    ))}
                 </div>
             </div>
         ))

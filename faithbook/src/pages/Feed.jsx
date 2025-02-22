@@ -34,23 +34,6 @@ function Feed() {
         fetchPosts();
     }, []);
 
-
-    const example = [
-        {
-            username: "John Doe",
-            profilePic: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-            content: "Today I reflected on God's endless love and mercy. It reminds me to be more compassionate to others.",
-            bibleVerse: "1 John 4:19 - We love because he first loved us.",
-            timestamp: "2 hours ago",
-        },
-        {
-            username: "Jane Smith",
-            profilePic: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-            content: "Finding peace in His presence during my morning devotion.",
-            bibleVerse: "Psalm 46:10 - Be still, and know that I am God.",
-            timestamp: "5 hours ago",
-        },
-    ];
     return (
         (loading ? <div>Loading posts...</div> :
             <div className="wrapper">
