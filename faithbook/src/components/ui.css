@@ -4,7 +4,9 @@
     --sub-accent: #4b5563;
     --acdcent: #a290f3;
 }
-
+.like:hover {
+    transform: scale(1.2);
+}
 
 textarea {
     white-space: "pre";

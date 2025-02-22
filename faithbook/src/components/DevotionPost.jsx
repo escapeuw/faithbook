@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import axios from "axios";
+import "./ui.css";
 
 function DevotionPost({ id, username, profilePic, likes, reports, content, bibleVerse, timestamp }) {
     const defaultProfilePic = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158";
@@ -91,11 +92,15 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
                         </span>
                     )}
                 </p>
-                <p style={{ fontSize: "1.25rem", display: "flex", alignItems: "center", gap: "0.5rem" }} >
+                <p style={{ fontSize: "1.15rem", display: "flex", alignItems: "center", gap: "0.35rem" }} >
                     <Heart
-                        style={{ width: "1.25rem", height: "1.25rem", color: isLiked ? "#FF5350" : "" }}
+                        style={{
+                            width: "1.25rem", height: "1.25rem",
+                            color: isLiked ? "#FF5350" : "",
+                            transition: "transform 0.25s ease"
+                        }}
                         fill={isLiked ? "#FF5350" : "none"}
-                        className="inline"
+                        className="like"
                         onClick={handleLike}
                     />
                     <span>{likeCount}</span>
