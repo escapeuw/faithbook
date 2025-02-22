@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import DevotionPost from "/src/components/DevotionPost.jsx";
+import { CircleHelp, Home, Settings, User } from "lucide-react";
 import "/src/components/ui.css";
 
 function Profile() {
@@ -78,7 +79,7 @@ function Profile() {
     ];
 
 
-    
+
     return (
         (user && (
             <div className="wrapper">
@@ -87,7 +88,7 @@ function Profile() {
                         <img style={{ width: "6rem", height: "6rem", borderRadius: "50%" }}
                             src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" />
                         <h2>{user.username}</h2>
-                        <h3>{user.title}</h3>
+                        <div className="user-title"><CircleHelp />{user.title}</div>
                         <p>"Walking with faith, sharing daily devotions, and growing in Christ."</p>
                     </div>
                     <form onSubmit={handlePost}>
