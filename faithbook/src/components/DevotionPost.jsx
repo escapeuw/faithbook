@@ -36,7 +36,6 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
                 setIsLiked(false);     // unliked
             }
 
-
         } catch (error) {
             console.error("Error liking the post:", error);
         }
