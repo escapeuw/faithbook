@@ -11,14 +11,34 @@ function Profile() {
     const [loading, setLoading] = useState(true);
 
     const titleComponents = {
-        "committed-believer": (<div className="user-title title-committed">
-            <MessageCircleHeart className="title-icon" />{user?.title}</div>),
-        "doubting-believer": (<div className="user-title title-doubting">
-            <MessageCircleMore className="title-icon" />{user?.title}</div>),
-        "seeker": (<div className="user-title title-seeker">
-            <Search className="title-icon" />{user?.title}</div>),
-        "skeptic": (<div className="user-title title-skeptic">
-            <CircleHelp className="title-icon" />{user?.title}</div>)
+        "committed-believer": (
+            <div className="user-title" style={{ backgroundColor: "#f2f2f2" }}>
+                <MessageCircleHeart className="title-icon title-believer" />
+                <span style={{ color: "gray", marginTop: "0.2rem" }}>
+                    {user?.title}
+                </span>
+            </div>),
+        "doubting-believer": (
+            <div className="user-title" style={{ backgroundColor: "#f2f2f2" }}>
+                <MessageCircleMore className="title-icon title-doubting" />
+                <span style={{ color: "gray", marginTop: "0.2rem" }}>
+                    {user?.title}
+                </span>
+            </div>),
+        "seeker": (
+            <div className="user-title" style={{ backgroundColor: "#f2f2f2" }}>
+                <Search className="title-icon title-seeker" />
+                <span style={{ color: "gray", marginTop: "0.2rem" }}>
+                    {user?.title}
+                </span>
+            </div>),
+        "skeptic": (
+            <div className="user-title" style={{ backgroundColor: "#f2f2f2" }}>
+                <CircleHelp className="title-icon title-skeptic" />
+                <span style={{ color: "gray", marginTop: "0.2rem" }}>
+                    {user?.title}
+                </span>
+            </div>),
     };
 
     const handlePost = async (e) => {
@@ -89,11 +109,13 @@ function Profile() {
         (user && (
             <div className="wrapper">
                 <div className="profile-container">
-                    <div className="profile center card">
+                    <div className="center card">
                         <img style={{ width: "6rem", height: "6rem", borderRadius: "50%" }}
                             src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" />
-                        <h2>{user.username}</h2>
-                        {titleComponents[user.title]}
+                        <div>
+                            <h2 style={{ marginBottom: "0.75rem" }}>{user.username}</h2>
+                            {titleComponents[user.title]}
+                        </div>
                         <p>"Walking with faith, sharing daily devotions, and growing in Christ."</p>
                     </div>
                     <form className="write-post" onSubmit={handlePost}>
@@ -107,7 +129,7 @@ function Profile() {
                             />
                         </div>
                         <div className="post-textarea">
-                            <textarea  className="content input-text"
+                            <textarea className="content input-text"
                                 value={devotion}
                                 onChange={(e) => setDevotion(e.target.value)}
                                 placeholder="write something..."

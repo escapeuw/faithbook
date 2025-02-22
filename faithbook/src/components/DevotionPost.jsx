@@ -23,7 +23,6 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         "committed-believer":
             (<div className="tooltip-container">
                 <MessageCircleHeart
-                    style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
                     className="title-icon title-committed"
                     size="1rem" />
                 <div className="tooltip">Committed-Believer</div>
@@ -32,7 +31,6 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         "doubting-believer":
             (<div className="tooltip-container">
                 <MessageCircleMore
-                    style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
                     className="title-icon title-doubting"
                     size="1rem" />
                 <div className="tooltip">Doubting-Believer</div>
@@ -40,7 +38,6 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         "seeker":
             (<div className="tooltip-container">
                 <Search
-                    style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
                     className="title-icon title-seeker"
                     size="1rem" />
                 <div className="tooltip">Seeker</div>
@@ -48,7 +45,6 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         "skeptic":
             (<div className="tooltip-container">
                 <CircleHelp
-                    style={{ color: "white", padding: "0.15rem", borderRadius: "5px", width: "1.5rem" }}
                     className="title-icon title-skeptic"
                     size="1rem" />
                 <div className="tooltip">Skeptic</div>

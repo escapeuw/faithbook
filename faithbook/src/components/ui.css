@@ -72,12 +72,14 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-   
+
 }
+
 .post-textarea .verse {
     height: 1rem;
     overflow: hidden;
 }
+
 .post-textarea .content {
     height: 10rem;
 }
@@ -101,6 +103,7 @@ textarea {
     border-color: var(--accent);
     background-color: #fff;
 }
+
 .input-text::placeholder {
     color: #aaa;
 }
@@ -116,29 +119,31 @@ textarea {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
-  }
-  .post-button:hover:not(:disabled) {
+}
+
+.post-button:hover:not(:disabled) {
     background: var(--primary-dark);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  }
+}
+
 .title-committed {
-    background-color: #87bdeb;
+    color: #87bdeb;
 }
 
 .title-doubting {
-    background-color: #ace1af;
+    color: #9cdd7c;
 }
 
 .title-seeker {
-    background-color: #f9abe7;
+    color: #f9abe7;
 }
 
 .title-skeptic {
-    background-color: #d1bbf9;
+    color: #ba9cf2;
 }
 
 .title-icon {
-    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.1));
 }
 
 .tooltip-container {
@@ -173,20 +178,18 @@ textarea {
 
 .user-title {
     font-size: 0.95rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     text-transform: capitalize;
     font-family: 'Poppins', sans-serif;
-    color: white;
-    font-weight: bold;
+    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.25rem;
-    width: 12rem;
+    padding: 0.2rem 0.75rem;
+    width: fit-content;
     margin: auto;
     border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .center {
@@ -309,7 +312,7 @@ textarea {
 }
 
 .this p {
-    line-height: 0.1;
+    line-height: 0.05;
 }
 
 
