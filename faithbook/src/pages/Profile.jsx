@@ -103,7 +103,6 @@ function Profile() {
                                 onChange={(e) => setBibleVerse(e.target.value)}
                                 placeholder="include bible verse...    e.g. Genesis 1:1"
                                 required
-                                onFocus={(e) => e.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' })}
                             />
                         </div>
                         <div className="post-textarea">
@@ -112,7 +111,6 @@ function Profile() {
                                 onChange={(e) => setDevotion(e.target.value)}
                                 placeholder="write something..."
                                 required
-                                onFocus={(e) => e.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' })}
                             />
                         </div>
                         <button type="submit" className="post-button">Post</button>
