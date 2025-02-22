@@ -101,8 +101,9 @@ function Profile() {
                             <textarea className="verse input-text"
                                 value={bibleVerse}
                                 onChange={(e) => setBibleVerse(e.target.value)}
-                                placeholder="include bible verse...    e.g. Genesis 1:1"
+                                placeholder="include bible verse...  e.g. Genesis 1:1"
                                 required
+                                maxLength={20}
                             />
                         </div>
                         <div className="post-textarea">
