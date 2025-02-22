@@ -56,7 +56,7 @@ router.get("/", async (req, res) => {
     order: [["createdAt", "DESC"]],
 }); */
 
-// Like a Post
+// toggle Like/Unlike a Post
 router.post('/:id/like', authenticate, async (req, res) => {
     try {
         const userId = req.user.id; // Retrieved from JWT in authenticate middleware
@@ -70,25 +70,44 @@ router.post('/:id/like', authenticate, async (req, res) => {
 
         // Check if this user has already liked the post
         const existingLike = await Like.findOne({ where: { userId, postId } });
+
         if (existingLike) {
-            return res.status(400).json({ error: 'You have already liked this post' });
+            await Like.destroy({ where: { userId, postId } });
+
+            const [updated] = await Post.decrement('likes', {
+                by: 1, where: { id: postId },
+                returning: true
+            });
+
+            return res.status(200).json({
+                success: true,
+                message: "Post unliked",
+                likes: updated[0]?.likes // Updated like count
+            });
+
+        } else {
+            // Create the like record
+            await Like.create({ userId, postId });
+
+            // Atomically increment the "likes" field in the Post model
+            const [updated] = await Post.increment('likes', {
+                by: 1, where: { id: postId },
+                returning: true
+            });
+
+            return res.status(201).json({
+                success: true,
+                message: 'Post liked',
+                likes: updated[0]?.likes
+            });
         }
-
-        // Create the like record
-        await Like.create({ userId, postId });
-
-        // Atomically increment the "likes" field in the Post model
-        await Post.increment('likes', { by: 1, where: { id: postId } });
-
-        // Optionally, fetch updated post data to return the new count
-        const updatedPost = await Post.findByPk(postId);
-        return res.status(201).json({ message: 'Post liked', likes: updatedPost.likes });
 
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Server error' });
     }
 });
+
 // checking like-status
 router.get('/:id/like-status', authenticate, async (req, res) => {
     const userId = req.user.id; // Decoding the JWT token on the server to get user ID

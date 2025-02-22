@@ -91,7 +91,8 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
                 </p>
                 <p style={{ fontSize: "1.25rem", display: "flex", alignItems: "center", gap: "0.5rem" }} >
                     <Heart
-                        style={{ width: "1.25rem", height: "1.25rem", color: isLiked ? "red" : "" }}
+                        style={{ width: "1.25rem", height: "1.25rem", color: isLiked ? "#FF5350" : "" }}
+                        fill={isLiked ? "#FF5350" : "none"}
                         className="inline"
                         onClick={handleLike}
                     />
