@@ -19,8 +19,6 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
 
     const handleLike = async () => {
 
-        if (isLiked) return; // prevent multiple likes on client side too
-
         try {
             const response = await axios.post(likeUrl, {},
                 {
@@ -29,11 +27,16 @@ function DevotionPost({ id, username, profilePic, likes, reports, content, bible
                     },
                     withCredentials: true
                 });
+            // Update Like count
+            setLikeCount(response.data.likes);
 
             if (response.status === 201) {
-                setLikeCount(response.data.likes);
-                setIsLiked(true);
+                setIsLiked(true);      // liked
+            } else if (response.status === 200) {
+                setIsLiked(false);     // unliked
             }
+
+
         } catch (error) {
             console.error("Error liking the post:", error);
         }
