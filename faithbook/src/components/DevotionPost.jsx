@@ -108,7 +108,9 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                 <div className="this">
                     <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                         <p style={{ fontWeight: "600" }}>{username}</p>
-                        {titleBadges[userTitle]}
+                        <span style={{ marginTop: "0.15rem" }}>
+                            {titleBadges[userTitle]}
+                        </span>
                     </div>
                     <p style={{ color: "gray", fontSize: "0.85rem" }}>{formattedTimestamp}</p>
                 </div>
