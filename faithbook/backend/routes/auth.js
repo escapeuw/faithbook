@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const UserSpecific = require("../models/UserSpecific");
 const authenticateToken = require("../middleware/authenticateToken"); // Middleware to check JWT
 require("dotenv").config();
 
@@ -34,7 +35,11 @@ router.post("/signup", async (req, res) => {
         // Create new user
         const newUser = await User.create({ username, email, password: hashedPassword, title });
 
-        res.json({ message: "User registered successfully", user: newUser });
+        const userSpecific = await UserSpecific.create({
+            userId: newUser.id, // Link the User to the UserSpecific
+        });
+
+        res.json({ message: "User registered successfully", user: newUser, userSpecific });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
