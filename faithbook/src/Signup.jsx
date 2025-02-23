@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
 import "./Login.css";
 import { toast } from "react-toastify"; // import toast
 import "react-toastify/dist/ReactToastify.css"; // import toast styles
@@ -77,25 +78,25 @@ function Signup() {
   const titleOptions = [
     {
       id: "skeptic",
-      icon: "fa-solid fa-question-circle",
+      icon: (<CircleHelp />),
       label: "Skeptic",
       description: "You have doubts and are questioning faith."
     },
     {
       id: "seeker",
-      icon: "fa-solid fa-search",
+      icon: (<Search />),
       label: "Seeker",
       description: "You are exploring and open to discovering more."
     },
     {
       id: "doubting-believer",
-      icon: "fa-solid fa-heart-crack",
+      icon: (<MessageCircleMore/>),
       label: "Doubting Believer",
       description: "You believe but struggle with uncertainties."
     },
     {
       id: "committed-believer",
-      icon: "fa-solid fa-hands-praying",
+      icon: (<MessageCircleHeart/>),
       label: "Committed Believer",
       description: "You have firm faith and are devoted to your beliefs."
     }
@@ -194,7 +195,7 @@ function Signup() {
                     className={`title-option ${title === option.id ? "selected" : ""}`}
                     onClick={() => setTitle(option.id)}
                   >
-                    <i className={option.icon}></i>
+                    <i>{option.icon}</i>
                     <div className="option-description">
                       <h3>{option.label}</h3>
                       <p>{option.description}</p>

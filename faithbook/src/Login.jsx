@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify"; // import toast
 import "./Login.css";
 
 
@@ -40,10 +41,10 @@ function Login() {
         console.log("YOU ARE LOGGED IN TEST SUCCESSFUL!!!!!!");
         navigate("/home") // change route to /home
       } else {
-        console.error("Login failed:", data.message);
+        toast.error(`Login failed: ${data.message}`);
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      toast.error("Error during login:", error);
     } finally {
       setIsLoading(false); // no more loading
     }
