@@ -112,7 +112,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                             {titleBadges[userTitle]}
                         </span>
                     </div>
-                    <p style={{ color: "gray", fontSize: "0.85rem" }}>{formattedTimestamp}</p>
+                    <p style={{ color: "gray", fontSize: "0.75rem" }}>{formattedTimestamp}</p>
                 </div>
             </div>
             <div style={{ textAlign: "left", overflow: "hidden" }}>
@@ -148,8 +148,6 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                 </p>
             </div>
         </div>
-
-
     )
 }
 
