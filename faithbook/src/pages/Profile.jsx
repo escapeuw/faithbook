@@ -13,29 +13,29 @@ function Profile() {
     const titleComponents = {
         "committed-believer": (
             <div className="user-title" style={{ backgroundColor: "#f2f2f2" }}>
-                <MessageCircleHeart className="title-icon title-committed" />
-                <span style={{ color: "gray", marginTop: "0.2rem" }}>
+                <MessageCircleHeart size="1rem" className="title-icon title-committed" />
+                <span style={{ color: "gray", marginTop: "0.1rem" }}>
                     {user?.title}
                 </span>
             </div>),
         "doubting-believer": (
             <div className="user-title" style={{ backgroundColor: "#f2f2f2" }}>
-                <MessageCircleMore className="title-icon title-doubting" />
-                <span style={{ color: "gray", marginTop: "0.2rem" }}>
+                <MessageCircleMore size="1rem" className="title-icon title-doubting" />
+                <span style={{ color: "gray", marginTop: "0.1rem" }}>
                     {user?.title}
                 </span>
             </div>),
         "seeker": (
             <div className="user-title" style={{ backgroundColor: "#f2f2f2" }}>
-                <Search className="title-icon title-seeker" />
-                <span style={{ color: "gray", marginTop: "0.2rem" }}>
+                <Search size="1rem" className="title-icon title-seeker" />
+                <span style={{ color: "gray", marginTop: "0.1rem" }}>
                     {user?.title}
                 </span>
             </div>),
         "skeptic": (
             <div className="user-title" style={{ backgroundColor: "#f2f2f2" }}>
-                <CircleHelp className="title-icon title-skeptic" />
-                <span style={{ color: "gray", marginTop: "0.2rem" }}>
+                <CircleHelp size="1rem" className="title-icon title-skeptic" />
+                <span style={{ color: "gray", marginTop: "0.1rem" }}>
                     {user?.title}
                 </span>
             </div>),
