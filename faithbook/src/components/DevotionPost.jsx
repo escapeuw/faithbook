@@ -130,7 +130,10 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                         </span>
                     )}
                 </p>
-                <p style={{ fontSize: "1.15rem", display: "flex", alignItems: "center", gap: "0.35rem" }} >
+                <p style={{
+                    fontSize: "1.15rem", display: "flex", alignItems: "center",
+                    gap: "0.35rem", paddingLeft: "0.1rem"
+                }} >
                     <Heart
                         style={{
                             width: "1.25rem", height: "1.25rem",
