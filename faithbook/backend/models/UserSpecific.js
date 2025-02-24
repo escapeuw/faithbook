@@ -20,7 +20,8 @@ const UserSpecific = sequelize.define("UserSpecific", {
     },
     profilePic: {
         type: DataTypes.STRING,
-        defaultValue: "i.pinimg.com/564x/29/b8/d2/29b8d250380266eb04be05fe21ef19a7.jpg", // Default profile picture URL
+        defaultValue: "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg",
+        //  // Default profile picture URL
     },
     bio: {
         type: DataTypes.TEXT,

@@ -9,6 +9,10 @@ function Profile() {
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [profilePicture, setProfilePicture] = useState(null);
+
+
+
 
     const titleComponents = {
         "committed-believer": (
@@ -41,7 +45,36 @@ function Profile() {
             </div>),
     };
 
-    '/upload-profile-picture'
+
+    // upload profile picture
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setPreview(URL.createObjectURL(file)); // Show preview before upload
+            uploadFile(file);
+        }
+    };
+
+    const uploadFile = async (file) => {
+        const formData = new FormData();
+        formData.append("profilePicture", file);
+
+        const response = await fetch("https://faithbook-production.up.railway.app//upload-profile-picture", {
+            method: "POST",
+            body: formData,
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust auth method
+            },
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            setPreview(data.imageUrl); // Update profile picture URL
+        } else {
+            alert("Upload failed");
+        }
+    };
+
 
     const handlePost = async (e) => {
         e.preventDefault();
@@ -79,6 +112,8 @@ function Profile() {
 
                 const data = await response.json();
                 setUser(data);
+                setProfilePicture(String(data.UserSpecific.profilePic));
+                console.log(profilePicture);
 
                 const response2 = await fetch(`https://faithbook-production.up.railway.app/posts/${data.id}`, {
                     method: "GET",
@@ -106,7 +141,7 @@ function Profile() {
         return <div>Loading...</div>
     }
 
-
+    const profileDisplay = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
     return (
         (user && (
             <div className="wrapper">
@@ -115,7 +150,7 @@ function Profile() {
                         <div>
                             <label htmlFor="profilepic-upload">
                                 <img
-                                    src={profilePicture || "i.pinimg.com/564x/29/b8/d2/29b8d250380266eb04be05fe21ef19a7.jpg"}
+                                    src={profileDisplay}
                                     alt="Profile"
                                     style={{ width: "6rem", height: "6rem", borderRadius: "50%" }} />
                             </label>
