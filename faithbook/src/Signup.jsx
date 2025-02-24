@@ -84,25 +84,25 @@ function Signup() {
       id: "skeptic",
       icon: (<CircleHelp />),
       label: "Skeptic",
-      description: "You have doubts and are questioning faith."
+      description: "You have doubts and have questions about the Christian faith."
     },
     {
       id: "seeker",
       icon: (<Search />),
       label: "Seeker",
-      description: "You are exploring and open to discovering more."
+      description: "You are a new believer open to exploring and discovering more. "
     },
     {
       id: "doubting-believer",
-      icon: (<MessageCircleMore/>),
+      icon: (<MessageCircleMore />),
       label: "Doubting Believer",
-      description: "You believe but struggle with uncertainties."
+      description: "You believe but struggle with uncertainties and/or lack of personal experience. "
     },
     {
       id: "committed-believer",
-      icon: (<MessageCircleHeart/>),
+      icon: (<MessageCircleHeart />),
       label: "Committed Believer",
-      description: "You have firm faith and are devoted to your beliefs."
+      description: "You have a personal relationship with God and are devoted in your daily spiritual walk."
     }
   ];
 
@@ -118,8 +118,10 @@ function Signup() {
         {step === 2 && (
           <div className="signup-header">
             <h1>Select your Title</h1>
-            <p>Title describes your <em style={{ fontWeight: "bold" }}>current</em> faith stage</p>
-          </div>
+            <p>Your title describes your <em style={{ fontWeight: "bold" }}>current </em>
+              journey of faith. <br />
+              <em style={{ fontSize: "0.75rem" }}>* This may change and you can update this in your settings later on.</em>
+            </p></div>
         )}
 
         <form onSubmit={handleSubmit} className="signup-form">
