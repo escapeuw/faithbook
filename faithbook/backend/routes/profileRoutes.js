@@ -1,6 +1,6 @@
 const express = require("express");
 const { upload, uploadFileToS3 } = require("../middleware/upload"); // Update path if needed
-const { UserSpecific } = require("../models"); // Import your Sequelize models
+const UserSpecific = require("../models/UserSpecific"); // Import your Sequelize models
 const authenticate = require("../middleware/authenticateToken"); // Ensure you have authentication middleware
 const router = express.Router();
 
