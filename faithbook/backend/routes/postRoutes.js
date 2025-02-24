@@ -3,6 +3,8 @@ const { Op } = require("sequelize");
 const Post = require("../models/Post");
 const User = require("../models/User");
 const Like = require("../models/Like");
+const UserSpecific = require("../models/UserSpecific");
+
 require("dotenv").config();
 const authenticate = require("../middleware/authenticateToken"); // Middleware to check JWT
 
@@ -30,7 +32,15 @@ router.post("/create", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const posts = await Post.findAll({
-            include: { model: User, attributes: ["username", "title"] },
+            include: [
+                {
+                    model: User,
+                    attributes: ["username", "title"],
+                    include: {
+                        model: UserSpecific,
+                        attributes: ["profilePic"]
+                    }
+                }],
             order: [["createdAt", "DESC"]], // sort by latest
             limit: 30, // Get only the top 30 posts
         });
@@ -46,7 +56,15 @@ router.get("/:userId", async (req, res) => {
     try {
         const posts = await Post.findAll({
             where: { userId },
-            include: { model: User, attributes: ["username", "title"] },
+            include: [
+                {
+                    model: User,
+                    attributes: ["username", "title"],
+                    include: {
+                        model: UserSpecific,
+                        attributes: ["profilePic", "bio", "currentCity", "friendsCount"]
+                    }
+                }],
             order: [["createdAt", "DESC"]]
         });
         res.json(posts);

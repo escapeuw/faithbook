@@ -5,7 +5,7 @@ import { CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucid
 import "./ui.css";
 
 function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse, timestamp }) {
-    const defaultProfilePic = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158";
+    const defaultProfilePic = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
     const displayProfilePic = profilePic || defaultProfilePic;
 
     const formattedTimestamp = new Date(timestamp).toLocaleString();
