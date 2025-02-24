@@ -3,6 +3,7 @@ const cors = require("cors");
 const sequelize = require("./config/database");
 const authRoutes = require("./routes/auth");
 const postRoutes = require("./routes/postRoutes");
+const profileRoutes = require('./routes/profileRoutes');
 
 require("dotenv").config();
 
@@ -33,6 +34,7 @@ app.use(cors(corsOptions));
 // routes
 app.use("/", authRoutes);
 app.use("/posts", postRoutes);  // base path
+app.use("/profile", profileRoutes);
 
 
 sequelize.sync().then(() => {
