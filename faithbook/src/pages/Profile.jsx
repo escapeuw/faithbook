@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import DevotionPost from "/src/components/DevotionPost.jsx";
 import { CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
+import imageCompression from 'browser-image-compression';
 import "/src/components/ui.css";
 
 function Profile() {
@@ -10,7 +11,7 @@ function Profile() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [profilePicture, setProfilePicture] = useState(null);
-    const [preview, setPreview] = useState(null);
+
 
     const titleComponents = {
         "committed-believer": (
@@ -44,36 +45,47 @@ function Profile() {
     };
 
 
-    // upload profile picture
-    const handleFileChange = (e) => {
-       
+
+    const handleFileChange = async (e) => {
         const file = e.target.files[0];
-        console.log("Selected file:", file); 
         if (file) {
-            setPreview(URL.createObjectURL(file)); // Show preview before upload
-            uploadFile(file);
+            try {
+
+                const options = {
+                    maxSizeMB: 0.25, // Max file size
+                    // Resize to fit within 6rem (96px)
+                    useWebWorker: true, // Use web worker for faster processing
+                };
+
+                // Compress the image
+                const compressedFile = await imageCompression(file, options);
+
+                // Create a preview URL for the compressed image (for immediate display)
+                const compressedFileUrl = URL.createObjectURL(compressedFile);
+
+                const formData = new FormData();
+                formData.append("profilePicture", compressedFile);
+
+                const response = await fetch("https://faithbook-production.up.railway.app/profile/upload-profile-picture", {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust auth method
+                    },
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    setProfilePicture(data.imageUrl); // Update profile picture URL
+                } else {
+                    alert("Upload failed");
+                }
+            } catch (error) {
+                console.error('Error during image compression:', error);
+            }
         }
     };
 
-    const uploadFile = async (file) => {
-        const formData = new FormData();
-        formData.append("profilePicture", file);
-
-        const response = await fetch("https://faithbook-production.up.railway.app/profile/upload-profile-picture", {
-            method: "POST",
-            body: formData,
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`, // Adjust auth method
-            },
-        });
-
-        const data = await response.json();
-        if (data.success) {
-            setPreview(data.imageUrl); // Update profile picture URL
-        } else {
-            alert("Upload failed");
-        }
-    };
 
 
     const handlePost = async (e) => {
@@ -151,7 +163,10 @@ function Profile() {
                                 <img
                                     src={profilePicture || "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"}
                                     alt="Profile"
-                                    style={{ width: "6rem", height: "6rem", borderRadius: "50%" }} />
+                                    style={{
+                                        width: "6rem", height: "6rem", borderRadius: "50%",
+                                        objectFit: "cover", objectPosition: "center"
+                                    }} />
                             </label>
                             <input
                                 type="file"
