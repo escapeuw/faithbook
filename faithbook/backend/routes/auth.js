@@ -79,7 +79,13 @@ router.get("/user", authenticateToken, async (req, res) => {
 
         // find user using Sequelize
         const user = await User.findByPk(userId, {
-            attributes: ["id", "username", "email", "title", "createdAt"]
+            attributes: ["id", "username", "email", "title", "createdAt"],
+            include: [
+                {
+                    model: UserSpecific,
+                    attributes: ["profilePic", "bio", "currentCity", "friendsCount"], // Include relevant fields
+                }
+            ]
         });
 
         if (!user) {

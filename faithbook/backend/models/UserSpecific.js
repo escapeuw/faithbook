@@ -20,7 +20,7 @@ const UserSpecific = sequelize.define("UserSpecific", {
     },
     profilePic: {
         type: DataTypes.STRING,
-        defaultValue: 'https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=1024x1024&w=is&k=20&c=oGqYHhfkz_ifeE6-dID6aM7bLz38C6vQTy1YcbgZfx8=', // Default profile picture URL
+        defaultValue: "i.pinimg.com/564x/29/b8/d2/29b8d250380266eb04be05fe21ef19a7.jpg", // Default profile picture URL
     },
     bio: {
         type: DataTypes.TEXT,

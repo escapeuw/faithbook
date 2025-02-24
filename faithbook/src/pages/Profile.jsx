@@ -112,8 +112,20 @@ function Profile() {
             <div className="wrapper">
                 <div className="profile-container">
                     <div className="center card">
-                        <img style={{ width: "6rem", height: "6rem", borderRadius: "50%" }}
-                            src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" />
+                        <div>
+                            <label htmlFor="profilepic-upload">
+                                <img
+                                    src={profilePicture || "i.pinimg.com/564x/29/b8/d2/29b8d250380266eb04be05fe21ef19a7.jpg"}
+                                    alt="Profile"
+                                    style={{ width: "6rem", height: "6rem", borderRadius: "50%" }} />
+                            </label>
+                            <input
+                                type="file"
+                                id="profilepic-upload"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                                style={{ display: "none" }} />
+                        </div>
                         <div>
                             <h2 style={{ marginBottom: "0.75rem" }}>{user.username}</h2>
                             {titleComponents[user.title]}
