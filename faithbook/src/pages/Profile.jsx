@@ -52,7 +52,7 @@ function Profile() {
             try {
 
                 const options = {
-                    maxSizeMB: 0.25, // Max file size
+                    maxSizeMB: 0.10, // Max file size
                     // Resize to fit within 6rem (96px)
                     useWebWorker: true, // Use web worker for faster processing
                 };
