@@ -16,10 +16,12 @@ const corsOptions = {
         const allowedOrigins = ['http://localhost:5173',
             'https://faithbook.site',
             'https://escapeuw.github.io/faithbook',
-            'https://dhwang.dev/faithbook'];
+            'https://dhwang.dev/faithbook',
+            'https://www.faithbook.site'];
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
             callback(null, true);  // Origin is allowed
         } else {
+            console.error("Blocked by CORS:", origin);
             callback(new Error('Not allowed by CORS'));  // Block the request if the origin is not in the allowed list
         }
     },
@@ -27,9 +29,10 @@ const corsOptions = {
     credentials: true,  // Allow credentials (cookies, authentication)
 };
 
-app.options('*', cors(corsOptions));
+
 app.use(express.json());
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // routes
 app.use("/", authRoutes);
