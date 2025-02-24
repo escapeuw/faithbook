@@ -37,6 +37,10 @@ function Signup() {
 
     } else {
       // submit the form (step 2)
+      if (title === "") {
+        toast.error("Please select your title");
+        return;
+      }
 
       setIsLoading(true); // set loading true
 
