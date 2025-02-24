@@ -10,9 +10,7 @@ function Profile() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [profilePicture, setProfilePicture] = useState(null);
-
-
-
+    const [preview, setPreview] = useState(null);
 
     const titleComponents = {
         "committed-believer": (
@@ -48,7 +46,9 @@ function Profile() {
 
     // upload profile picture
     const handleFileChange = (e) => {
+       
         const file = e.target.files[0];
+        console.log("Selected file:", file); 
         if (file) {
             setPreview(URL.createObjectURL(file)); // Show preview before upload
             uploadFile(file);
@@ -59,7 +59,7 @@ function Profile() {
         const formData = new FormData();
         formData.append("profilePicture", file);
 
-        const response = await fetch("https://faithbook-production.up.railway.app//upload-profile-picture", {
+        const response = await fetch("https://faithbook-production.up.railway.app/profile/upload-profile-picture", {
             method: "POST",
             body: formData,
             headers: {
@@ -112,8 +112,8 @@ function Profile() {
 
                 const data = await response.json();
                 setUser(data);
-                setProfilePicture(String(data.UserSpecific.profilePic));
-                console.log(profilePicture);
+                setProfilePicture(data.UserSpecific.profilePic);
+
 
                 const response2 = await fetch(`https://faithbook-production.up.railway.app/posts/${data.id}`, {
                     method: "GET",
@@ -141,7 +141,6 @@ function Profile() {
         return <div>Loading...</div>
     }
 
-    const profileDisplay = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
     return (
         (user && (
             <div className="wrapper">
@@ -150,7 +149,7 @@ function Profile() {
                         <div>
                             <label htmlFor="profilepic-upload">
                                 <img
-                                    src={profileDisplay}
+                                    src={profilePicture || "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"}
                                     alt="Profile"
                                     style={{ width: "6rem", height: "6rem", borderRadius: "50%" }} />
                             </label>

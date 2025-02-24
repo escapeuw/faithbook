@@ -1,26 +1,41 @@
-const AWS = require('aws-sdk');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
+const multer = require("multer");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
+const path = require("path");
+const { v4: uuidv4 } = require("uuid");
 
-AWS.config.update({
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_REGION,
+  },
 });
 
-const s3 = new AWS.S3();
+// Multer storage configuration
+const storage = multer.memoryStorage();
 
 const upload = multer({
-    storage: multerS3({
-      s3: s3,
-      bucket: process.env.S3_BUCKET_NAME,
-      metadata: (req, file, cb) => {
-        cb(null, { fieldName: file.fieldname });
-      },
-      key: (req, file, cb) => {
-        cb(null, `profile-pictures/${req.user.id}-${Date.now()}-${file.originalname}`);
-      },
-    }),
-  });
-  
-  module.exports = upload;
+  storage: storage,
+});
+
+const uploadFileToS3 = async (file, userId) => {
+  const fileName = `profile-pictures/${userId}-${uuidv4()}${path.extname(file.originalname)}`;
+
+  const params = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: fileName,
+    Body: file.buffer,
+    ContentType: file.mimetype,
+    ACL: "public-read",
+  };
+
+  try {
+    await s3.send(new PutObjectCommand(params));
+    return `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
+  } catch (err) {
+    console.error("S3 Upload Error:", err);
+    throw new Error("Failed to upload image to S3");
+  }
+};
+
+module.exports = { upload, uploadFileToS3 };
