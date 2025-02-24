@@ -53,15 +53,13 @@ function Profile() {
 
                 const options = {
                     maxSizeMB: 0.25, // Max file size
+                    maxWidthOrHeight: 800,
                     // Resize to fit within 6rem (96px)
                     useWebWorker: true, // Use web worker for faster processing
                 };
 
                 // Compress the image
                 const compressedFile = await imageCompression(file, options);
-
-                // Create a preview URL for the compressed image (for immediate display)
-                const compressedFileUrl = URL.createObjectURL(compressedFile);
 
                 const formData = new FormData();
                 formData.append("profilePicture", compressedFile);
