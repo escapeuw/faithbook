@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import DevotionPost from "/src/components/DevotionPost.jsx";
-import { CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
+import { Camera, CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
 import imageCompression from 'browser-image-compression';
 import "/src/components/ui.css";
 
@@ -52,7 +52,7 @@ function Profile() {
             try {
 
                 const options = {
-                    maxSizeMB: 0.10, // Max file size
+                    maxSizeMB: 0.25, // Max file size
                     // Resize to fit within 6rem (96px)
                     useWebWorker: true, // Use web worker for faster processing
                 };
@@ -159,14 +159,15 @@ function Profile() {
                 <div className="profile-container">
                     <div className="center card">
                         <div>
-                            <label htmlFor="profilepic-upload">
-                                <img
+                            <label className="profile-picture-container" htmlFor="profilepic-upload">
+                                <img className="profile-picture"
                                     src={profilePicture || "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"}
                                     alt="Profile"
                                     style={{
                                         width: "6rem", height: "6rem", borderRadius: "50%",
                                         objectFit: "cover", objectPosition: "center"
                                     }} />
+                                <div className="upload-hint"><Camera size="1.25rem" /></div>
                             </label>
                             <input
                                 type="file"
@@ -215,6 +216,7 @@ function Profile() {
                                 key={post.id}
                                 timestamp={post.createdAt}
                                 {...post}
+                                profilePic={post.User?.UserSpecific?.profilePic}
                                 userTitle={post.User?.title}
                                 username={post.User?.username} />
                         )))

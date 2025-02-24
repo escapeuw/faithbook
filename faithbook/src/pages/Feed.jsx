@@ -34,6 +34,7 @@ function Feed() {
         fetchPosts();
     }, []);
 
+    console.log(posts);
     return (
         (loading ? <div>Loading posts...</div> :
             <div className="wrapper">
@@ -42,7 +43,7 @@ function Feed() {
                         <DevotionPost
                             key={post.id}
                             {...post}
-                            
+                            profilePic={post.User?.UserSpecific?.profilePic}
                             timestamp={post.createdAt}
                             userTitle={post.User?.title}
                             username={post.User?.username} /> // access username in User model

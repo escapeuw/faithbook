@@ -49,6 +49,40 @@ textarea {
 
 /* Profile and Title related styling */
 
+.profile-picture-container {
+    position: relative;
+    cursor: pointer;
+}
+
+.upload-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.55);
+    color: rgba(255, 255, 255, 0.671);
+    border-radius: 5px;
+    width: 1.5rem;
+    height: 1.2rem;
+    padding: 1px 3px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.profile-picture-container:hover .profile-picture {
+    opacity: 0.6;
+    /* Dim image */
+}
+
+.profile-picture-container:hover .upload-hint {
+    opacity: 1;
+    /* Show hint text */
+}
+
+
 .profile-container {
     max-width: 42rem;
     /* max-w-2xl equivalent: 42rem (672px) */
@@ -189,7 +223,7 @@ textarea {
     margin: auto;
     border-radius: 5px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .center {

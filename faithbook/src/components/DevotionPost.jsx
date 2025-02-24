@@ -103,7 +103,10 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     return (
         <div className="center card">
             <div className="flex-left" style={{ gap: "1rem" }}>
-                <img style={{ height: "3rem", width: "3rem", borderRadius: "50%" }}
+                <img style={{
+                    height: "3.5rem", width: "3.5rem", borderRadius: "50%",
+                    objectFit: "cover", objectPosition: "center"
+                }}
                     src={displayProfilePic} alt={username} />
                 <div className="this">
                     <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
