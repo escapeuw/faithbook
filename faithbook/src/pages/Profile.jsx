@@ -41,6 +41,8 @@ function Profile() {
             </div>),
     };
 
+    '/upload-profile-picture'
+
     const handlePost = async (e) => {
         e.preventDefault();
 
