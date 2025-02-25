@@ -123,13 +123,13 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                 <p style={{ whiteSpace: "pre-wrap" }}>
                     {(isExpanded || content.length <= charLimit)
                         ? content
-                        : content.substring(0, charLimit) + "..."}
+                        : content.substring(0, charLimit) + "... "}
                     {content.length > charLimit && (
                         <span onClick={() => setIsExpanded(!isExpanded)}
                             style={{ fontWeight: "500", color: "#4A90E2", cursor: "pointer" }}
                             onMouseEnter={(e) => e.target.style.textDecoration = "underline"}
                             onMouseLeave={(e) => e.target.style.textDecoration = "none"}>
-                            {isExpanded ? " collapse" : " more"}
+                            {isExpanded ? "collapse" : "more"}
                         </span>
                     )}
                 </p>
