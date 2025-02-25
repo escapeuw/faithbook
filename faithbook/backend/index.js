@@ -5,6 +5,7 @@ const authRoutes = require("./routes/auth");
 const postRoutes = require("./routes/postRoutes");
 const profileRoutes = require('./routes/profileRoutes');
 
+
 require("dotenv").config();
 
 const app = express();
@@ -60,6 +61,17 @@ app.options("*", (req, res) => {
 app.use("/", authRoutes);
 app.use("/posts", postRoutes);  // base path
 app.use("/profile", profileRoutes);
+
+// it handles react routes on refresh
+const path = require("path");
+
+// Serve static files from the React frontend
+app.use(express.static(path.join(__dirname, "client", "dist"))); // Adjust to "build" if using CRA
+
+// Catch-all handler for React Router
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "dist", "index.html"));  // Adjust path based on your frontend build
+});
 
 
 sequelize.sync().then(() => {
