@@ -9,6 +9,14 @@ require("dotenv").config();
 
 const app = express();
 
+app.use((req, res, next) => {
+    console.log("Request protocol:", req.headers["x-forwarded-proto"]);
+    if (req.headers["x-forwarded-proto"] !== "https" && process.env.NODE_ENV === "production") {
+        return res.redirect(301, "https://" + req.headers.host + req.url);
+    }
+    next();
+});
+
 // Dynamic origin check
 const corsOptions = {
     origin: (origin, callback) => {
@@ -16,6 +24,7 @@ const corsOptions = {
 
         const allowedOrigins = [
             'http://localhost:5173',
+            'http://faithbook.site',
             'https://faithbook.site',
             'https://escapeuw.github.io/faithbook',
             'https://dhwang.dev/faithbook',
@@ -37,12 +46,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.use((req, res, next) => {
-    if (req.headers["x-forwarded-proto"] !== "https" && process.env.NODE_ENV === "production") {
-        return res.redirect(301, "https://" + req.headers.host + req.url);
-    }
-    next();
-});
 
 // ✅ Explicitly Handle Preflight (`OPTIONS`) Requests
 app.options("*", (req, res) => {
