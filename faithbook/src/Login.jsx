@@ -54,7 +54,7 @@ function Login() {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h1>Welcome back</h1>
+          <h1 style={{ color: "#7358ed"}}>Faithbook</h1>
           <p>Sign in to continue to Faithbook</p>
         </div>
 
