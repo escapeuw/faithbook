@@ -11,7 +11,6 @@ function Home() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Feed />} />
-          <Route path="/home" element={<Feed />} />
           <Route path="/profile" element={<Profile />} />
         </Routes> 
       </div>

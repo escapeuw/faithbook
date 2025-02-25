@@ -6,7 +6,7 @@ import "./ui.css";
 function Navbar() {
     const location = useLocation();
 
-    const isActive = (path) => location.pathname === path;
+    const isActive = (path) => location.pathname.startsWith(path);
     return (
         <nav className="nav-main">
             <div className="nav-container">
