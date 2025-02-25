@@ -4,7 +4,7 @@ import axios from "axios";
 import { CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
 import "./ui.css";
 
-function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse, timestamp }) {
+function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse, timestamp, owner }) {
     const defaultProfilePic = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
     const displayProfilePic = profilePic || defaultProfilePic;
 
@@ -117,6 +117,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                     </div>
                     <p style={{ color: "gray", fontSize: "0.75rem" }}>{formattedTimestamp}</p>
                 </div>
+                {owner && (<div>MODIFY BUTTON</div>)}
             </div>
             <div style={{ textAlign: "left", overflow: "hidden" }}>
                 <p className="purple-bar bold">{bibleVerse}</p>

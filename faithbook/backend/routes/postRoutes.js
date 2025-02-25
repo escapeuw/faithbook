@@ -35,7 +35,7 @@ router.get("/", async (req, res) => {
             include: [
                 {
                     model: User,
-                    attributes: ["username", "title"],
+                    attributes: ["username", "title","id"],
                     include: {
                         model: UserSpecific,
                         attributes: ["profilePic"]
