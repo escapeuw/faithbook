@@ -66,12 +66,12 @@ app.use("/profile", profileRoutes);
 const path = require("path");
 
 // Serve static files from the React frontend
-app.use(express.static(path.join(__dirname, "dist"))); // Adjust to "build" if using CRA
+app.use(express.static(path.join(__dirname, "../dist"))); // Adjust to "build" if using CRA
 
 // Catch-all handler for React Router
 app.get("*", (req, res) => {
     console.log(`Serving index.html for: ${req.url}`);
-    res.sendFile(path.join(__dirname, "dist", "index.html"));  // Adjust path based on your frontend build
+    res.sendFile(path.join(__dirname, "../dist", "index.html"));  // Adjust path based on your frontend build
 });
 
 
