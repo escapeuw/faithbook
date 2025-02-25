@@ -9,30 +9,42 @@ require("dotenv").config();
 
 const app = express();
 
+// Dynamic origin check
 const corsOptions = {
     origin: (origin, callback) => {
         // Allow the localhost URL and your production URL also github ios
 
-        const allowedOrigins = ['http://localhost:5173',
+        const allowedOrigins = [
+            'http://localhost:5173',
             'https://faithbook.site',
             'https://escapeuw.github.io/faithbook',
             'https://dhwang.dev/faithbook',
             'https://www.faithbook.site'];
-        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-            callback(null, true);  // Origin is allowed
+
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);  // Allow request
         } else {
             console.error("Blocked by CORS:", origin);
-            callback(new Error('Not allowed by CORS'));  // Block the request if the origin is not in the allowed list
+            callback(new Error("Not allowed by CORS"));
         }
     },
-    methods: 'GET,POST,PUT,DELETE',
-    credentials: true,  // Allow credentials (cookies, authentication)
+    methods: "GET,POST,PUT,DELETE,OPTIONS",  // ✅ Add OPTIONS for preflight
+    credentials: true,  // ✅ Allow credentials (cookies, authentication)
+    allowedHeaders: "Content-Type,Authorization"  // ✅ Allow headers
 };
 
 
-app.use(express.json());
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.use(express.json());
+
+// ✅ Explicitly Handle Preflight (`OPTIONS`) Requests
+app.options("*", (req, res) => {
+    res.set("Access-Control-Allow-Origin", req.headers.origin || "*");
+    res.set("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+    res.set("Access-Control-Allow-Headers", "Content-Type,Authorization");
+    res.set("Access-Control-Allow-Credentials", "true");
+    res.status(204).end();  // ✅ Respond with 204 No Content (prevents 500 error)
+});
 
 // routes
 app.use("/", authRoutes);
