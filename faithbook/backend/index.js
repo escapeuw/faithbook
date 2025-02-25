@@ -70,6 +70,7 @@ app.use(express.static(path.join(__dirname, "../dist"))); // Adjust to "build" i
 
 // Catch-all handler for React Router
 app.get("*", (req, res) => {
+    console.log(`Serving index.html for: ${req.url}`);
     res.sendFile(path.join(__dirname, "../dist", "index.html"));  // Adjust path based on your frontend build
 });
 
