@@ -10,7 +10,7 @@ import { ToastContainer } from 'react-toastify';
 function App() {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename='/'>
       <div>
         <ToastContainer position="top-center" autoClose={7000} hideProgressBar={true}/>
         <Routes>
