@@ -119,9 +119,9 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                     </div>
                 </div>
                 {owner && (
-                    <div style={{ display: "flex", gap: "0.5rem", cursor: "pointer" }}>
-                        <Pencil size="0.85rem" />
-                        <Trash2 size="0.85rem" />
+                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                        <Pencil size="0.85rem" style={{  cursor: "pointer" }}/>
+                        <Trash2 size="0.85rem" style={{  cursor: "pointer" }}/>
                     </div>)}
             </div>
             <div style={{ textAlign: "left", overflow: "hidden" }}>
