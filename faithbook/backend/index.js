@@ -24,7 +24,6 @@ const corsOptions = {
 
         const allowedOrigins = [
             'http://localhost:5173',
-            'http://faithbook.site',
             'https://faithbook.site',
             'https://escapeuw.github.io/faithbook',
             'https://dhwang.dev/faithbook',
