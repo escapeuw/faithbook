@@ -36,7 +36,7 @@ function Feed() {
                 if (!responseUser.ok) throw new Error("Failed to fetch user data");
 
                 const dataUser = await responseUser.json();
-                setUser(dataUser); 
+                setUser(dataUser);
 
             } catch (error) {
                 console.error("Erorr fetching posts:", error);
@@ -47,14 +47,12 @@ function Feed() {
 
         fetchPosts();
     }, []);
-    
+
     return (
         (loading ? <div>Loading posts...</div> :
             <div className="wrapper">
                 <div className="feed-container">
-                    {posts.map(post => {
-                        console.log(post.User?.id)
-                        return(
+                    {posts.map(post => (
                         <DevotionPost
                             key={post.id}
                             owner={post.User?.id === user.id}
@@ -62,9 +60,7 @@ function Feed() {
                             profilePic={post.User?.UserSpecific?.profilePic}
                             timestamp={post.createdAt}
                             userTitle={post.User?.title}
-                            username={post.User?.username} /> // access username in User model
-                    
-                    )}
+                            username={post.User?.username} />) // access username in User model
                     )}
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import axios from "axios";
-import { CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
+import { Pencil, Trash2, CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
 import "./ui.css";
 
 function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse, timestamp, owner }) {
@@ -99,25 +99,30 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         checkLikeStatus(); // Check if the user has already liked the post when the component mounts
     }, [id]);
 
-
     return (
         <div className="center card">
-            <div className="flex-left" style={{ gap: "1rem" }}>
-                <img style={{
-                    height: "3.5rem", width: "3.5rem", borderRadius: "50%",
-                    objectFit: "cover", objectPosition: "center"
-                }}
-                    src={displayProfilePic} alt={username} />
-                <div className="this">
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                        <p style={{ fontWeight: "600" }}>{username}</p>
-                        <span style={{ marginTop: "0.15rem" }}>
-                            {titleBadges[userTitle]}
-                        </span>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div className="flex-left" style={{ gap: "1rem" }}>
+                    <img style={{
+                        height: "3.5rem", width: "3.5rem", borderRadius: "50%",
+                        objectFit: "cover", objectPosition: "center"
+                    }}
+                        src={displayProfilePic} alt={username} />
+                    <div className="this">
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                            <p style={{ fontWeight: "600" }}>{username}</p>
+                            <span style={{ marginTop: "0.15rem" }}>
+                                {titleBadges[userTitle]}
+                            </span>
+                        </div>
+                        <p style={{ color: "gray", fontSize: "0.75rem" }}>{formattedTimestamp}</p>
                     </div>
-                    <p style={{ color: "gray", fontSize: "0.75rem" }}>{formattedTimestamp}</p>
                 </div>
-                {owner && (<div>MODIFY BUTTON</div>)}
+                {owner && (
+                    <div style={{ display: "flex", gap: "0.5rem", cursor: "pointer" }}>
+                        <Pencil size="0.85rem" />
+                        <Trash2 size="0.85rem" />
+                    </div>)}
             </div>
             <div style={{ textAlign: "left", overflow: "hidden" }}>
                 <p className="purple-bar bold">{bibleVerse}</p>
