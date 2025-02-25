@@ -37,6 +37,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+app.use((req, res, next) => {
+    if (req.headers["x-forwarded-proto"] !== "https" && process.env.NODE_ENV === "production") {
+        return res.redirect(301, "https://" + req.headers.host + req.url);
+    }
+    next();
+});
+
 // ✅ Explicitly Handle Preflight (`OPTIONS`) Requests
 app.options("*", (req, res) => {
     res.set("Access-Control-Allow-Origin", req.headers.origin || "*");
@@ -45,6 +52,7 @@ app.options("*", (req, res) => {
     res.set("Access-Control-Allow-Credentials", "true");
     res.status(204).end();  // ✅ Respond with 204 No Content (prevents 500 error)
 });
+
 
 // routes
 app.use("/", authRoutes);
