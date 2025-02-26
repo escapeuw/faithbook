@@ -35,7 +35,7 @@ router.get("/", async (req, res) => {
             include: [
                 {
                     model: User,
-                    attributes: ["username", "title","id"],
+                    attributes: ["username", "title", "id"],
                     include: {
                         model: UserSpecific,
                         attributes: ["profilePic"]
@@ -160,6 +160,31 @@ router.get('/:id/like-status', authenticate, async (req, res) => {
     } catch (error) {
         console.error('Error fetching like status:', error);
         return res.status(500).json({ message: 'Server error' });
+    }
+});
+
+// editing a post
+router.put('/:id', authenticate, async (req, res) => {
+    const { id } = req.params;
+    const { content } = req.body;
+
+    try {
+        const post = await Post.findByPk(id);
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        // requestd user is not the post owner
+        if (post.userId !== req.user.id) {
+            return res.status(403).json({ message: "Unauthorized" });
+        }
+
+        post.content = content || post.content;
+        await post.save();
+
+        res.json({ message: 'Post updated successfully', post });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating post", error });
     }
 });
 
