@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import axios from "axios";
+import { toast } from "react-toastify"; // import toast
 import { Pencil, Trash2, CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
 import "./ui.css";
 
@@ -15,6 +16,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     const [isLiked, setIsLiked] = useState(false); // Track if user has liked
     const [isEditing, setIsEditing] = useState(false);
     const [edit, setEdit] = useState(content);
+    const [displayContent, setDisplayContent] = useState(content);
 
     const likeUrl = `https://faithbook-production.up.railway.app/posts/${id}/like`;   // Ensure this matches the backend route
     const likeStatusUrl = `https://faithbook-production.up.railway.app/posts/${id}/like-status`;
@@ -54,9 +56,13 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                 <div className="tooltip">Skeptic</div>
             </div>)
     };
-    
+
     // edit and save a post
     const handleSave = async () => {
+        if (edit === "") {
+            alert("Input is required!");
+            return
+        }
 
         try {
             const response = await axios.put(editUrl, { content: edit },
@@ -68,9 +74,11 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                 });
 
             console.log('Post updated:', response.data);
-
+            // re-rendering
+            setDisplayContent(edit);
             // closes edit mode
             setIsEditing(false);
+
         } catch (error) {
             console.error(`Error:`, error);
         }
@@ -176,10 +184,10 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                     </div>
                 ) : (
                     <p style={{ whiteSpace: "pre-wrap" }}>
-                        {(isExpanded || content.length <= charLimit)
-                            ? content
-                            : content.substring(0, charLimit) + "... "}
-                        {(content.length > charLimit) && (
+                        {(isExpanded || displayContent.length <= charLimit)
+                            ? displayContent
+                            : displayContent.substring(0, charLimit) + "... "}
+                        {(displayContent.length > charLimit) && (
                             <span onClick={() => setIsExpanded(!isExpanded)}
                                 style={{ fontWeight: "500", color: "#4A90E2", cursor: "pointer" }}
                                 onMouseEnter={(e) => e.target.style.textDecoration = "underline"}

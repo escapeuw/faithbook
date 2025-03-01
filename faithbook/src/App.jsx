@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import './App.css'
+import "/src/components/ui.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Home.jsx";
 import Login from "./Login.jsx";
 import Signup from "./Signup.jsx";
 import { ToastContainer } from 'react-toastify';
+
 
 
 function App() {
