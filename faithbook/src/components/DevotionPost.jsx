@@ -13,9 +13,13 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     const [isExpanded, setIsExpanded] = useState(false);
     const [likeCount, setLikeCount] = useState(likes);
     const [isLiked, setIsLiked] = useState(false); // Track if user has liked
+    const [isEditing, setIsEditing] = useState(false);
+    const [edit, setEdit] = useState(content);
 
     const likeUrl = `https://faithbook-production.up.railway.app/posts/${id}/like`;   // Ensure this matches the backend route
     const likeStatusUrl = `https://faithbook-production.up.railway.app/posts/${id}/like-status`;
+    const editUrl = `https://faithbook-production.up.railway.app/posts/${id}`;
+
     const token = localStorage.getItem('token');
     const charLimit = 333;
 
@@ -50,6 +54,27 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                 <div className="tooltip">Skeptic</div>
             </div>)
     };
+    
+    // edit and save a post
+    const handleSave = async () => {
+
+        try {
+            const response = await axios.put(editUrl, { content: edit },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    withCredentials: true
+                });
+
+            console.log('Post updated:', response.data);
+
+            // closes edit mode
+            setIsEditing(false);
+        } catch (error) {
+            console.error(`Error:`, error);
+        }
+    }
 
     const handleLike = async () => {
 
@@ -120,25 +145,50 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                 </div>
                 {owner && (
                     <div style={{ display: "flex", gap: "0.5rem" }}>
-                        <Pencil size="0.85rem" style={{  cursor: "pointer" }}/>
-                        <Trash2 size="0.85rem" style={{  cursor: "pointer" }}/>
+                        <Pencil
+                            onClick={() => setIsEditing(true)}
+                            size="0.85rem" style={{ cursor: "pointer" }} />
+                        <Trash2 size="0.85rem" style={{ cursor: "pointer" }} />
                     </div>)}
             </div>
+
             <div style={{ textAlign: "left", overflow: "hidden" }}>
                 <p className="purple-bar bold">{bibleVerse}</p>
-                <p style={{ whiteSpace: "pre-wrap" }}>
-                    {(isExpanded || content.length <= charLimit)
-                        ? content
-                        : content.substring(0, charLimit) + "... "}
-                    {content.length > charLimit && (
-                        <span onClick={() => setIsExpanded(!isExpanded)}
-                            style={{ fontWeight: "500", color: "#4A90E2", cursor: "pointer" }}
-                            onMouseEnter={(e) => e.target.style.textDecoration = "underline"}
-                            onMouseLeave={(e) => e.target.style.textDecoration = "none"}>
-                            {isExpanded ? "collapse" : "more"}
-                        </span>
-                    )}
-                </p>
+                {isEditing ? (
+                    <div>
+                        <div className="post-textarea" style={{ width: "100%" }}>
+                            <textarea className="content input-text"
+                                value={edit}
+                                onChange={(e) => setEdit(e.target.value)}
+                                required>
+                            </textarea>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "end", gap: "0.5rem" }}>
+                            <button className="edit-button small-button"
+                                onClick={handleSave}>Save</button>
+                            <button className="cancel-button small-button"
+                                onClick={() => {
+                                    setEdit(content);
+                                    setIsEditing(false)
+                                }}>
+                                Cancel</button>
+                        </div>
+                    </div>
+                ) : (
+                    <p style={{ whiteSpace: "pre-wrap" }}>
+                        {(isExpanded || content.length <= charLimit)
+                            ? content
+                            : content.substring(0, charLimit) + "... "}
+                        {(content.length > charLimit) && (
+                            <span onClick={() => setIsExpanded(!isExpanded)}
+                                style={{ fontWeight: "500", color: "#4A90E2", cursor: "pointer" }}
+                                onMouseEnter={(e) => e.target.style.textDecoration = "underline"}
+                                onMouseLeave={(e) => e.target.style.textDecoration = "none"}>
+                                {isExpanded ? "collapse" : "more"}
+                            </span>
+                        )}
+                    </p>
+                )}
                 <p style={{
                     fontSize: "1.15rem", display: "flex", alignItems: "center",
                     gap: "0.35rem", paddingLeft: "0.1rem"
