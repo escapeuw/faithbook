@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify"; // import toast
 import { Pencil, Trash2, CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
 import "./ui.css";
+import ConfirmModal from "./ConfirmModal.jsx";
 
 function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse, timestamp, owner }) {
     const defaultProfilePic = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
@@ -17,6 +18,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     const [isEditing, setIsEditing] = useState(false);
     const [edit, setEdit] = useState(content);
     const [displayContent, setDisplayContent] = useState(content);
+    const [modal, setModal] = useState(false);
 
     const likeUrl = `https://faithbook-production.up.railway.app/posts/${id}/like`;   // Ensure this matches the backend route
     const likeStatusUrl = `https://faithbook-production.up.railway.app/posts/${id}/like-status`;
@@ -82,6 +84,10 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         } catch (error) {
             console.error(`Error:`, error);
         }
+    }
+
+    const handleDelete = () => {
+
     }
 
     const handleLike = async () => {
@@ -156,7 +162,9 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                         <Pencil
                             onClick={() => setIsEditing(true)}
                             size="0.85rem" style={{ cursor: "pointer" }} />
-                        <Trash2 size="0.85rem" style={{ cursor: "pointer" }} />
+                        <Trash2
+                            onClick={() => setModal(true)}
+                            size="0.85rem" style={{ cursor: "pointer" }} />
                     </div>)}
             </div>
 
@@ -214,6 +222,11 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                     <span>{likeCount}</span>
                 </p>
             </div>
+            <ConfirmModal
+                isOpen={modal}
+                onClose={() => setModal(false)}
+                onConfirm={handleDelete}
+            />
         </div>
     )
 }

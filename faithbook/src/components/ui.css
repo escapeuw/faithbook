@@ -5,6 +5,32 @@
     --light: #aa9af5;
 }
 
+/* Modal overlay to cover the screen */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0; 
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 19999;  /* Ensure the modal appears on top */
+  }
+  
+  /* Modal content */
+  .modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px; /* Set a fixed width */
+    max-width: 80%;
+    box-sizing: border-box;
+  }
+
+
 .like:hover {
     transform: scale(1.2);
 }
@@ -26,7 +52,7 @@ textarea {
 }
 
 .nav-main {
-    z-index: 100000;
+    z-index: 10000;
     position: fixed;
     top: 0;
     left: 0;
