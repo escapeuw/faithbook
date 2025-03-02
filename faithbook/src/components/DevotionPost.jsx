@@ -84,11 +84,25 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         } catch (error) {
             console.error(`Error:`, error);
         }
-    }
+    };
 
-    const handleDelete = () => {
-
-    }
+    const handleDelete = async () => {
+        try {
+            const response = await axios.delete(editUrl, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                withCredentials: true
+            })
+            if (response.status === 200) {
+                console.log("Post deleted successfully");
+                alert("Post deleted successfully");
+                setModal(false);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     const handleLike = async () => {
 
