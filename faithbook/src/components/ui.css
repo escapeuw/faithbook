@@ -9,26 +9,28 @@
 .modal-overlay {
     position: fixed;
     top: 0;
-    left: 0; 
+    left: 0;
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 19999;  /* Ensure the modal appears on top */
-  }
-  
-  /* Modal content */
-  .modal {
+    z-index: 19999;
+    /* Ensure the modal appears on top */
+}
+
+/* Modal content */
+.modal {
     background: white;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
-    width: 300px; /* Set a fixed width */
+    width: 300px;
+    /* Set a fixed width */
     max-width: 80%;
     box-sizing: border-box;
-  }
+}
 
 
 .like:hover {
@@ -135,6 +137,22 @@ textarea {
 
 }
 
+.post-button {
+    width: 85%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--light);
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease
+}
+
+.post-button:hover:not(:disabled) {
+    background: var(--primary-dark);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
 .post-textarea .verse {
     height: 1rem;
     overflow: hidden;
@@ -176,6 +194,7 @@ textarea {
     font-weight: bold;
     border: none;
 }
+
 .cancel-button {
     border: 1px solid gray;
 }
@@ -189,6 +208,7 @@ textarea {
 .cancel-button:hover {
     background: lightgray;
 }
+
 .edit-button:hover {
     background: var(--primary-dark);
 }
