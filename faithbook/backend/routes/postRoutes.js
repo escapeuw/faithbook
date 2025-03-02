@@ -191,11 +191,16 @@ router.put('/:id', authenticate, async (req, res) => {
 // deleting a post
 router.delete('/:id', authenticate, async (req, res) => {
     const { id } = req.params;
-    
+
     try {
         const post = await Post.findByPk(id);
         if (!post) {
             return res.status(404).json({ message: "Post not found" });
+        }
+
+        // requestd user is not the post owner
+        if (post.userId !== req.user.id) {
+            return res.status(403).json({ message: "Unauthorized" });
         }
 
         await post.destroy();
