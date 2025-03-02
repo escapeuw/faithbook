@@ -6,7 +6,8 @@ import { Pencil, Trash2, CircleHelp, Search, MessageCircleMore, MessageCircleHea
 import "./ui.css";
 import ConfirmModal from "./ConfirmModal.jsx";
 
-function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse, timestamp, owner }) {
+function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse, 
+    timestamp, owner, onDelete }) {
     const defaultProfilePic = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
     const displayProfilePic = profilePic || defaultProfilePic;
 
@@ -96,8 +97,8 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             })
             if (response.status === 200) {
                 console.log("Post deleted successfully");
-                alert("Post deleted successfully");
                 setModal(false);
+                onDelete(id);
             }
         } catch (error) {
             console.error("Error:", error);

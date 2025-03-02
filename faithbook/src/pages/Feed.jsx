@@ -7,6 +7,9 @@ function Feed() {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
 
+    const updateDelete = (postId) => {
+        setPosts((prevPosts) => prevPosts.filter(post => post.id !== postId));
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -60,7 +63,9 @@ function Feed() {
                             profilePic={post.User?.UserSpecific?.profilePic}
                             timestamp={post.createdAt}
                             userTitle={post.User?.title}
-                            username={post.User?.username} />) // access username in User model
+                            username={post.User?.username}
+                            onDelete={updateDelete}
+                             />) // access username in User model
                     )}
                 </div>
             </div>
