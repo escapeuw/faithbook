@@ -11,6 +11,7 @@ function Profile() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [profilePicture, setProfilePicture] = useState(null);
+    const [isPostingDisabled, setIsPostingDisabled] = useState(false);
 
 
     const titleComponents = {
@@ -85,22 +86,38 @@ function Profile() {
     };
 
 
-
     const handlePost = async (e) => {
         e.preventDefault();
 
-        const response = await fetch("https://faithbook-production.up.railway.app/posts/create", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId: user.id, bibleVerse, content: devotion })
-        });
+        const inputRegex = /^[a-zA-Z0-9\s.,!?;'"()&]*$/;
 
-        if (response.ok) {
-            alert("Post created!");
-            setDevotion(""); // Clear textarea
-            setBibleVerse(""); // clear bibleVerse
-        } else {
-            alert("Failed to post.");
+        if (!inputRegex.test(devotion) || !inputRegex.test(bibleVerse)) {
+            alert("Invalid characters entered.");
+            setIsPostingDisabled(false);
+            return
+        }
+
+        setIsPostingDisabled(true); // Disable button before sending request
+
+        try {
+            const response = await fetch("https://faithbook-production.up.railway.app/posts/create", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: user.id, bibleVerse, content: devotion })
+            });
+
+            if (response.ok) {
+                alert("Post created!");
+                setDevotion(""); // Clear textarea
+                setBibleVerse(""); // Clear bibleVerse
+            } else {
+                alert("Failed to post.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        } finally {
+            // Re-enable the button whether the request succeeded or failed
+            setIsPostingDisabled(false);
         }
     };
 
@@ -198,7 +215,8 @@ function Profile() {
                                 required
                             />
                         </div>
-                        <button type="submit" className="post-button">Post</button>
+                        <button type="submit" className="post-button"
+                            disabled={isPostingDisabled}>Post</button>
                     </form>
                     {posts.length === 0 ?
                         (<div className="card">

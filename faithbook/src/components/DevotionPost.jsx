@@ -6,7 +6,7 @@ import { Pencil, Trash2, CircleHelp, Search, MessageCircleMore, MessageCircleHea
 import "./ui.css";
 import ConfirmModal from "./ConfirmModal.jsx";
 
-function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse, 
+function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse,
     timestamp, owner, onDelete }) {
     const defaultProfilePic = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
     const displayProfilePic = profilePic || defaultProfilePic;
@@ -67,6 +67,16 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             return
         }
 
+        const inputRegex = /^[a-zA-Z0-9\s.,!?;'"()&]*$/;
+
+        // Check if the content matches the regex
+        if (!inputRegex.test(edit)) {
+            alert("Content contains invalid characters. Please use letters, numbers, and basic punctuation.");
+            setIsEditing(false);  // Immediately stop editing
+            setEdit(content);
+            return;
+        }
+
         try {
             const response = await axios.put(editUrl, { content: edit },
                 {
@@ -84,6 +94,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
 
         } catch (error) {
             console.error(`Error:`, error);
+            setIsEditing(false);
         }
     };
 
