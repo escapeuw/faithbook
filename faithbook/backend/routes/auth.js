@@ -39,9 +39,9 @@ router.post("/signup", async (req, res) => {
             userId: newUser.id, // Link the User to the UserSpecific
         });
 
-        res.json({ message: "User registered successfully", user: newUser, userSpecific });
+        return res.json({ message: "User registered successfully", user: newUser, userSpecific });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 });
 
@@ -61,13 +61,13 @@ router.post("/login", async (req, res) => {
         //  generate JWT token
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "24h" });
 
-        res.json({
+        return res.json({
             token,
             username: user.username // sends username back to frontend
         });
 
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 });
 
@@ -92,9 +92,9 @@ router.get("/user", authenticateToken, async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        res.json(user); // Return user data
+        return res.json(user); // Return user data
     } catch (error) {
-        res.status(500).json({ message: "Server error" });
+        return res.status(500).json({ message: "Server error" });
     }
 });
 

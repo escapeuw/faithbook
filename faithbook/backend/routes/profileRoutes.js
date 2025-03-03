@@ -16,10 +16,10 @@ router.post("/upload-profile-picture", authenticate, upload.single("profilePictu
         // Update the user's profile picture in the database
         await UserSpecific.update({ profilePic: imageUrl }, { where: { userId } });
 
-        res.json({ success: true, imageUrl });
+        return res.json({ success: true, imageUrl });
     } catch (error) {
         console.error("Upload Error:", error);
-        res.status(500).json({ success: false, message: "Upload failed" });
+        return res.status(500).json({ success: false, message: "Upload failed" });
     }
 });
 

@@ -21,9 +21,9 @@ router.post("/create", async (req, res) => {
         }
 
         const post = await Post.create({ userId, content, imageUrl, bibleVerse });
-        res.status(201).json(post);
+        return res.status(201).json(post);
     } catch (err) {
-        res.status(500).json({ error: "Failer to create post" });
+        return res.status(500).json({ error: "Failer to create post" });
     }
 });
 
@@ -44,9 +44,9 @@ router.get("/", async (req, res) => {
             order: [["createdAt", "DESC"]], // sort by latest
             limit: 30, // Get only the top 30 posts
         });
-        res.json(posts);
+        return res.json(posts);
     } catch (err) {
-        res.status(500).json({ error: "Failed to fetch posts" });
+        return res.status(500).json({ error: "Failed to fetch posts" });
     }
 });
 
@@ -67,9 +67,9 @@ router.get("/:userId", async (req, res) => {
                 }],
             order: [["createdAt", "DESC"]]
         });
-        res.json(posts);
+        return res.json(posts);
     } catch (err) {
-        res.status(500).json({ error: "Failed to fetch posts" });
+        return res.status(500).json({ error: "Failed to fetch posts" });
     }
 });
 
@@ -182,9 +182,9 @@ router.put('/:id', authenticate, async (req, res) => {
         post.content = content || post.content;
         await post.save();
 
-        res.json({ message: 'Post updated successfully', post });
+        return res.json({ message: 'Post updated successfully', post });
     } catch (error) {
-        res.status(500).json({ message: "Error updating post", error });
+        return res.status(500).json({ message: "Error updating post", error });
     }
 });
 
@@ -204,10 +204,10 @@ router.delete('/:id', authenticate, async (req, res) => {
         }
 
         await post.destroy();
-        res.json(200).json({ message: "Post deleted successfully" });
+        return res.json(200).json({ message: "Post deleted successfully" });
 
     } catch (error) {
-        res.status(500).json({ message: "Error deleting post", error });
+        return res.status(500).json({ message: "Error deleting post", error });
     }
 });
 
