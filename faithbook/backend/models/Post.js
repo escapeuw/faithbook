@@ -35,7 +35,11 @@ const Post = sequelize.define("Post", {
     },
     reports: {
         type: DataTypes.INTEGER,
-        defaultValue: 0, 
+        defaultValue: 0,
+    },
+    repliesCount: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
     }
 });
 

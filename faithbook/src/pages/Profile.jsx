@@ -12,6 +12,11 @@ function Profile() {
     const [loading, setLoading] = useState(true);
     const [profilePicture, setProfilePicture] = useState(null);
     const [isPostingDisabled, setIsPostingDisabled] = useState(false);
+    const [likeStatus, setLikeStatus] = useState({});
+
+    const updateDelete = (postId) => {
+        setPosts((prevPosts) => prevPosts.filter(post => post.id !== postId));
+    };
 
 
     const titleComponents = {
@@ -107,6 +112,10 @@ function Profile() {
             });
 
             if (response.ok) {
+                const newPost = await response.json();
+                newPost
+                setPosts((prevPosts) => [newPost, ...prevPosts]); // caching new post
+
                 alert("Post created!");
                 setDevotion(""); // Clear textarea
                 setBibleVerse(""); // Clear bibleVerse
@@ -153,6 +162,30 @@ function Profile() {
 
                 const data2 = await response2.json();
                 setPosts(data2);
+
+                // like status
+                const postIds = data2.map(post => post.id);
+
+                const responseLike = await fetch("https://faithbook-production.up.railway.app/posts/like-status", {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ postIds })
+                });
+
+                if (!responseLike.ok) throw new Error("Failed to fetch like status");
+
+                const dataLike = await responseLike.json();
+
+
+                const dataLikeHash = dataLike.reduce((acc, { postId }) => {
+                    acc[postId] = true;
+                    return acc;
+                }, {});
+
+                setLikeStatus(dataLikeHash);
 
             } catch (error) {
                 console.error("Erorr fetching user data:", error);
@@ -229,12 +262,15 @@ function Profile() {
                         </div>) :
                         (posts.map(post => (
                             <DevotionPost
+                                likeStatus={likeStatus[post.id] || false}
+                                owner={true}
                                 key={post.id}
                                 timestamp={post.createdAt}
                                 {...post}
-                                profilePic={post.User?.UserSpecific?.profilePic}
-                                userTitle={post.User?.title}
-                                username={post.User?.username} />
+                                profilePic={profilePicture}
+                                userTitle={user.title}
+                                username={user.username}
+                                onDelete={updateDelete} />
                         )))
                     }
                 </div>
