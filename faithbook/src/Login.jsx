@@ -32,13 +32,12 @@ function Login() {
       const data = await response.json(); // convert response to JSON
 
       if (response.ok) {
-        console.log("Login successful", data);
         // store JWT token somewhere, temporally in local storage
 
         localStorage.setItem("token", data.token);
 
         // redirect to home/dashboard
-        console.log("YOU ARE LOGGED IN TEST SUCCESSFUL!!!!!!");
+
         navigate("/home") // change route to /home
       } else {
         toast.error(`Login failed: ${data.message}`);
