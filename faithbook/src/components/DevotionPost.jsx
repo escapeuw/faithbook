@@ -7,7 +7,7 @@ import "./ui.css";
 import ConfirmModal from "./ConfirmModal.jsx";
 
 function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse,
-    timestamp, owner, onDelete }) {
+    timestamp, owner, onDelete, likeStatus }) {
     const defaultProfilePic = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
     const displayProfilePic = profilePic || defaultProfilePic;
 
@@ -15,7 +15,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [likeCount, setLikeCount] = useState(likes);
-    const [isLiked, setIsLiked] = useState(false); // Track if user has liked
+    const [isLiked, setIsLiked] = useState(likeStatus); // Track if user has liked
     const [isEditing, setIsEditing] = useState(false);
     const [edit, setEdit] = useState(content);
     const [displayContent, setDisplayContent] = useState(content);
@@ -140,29 +140,6 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         }
     };
 
-    // Fetch like status
-    const checkLikeStatus = async () => {
-
-        if (!token) return; // If no token, exit (user is not logged in)
-
-        try {
-            const response = await axios.get(likeStatusUrl, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.data.isLiked) {
-                setIsLiked(true);
-            }
-        } catch (error) {
-            console.error('Error fetching like status:', error);
-        }
-    };
-
-    useEffect(() => {
-        checkLikeStatus(); // Check if the user has already liked the post when the component mounts
-    }, [id]);
 
     return (
         <div className="center card">

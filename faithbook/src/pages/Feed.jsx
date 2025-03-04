@@ -6,6 +6,7 @@ function Feed() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [likeStatus, setLikeStatus] = useState({});
 
     const updateDelete = (postId) => {
         setPosts((prevPosts) => prevPosts.filter(post => post.id !== postId));
@@ -16,6 +17,7 @@ function Feed() {
         const fetchPosts = async () => {
             setLoading(true);
             try {
+                // posts
                 const response = await fetch("https://faithbook-production.up.railway.app/posts", {
                     method: "GET",
                     headers: {
@@ -27,7 +29,7 @@ function Feed() {
 
                 const data = await response.json();
                 setPosts(data);
-
+                // user info
                 const token = localStorage.getItem("token");
                 const responseUser = await fetch("https://faithbook-production.up.railway.app/user", {
                     method: "GET",
@@ -36,10 +38,33 @@ function Feed() {
                         "Content-Type": "application/json",
                     }
                 });
+
                 if (!responseUser.ok) throw new Error("Failed to fetch user data");
 
                 const dataUser = await responseUser.json();
                 setUser(dataUser);
+
+                // like status
+                const postIds = data.map(post => post.id);
+                const responseLike = await fetch("https://faithbook-production.up.railway.app/posts/like-status", {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ postIds })
+                });
+
+                if (!responseLike.ok) throw new Error("Failed to fetch like status");
+
+                const dataLike = await responseLike.json();
+
+                const dataLikeHash = dataLike.reduce((acc, postId) => {
+                    acc[postId] = true;
+                    return acc;
+                }, {});
+
+                setLikeStatus(dataLikeHash);
 
             } catch (error) {
                 console.error("Erorr fetching posts:", error);
@@ -58,6 +83,7 @@ function Feed() {
                     {posts.map(post => (
                         <DevotionPost
                             key={post.id}
+                            likeStatus={likeStatus[post.id] || false}
                             owner={post.User?.id === user.id}
                             {...post}
                             profilePic={post.User?.UserSpecific?.profilePic}
@@ -65,7 +91,7 @@ function Feed() {
                             userTitle={post.User?.title}
                             username={post.User?.username}
                             onDelete={updateDelete}
-                             />) // access username in User model
+                        />) // access username in User model
                     )}
                 </div>
             </div>
