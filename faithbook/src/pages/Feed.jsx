@@ -44,8 +44,10 @@ function Feed() {
                 const dataUser = await responseUser.json();
                 setUser(dataUser);
 
+
                 // like status
                 const postIds = data.map(post => post.id);
+
                 const responseLike = await fetch("https://faithbook-production.up.railway.app/posts/like-status", {
                     method: "POST",
                     headers: {
@@ -59,7 +61,8 @@ function Feed() {
 
                 const dataLike = await responseLike.json();
 
-                const dataLikeHash = dataLike.reduce((acc, postId) => {
+
+                const dataLikeHash = dataLike.reduce((acc, { postId }) => {
                     acc[postId] = true;
                     return acc;
                 }, {});
@@ -75,6 +78,7 @@ function Feed() {
 
         fetchPosts();
     }, []);
+
 
     return (
         (loading ? <div>Loading posts...</div> :

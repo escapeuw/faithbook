@@ -140,6 +140,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         }
     };
 
+   
 
     return (
         <div className="center card">
