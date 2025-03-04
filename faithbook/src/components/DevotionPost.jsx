@@ -20,6 +20,8 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     const [edit, setEdit] = useState(content);
     const [displayContent, setDisplayContent] = useState(content);
     const [modal, setModal] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
     const likeUrl = `https://faithbook-production.up.railway.app/posts/${id}/like`;   // Ensure this matches the backend route
     const likeStatusUrl = `https://faithbook-production.up.railway.app/posts/${id}/like-status`;
@@ -77,6 +79,9 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             return;
         }
 
+        if (isSaving) return;
+        setIsSaving(true);
+
         try {
             const response = await axios.put(editUrl, { content: edit },
                 {
@@ -95,17 +100,24 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         } catch (error) {
             console.error(`Error:`, error);
             setIsEditing(false);
+        } finally {
+            setIsSaving(false);
         }
     };
 
+    // delete
     const handleDelete = async () => {
+        if (isDeleting) return;
+
+        setIsDeleting(true); // Disable button
         try {
             const response = await axios.delete(editUrl, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
                 withCredentials: true
-            })
+            });
+
             if (response.status === 200) {
                 console.log("Post deleted successfully");
                 setModal(false);
@@ -113,6 +125,8 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             }
         } catch (error) {
             console.error("Error:", error);
+        } finally {
+            setIsDeleting(false); // re-enable button
         }
     };
 
@@ -140,7 +154,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         }
     };
 
-   
+
 
     return (
         <div className="center card">
@@ -177,16 +191,23 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                 {isEditing ? (
                     <div>
                         <div className="post-textarea" style={{ width: "100%" }}>
-                            <textarea className="content input-text"
+                            <textarea
+                                className="content input-text"
                                 value={edit}
                                 onChange={(e) => setEdit(e.target.value)}
                                 required>
                             </textarea>
                         </div>
                         <div style={{ display: "flex", justifyContent: "end", gap: "0.5rem" }}>
-                            <button className="edit-button small-button"
-                                onClick={handleSave}>Save</button>
-                            <button className="cancel-button small-button"
+                            <button
+                                className="edit-button small-button"
+                                onClick={handleSave}
+                                disabled={isSaving}
+                            >
+                                {isSaving ? "Saving..." : "Save"}
+                            </button>
+                            <button
+                                className="cancel-button small-button"
                                 onClick={() => {
                                     setEdit(content);
                                     setIsEditing(false)
@@ -230,6 +251,8 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                 isOpen={modal}
                 onClose={() => setModal(false)}
                 onConfirm={handleDelete}
+                isDeleting={isDeleting}
+                setisDeleting={setIsDeleting}
             />
         </div>
     )

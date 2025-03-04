@@ -1,7 +1,7 @@
 import "./ui.css";
 import { useState, useEffect } from "react";
 
-const ConfirmModal = ({ isOpen, onClose, onConfirm }) => {
+const ConfirmModal = ({ isOpen, onClose, onConfirm, isDeleting }) => {
     if (!isOpen) {
         return null;
     }
@@ -10,8 +10,13 @@ const ConfirmModal = ({ isOpen, onClose, onConfirm }) => {
         <div className="modal-overlay">
             <div className="modal">
                 <h3>Are you sure you want to delete this post?</h3>
-                <div style={{ display: "flex", justifyContent: "center", gap: "1rem"}}>
-                    <button className="small-button edit-button" onClick={onConfirm}>Delete</button>
+                <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
+                    <button
+                        className="small-button edit-button"
+                        onClick={onConfirm}
+                        disabled={isDeleting}>
+                        {isDeleting ? "Deleting..." : "Delete"}
+                    </button>
                     <button className="small-button cancel-button" onClick={onClose}>Cancel</button>
                 </div>
             </div>
