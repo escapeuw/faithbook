@@ -5,6 +5,25 @@
     --light: #aa9af5;
 }
 
+.post-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 1.15rem;
+    border-top: 1px solid rgba(188, 188, 196, 0.897);
+    height: 2.5rem;
+    margin-top: 2.5rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+}
+
+.post-bottom p {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding-left: 0.1rem;
+}
+
 /* Modal overlay to cover the screen */
 .modal-overlay {
     position: fixed;
@@ -33,7 +52,7 @@
 }
 
 
-.like:hover {
+.like-and-comment:hover {
     transform: scale(1.2);
 }
 

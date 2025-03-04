@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify"; // import toast
-import { Pencil, Trash2, CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
+import { Pencil, Trash2, CircleHelp, Search, MessageCircleMore, MessageCircleHeart, MessageCircle } from "lucide-react";
 import "./ui.css";
 import ConfirmModal from "./ConfirmModal.jsx";
 
 function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse,
-    timestamp, owner, onDelete, likeStatus }) {
+    timestamp, owner, onDelete, likeStatus, repliesCount }) {
     const defaultProfilePic = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
     const displayProfilePic = profilePic || defaultProfilePic;
 
@@ -230,22 +230,29 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                         )}
                     </p>
                 )}
-                <p style={{
-                    fontSize: "1.15rem", display: "flex", alignItems: "center",
-                    gap: "0.35rem", paddingLeft: "0.1rem"
-                }} >
-                    <Heart
-                        style={{
-                            width: "1.25rem", height: "1.25rem",
-                            color: isLiked ? "#FF5350" : "",
-                            transition: "transform 0.25s ease"
-                        }}
-                        fill={isLiked ? "#FF5350" : "none"}
-                        className="like"
-                        onClick={handleLike}
-                    />
-                    <span>{likeCount}</span>
-                </p>
+                <div className="post-bottom">
+                    <p>
+                        <Heart
+                            style={{
+                                width: "1.25rem", height: "1.25rem",
+                                color: isLiked ? "#FF5350" : "",
+                                transition: "transform 0.25s ease"
+                            }}
+                            fill={isLiked ? "#FF5350" : "none"}
+                            className="like-and-comment"
+                            onClick={handleLike}
+                        />
+                        <span>{likeCount}</span>
+                    </p>
+                    <p>
+                        <MessageCircle
+                            style={{
+                                width: "1.25rem", height: "1.25rem"
+                            }}
+                            className="like-and-comment" />
+                        <span>{repliesCount}</span>
+                    </p>
+                </div>
             </div>
             <ConfirmModal
                 isOpen={modal}
