@@ -2,6 +2,22 @@ import "./ui.css";
 import { useState, useEffect } from "react";
 
 const ConfirmModal = ({ isOpen, onClose, onConfirm, isDeleting }) => {
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden'; // Disable scrolling
+
+        } else {
+            // Enable scrolling again when the modal is closed
+            document.body.style.overflow = "";
+        }
+
+        // Clean up: Ensure that scrolling is enabled when the component is unmounted or modal is closed
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [isOpen]); // This effect runs whenever isOpen changes
+
     if (!isOpen) {
         return null;
     }
