@@ -5,6 +5,8 @@ import { toast } from "react-toastify"; // import toast
 import { Pencil, Trash2, CircleHelp, Search, MessageCircleMore, MessageCircleHeart, MessageCircle } from "lucide-react";
 import "./ui.css";
 import ConfirmModal from "./ConfirmModal.jsx";
+import PostModal from "./PostModal.jsx";
+import { usePost } from "../PostContext.jsx";
 
 function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse,
     timestamp, owner, onDelete, likeStatus, repliesCount }) {
@@ -20,8 +22,11 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     const [edit, setEdit] = useState(content);
     const [displayContent, setDisplayContent] = useState(content);
     const [modal, setModal] = useState(false);
+    const [postModal, setPostModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+
+    const { setSelectedPost } = usePost(); // get function to update selected post
 
     const likeUrl = `https://faithbook-production.up.railway.app/posts/${id}/like`;   // Ensure this matches the backend route
     const likeStatusUrl = `https://faithbook-production.up.railway.app/posts/${id}/like-status`;
@@ -154,8 +159,28 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         }
     };
 
+    const handleCommentClick = () => {
+        const postDetails = {
+            id,
+            userTitle,
+            username,
+            profilePic,
+            likes,
+            reports,
+            content,
+            bibleVerse,
+            timestamp,
+            owner,
+            onDelete,
+            likeStatus,
+            repliesCount
+        };
 
+        setSelectedPost(postDetails);
+        setPostModal(true);
+    }
 
+   
     return (
         <div className="center card">
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -249,7 +274,8 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                             style={{
                                 width: "1.25rem", height: "1.25rem"
                             }}
-                            className="like-and-comment" />
+                            className="like-and-comment"
+                            onClick={handleCommentClick} />
                         <span>{repliesCount}</span>
                     </p>
                 </div>
@@ -260,6 +286,10 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                 onConfirm={handleDelete}
                 isDeleting={isDeleting}
                 setisDeleting={setIsDeleting}
+            />
+            <PostModal
+                isOpen={postModal}
+                onClose={() => setPostModal(false)}
             />
         </div>
     )
