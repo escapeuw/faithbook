@@ -94,7 +94,7 @@ function Profile() {
     const handlePost = async (e) => {
         e.preventDefault();
 
-        const inputRegex = /^[a-zA-Z0-9\s.,!?;'"()&]*$/;
+        const inputRegex = /^[a-zA-Z0-9\s.,!?;:'"()&]*$/;
 
         if (!inputRegex.test(devotion) || !inputRegex.test(bibleVerse)) {
             alert("Invalid characters entered.");
