@@ -3,6 +3,7 @@ const cors = require("cors");
 const sequelize = require("./config/database");
 const authRoutes = require("./routes/auth");
 const postRoutes = require("./routes/postRoutes");
+const replyRoutes = require("./routes/replyRoutes");
 const profileRoutes = require('./routes/profileRoutes');
 
 
@@ -60,6 +61,7 @@ app.options("*", (req, res) => {
 // routes
 app.use("/", authRoutes);
 app.use("/posts", postRoutes);  // base path
+app.use("/reply", replyRoutes);
 app.use("/profile", profileRoutes);
 
 // it handles react routes on refresh

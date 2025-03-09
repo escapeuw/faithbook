@@ -22,3 +22,5 @@ router.post("/create", authenticate, async (req, res) => {
         return res.status(500).json({ message: "Failed to create reply" });
     }
 });
+
+module.exports = router;
