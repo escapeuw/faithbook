@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { usePost } from "../PostContext";
 import { X, CircleChevronRight } from "lucide-react";
 
-const PostModal = ({ isOpen, onClose }) => {
+const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
     const [comment, setComment] = useState("");
     const [postReplies, setPostReplies] = useState([]);
     const [isPosting, setIsPosting] = useState(false);
@@ -64,6 +64,18 @@ const PostModal = ({ isOpen, onClose }) => {
 
     const handleReply = async () => {
         if (isPosting) return; // ensures repeated request is impossible
+        if (comment === "") {
+            alert("Comments cannot be blank");
+            return
+        }
+        const inputRegex = /^[a-zA-Z0-9\s.,!?;:'"()&]*$/;
+
+        // Check if the content matches the regex
+        if (!inputRegex.test(comment)) {
+            alert("Content contains invalid characters. Please use letters, numbers, and basic punctuation.");
+            return;
+        }
+
 
         setIsPosting(true);
 
@@ -89,6 +101,7 @@ const PostModal = ({ isOpen, onClose }) => {
             const newReply = await response.json();
 
             setPostReplies((prevPostReplies) => [newReply, ...prevPostReplies]); // caching new replies
+            onReplyAdded();
         } catch (err) {
             console.error("Failed to post reply", err);
         } finally {

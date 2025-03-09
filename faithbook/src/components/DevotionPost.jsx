@@ -25,6 +25,11 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     const [postModal, setPostModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
+    const [updatedRepliesCount, setUpdatedRepliesCount] = useState(repliesCount);
+
+    const handleReplyAdded = () => {
+        setUpdatedRepliesCount(prevCount => prevCount + 1); // Increment the replies count
+    };
 
     const { setSelectedPost } = usePost(); // get function to update selected post
 
@@ -276,7 +281,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                             }}
                             className="like-and-comment"
                             onClick={handleCommentClick} />
-                        <span>{repliesCount}</span>
+                        <span>{updatedRepliesCount}</span>
                     </p>
                 </div>
             </div>
@@ -290,6 +295,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             <PostModal
                 isOpen={postModal}
                 onClose={() => setPostModal(false)}
+                onReplyAdded={handleReplyAdded}
             />
         </div>
     )
