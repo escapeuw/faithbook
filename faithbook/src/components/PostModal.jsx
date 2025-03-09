@@ -26,9 +26,36 @@ const PostModal = ({ isOpen, onClose }) => {
     }, [isOpen]); // This effect runs whenever isOpen changes
 
 
+    useEffect(() => {
+        const fetchReplies = async () => {
+            try {
+                const response = await fetch(`https://faithbook-production.up.railway.app/reply/${selectedPost.id}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData || "Failed to fetch replies");
+                }
+                const data = await response.json();
+                setPostReplies(data);
+
+            } catch (err) {
+                console.error("Failed to fetch replies", err);
+            }
+        }
+
+        fetchReplies();
+    }, [selectedPost]);
+
     if (!isOpen || !selectedPost) {
         return null;
     }
+
+
 
 
     const handleReply = async () => {

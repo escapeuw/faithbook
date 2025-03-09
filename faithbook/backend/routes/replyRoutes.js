@@ -34,7 +34,7 @@ router.get("/:postId", async (req, res) => {
             include: [
                 {
                     model: User,
-                    attributes: ["usernaem", "title"],
+                    attributes: ["username", "title"],
                     include: {
                         model: UserSpecific,
                         attributes: ["profilePic"]
