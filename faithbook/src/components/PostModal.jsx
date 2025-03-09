@@ -4,6 +4,8 @@ import { usePost } from "../PostContext";
 import { X, CircleChevronRight } from "lucide-react";
 
 const PostModal = ({ isOpen, onClose }) => {
+    const [comment, setComment] = useState("");
+
     const { selectedPost, setSelectedPost } = usePost();
 
     useEffect(() => {
@@ -105,6 +107,8 @@ const PostModal = ({ isOpen, onClose }) => {
                         height: "15%", marginTop: "0.5rem"
                     }}>
                     <textarea
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
                         className="input-comment"
                         placeholder="Write a comment..."
                         required

@@ -23,7 +23,7 @@ router.post("/create", async (req, res) => {
         const post = await Post.create({ userId, content, imageUrl, bibleVerse });
         return res.status(201).json(post);
     } catch (err) {
-        return res.status(500).json({ error: "Failer to create post" });
+        return res.status(500).json({ error: "Failed to create post" });
     }
 });
 

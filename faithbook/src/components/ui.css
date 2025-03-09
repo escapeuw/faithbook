@@ -78,7 +78,7 @@
 .post-modal-content {
     border: 1px solid rgb(211, 207, 207);
     border-radius: 3px;
-    max-height: 25vh;
+    max-height: 30vh;
     min-height: 10vh;
     overflow-y: auto;
     scrollbar-width: thin;
