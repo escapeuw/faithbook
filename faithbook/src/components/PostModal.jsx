@@ -27,6 +27,9 @@ const PostModal = ({ isOpen, onClose }) => {
 
 
     useEffect(() => {
+
+        if (!isOpen || !selectedPost?.id) return;
+
         const fetchReplies = async () => {
             try {
                 const response = await fetch(`https://faithbook-production.up.railway.app/reply/${selectedPost.id}`, {
@@ -43,13 +46,14 @@ const PostModal = ({ isOpen, onClose }) => {
                 const data = await response.json();
                 setPostReplies(data);
 
+
             } catch (err) {
                 console.error("Failed to fetch replies", err);
             }
         }
 
         fetchReplies();
-    }, [selectedPost]);
+    }, [isOpen]);
 
     if (!isOpen || !selectedPost) {
         return null;
@@ -81,6 +85,10 @@ const PostModal = ({ isOpen, onClose }) => {
                 const errorData = await response.json();
                 throw new Error(errorData || "Failed to post reply");
             }
+
+            const newReply = await response.json();
+    
+            setPostReplies((prevPostReplies) => [newReply, ...prevPostReplies]); // caching new replies
         } catch (err) {
             console.error("Failed to post reply", err);
         } finally {
@@ -92,7 +100,7 @@ const PostModal = ({ isOpen, onClose }) => {
 
 
     const formattedTimestamp = new Date(selectedPost.timestamp).toLocaleString();
-
+    
     return (
         <div className="modal-overlay">
             <div className="card post-modal center">
@@ -127,38 +135,18 @@ const PostModal = ({ isOpen, onClose }) => {
                     </p>
 
                     <div className="comment-container">
-                        <div className="comment">
-                            <img style={{
-                                height: "3rem", width: "3rem", borderRadius: "50%",
-                                objectFit: "cover", objectPosition: "center"
-                            }}
-                                src={"https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"} />
-                            <div className="comment-box">Comment example</div>
-                        </div>
-                        <div className="comment">
-                            <img style={{
-                                height: "3rem", width: "3rem", borderRadius: "50%",
-                                objectFit: "cover", objectPosition: "center"
-                            }}
-                                src={"https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"} />
-                            <div className="comment-box">Comment example</div>
-                        </div>
-                        <div className="comment">
-                            <img style={{
-                                height: "3rem", width: "3rem", borderRadius: "50%",
-                                objectFit: "cover", objectPosition: "center"
-                            }}
-                                src={"https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"} />
-                            <div className="comment-box">Comment example</div>
-                        </div>
-                        <div className="comment">
-                            <img style={{
-                                height: "3rem", width: "3rem", borderRadius: "50%",
-                                objectFit: "cover", objectPosition: "center"
-                            }}
-                                src={"https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"} />
-                            <div className="comment-box">Comment example</div>
-                        </div>
+                        {postReplies.map(reply => (
+                            <div className="comment" key={reply.id}>
+                                <img style={{
+                                    height: "3rem", width: "3rem", borderRadius: "50%",
+                                    objectFit: "cover", objectPosition: "center"
+                                }}
+                                    src={reply.User?.UserSpecific?.profilePic ||
+                                        "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"} />
+                                <div className="comment-box">{reply.content}</div>
+                            </div>
+                        )
+                        )}
                     </div>
                 </div>
                 <div className="input-comment-container"
@@ -184,7 +172,7 @@ const PostModal = ({ isOpen, onClose }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

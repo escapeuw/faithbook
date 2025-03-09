@@ -17,7 +17,21 @@ router.post("/create", authenticate, async (req, res) => {
         if (!postId || !userId || !content) {
             return res.status(400).json({ message: "Required data is missing" });
         }
-        const reply = await Reply.create({ userId, postId, content });
+        const data = await Reply.create({ userId, postId, content });
+
+        const reply = await Reply.findOne({
+            where: { id: data.id }, // Ensure we're fetching the just-created reply
+            include: [
+                {
+                    model: User,
+                    attributes: ["username", "title"], // Specify the fields you want to include
+                    include: {
+                        model: UserSpecific,
+                        attributes: ["profilePic"] // Specify the fields you want from UserSpecific
+                    }
+                }
+            ]
+        });
         return res.status(201).json(reply);
 
     } catch (err) {

@@ -113,7 +113,7 @@ function Profile() {
 
             if (response.ok) {
                 const newPost = await response.json();
-                newPost
+    
                 setPosts((prevPosts) => [newPost, ...prevPosts]); // caching new post
 
                 alert("Post created!");
