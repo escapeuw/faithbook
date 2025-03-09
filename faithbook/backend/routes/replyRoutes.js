@@ -1,6 +1,7 @@
 const express = require("express");
 const Reply = require("../models/Reply");
 const User = require("../models/User");
+const Post = require("../models/Post");
 const UserSpecific = require("../models/UserSpecific");
 
 require("dotenv").config();
@@ -32,6 +33,12 @@ router.post("/create", authenticate, async (req, res) => {
                 }
             ]
         });
+
+        await Post.increment("repliesCount", {
+            by: 1,
+            where: { id: postId },
+        });
+        
         return res.status(201).json(reply);
 
     } catch (err) {

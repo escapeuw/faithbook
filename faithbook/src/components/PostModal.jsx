@@ -87,7 +87,7 @@ const PostModal = ({ isOpen, onClose }) => {
             }
 
             const newReply = await response.json();
-    
+
             setPostReplies((prevPostReplies) => [newReply, ...prevPostReplies]); // caching new replies
         } catch (err) {
             console.error("Failed to post reply", err);
@@ -100,7 +100,7 @@ const PostModal = ({ isOpen, onClose }) => {
 
 
     const formattedTimestamp = new Date(selectedPost.timestamp).toLocaleString();
-    
+
     return (
         <div className="modal-overlay">
             <div className="card post-modal center">
@@ -143,7 +143,12 @@ const PostModal = ({ isOpen, onClose }) => {
                                 }}
                                     src={reply.User?.UserSpecific?.profilePic ||
                                         "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"} />
-                                <div className="comment-box">{reply.content}</div>
+                                <div className="comment-box">
+                                    <div style={{ fontWeight: "500" }}>
+                                        {reply.User?.username}
+                                    </div>
+                                    {reply.content}
+                                </div>
                             </div>
                         )
                         )}
