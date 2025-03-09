@@ -5,6 +5,8 @@ import { X, CircleChevronRight } from "lucide-react";
 
 const PostModal = ({ isOpen, onClose }) => {
     const [comment, setComment] = useState("");
+    const [postReplies, setPostReplies] = useState([]);
+    const [isPosting, setIsPosting] = useState(false);
 
     const { selectedPost, setSelectedPost } = usePost();
 
@@ -29,6 +31,37 @@ const PostModal = ({ isOpen, onClose }) => {
     }
 
 
+    const handleReply = async () => {
+        if (isPosting) return; // ensures repeated request is impossible
+
+        setIsPosting(true);
+
+        try {
+            const token = localStorage.getItem("token")
+            const response = await fetch("https://faithbook-production.up.railway.app/reply/create", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    postId: selectedPost.id,
+                    content: comment
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData || "Failed to post reply");
+            }
+        } catch (err) {
+            console.error("Failed to post reply", err);
+        } finally {
+            setIsPosting(false);
+            setComment("");
+            alert("Comment posted successfully");
+        }
+    }
 
 
     const formattedTimestamp = new Date(selectedPost.timestamp).toLocaleString();
@@ -118,6 +151,7 @@ const PostModal = ({ isOpen, onClose }) => {
                         display: "flex", justifyContent: "flex-end", margin: "0.25rem"
                     }}>
                         <CircleChevronRight
+                            onClick={handleReply}
                             color="#9b87f5"
                             style={{ cursor: "pointer" }} />
                     </div>

@@ -1,5 +1,7 @@
 const express = require("express");
 const Reply = require("../models/Reply");
+const User = require("../models/User");
+const UserSpecific = require("../models/UserSpecific");
 
 require("dotenv").config();
 const authenticate = require("../middleware/authenticateToken"); // Middleware to check JWT
@@ -23,4 +25,28 @@ router.post("/create", authenticate, async (req, res) => {
     }
 });
 
+// Get all replies of Post
+router.get("/:postId", async (req, res) => {
+    const { postId } = req.params;
+    try {
+        const replies = await Reply.findAll({
+            where: { postId },
+            include: [
+                {
+                    model: User,
+                    attributes: ["usernaem", "title"],
+                    include: {
+                        model: UserSpecific,
+                        attributes: ["profilePic"]
+                    }
+                }],
+            order: [["createdAt", "DESC"]]
+        });
+        return res.json(replies);
+    } catch (err) {
+        return res.status(500).json({ error: "Failed to fetch replies" });
+    }
+})
+
 module.exports = router;
+
