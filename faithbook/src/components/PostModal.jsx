@@ -60,8 +60,6 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
     }
 
 
-
-
     const handleReply = async () => {
         if (isPosting) return; // ensures repeated request is impossible
         if (comment === "") {

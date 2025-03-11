@@ -7,13 +7,14 @@ import "./ui.css";
 import ConfirmModal from "./ConfirmModal.jsx";
 import PostModal from "./PostModal.jsx";
 import { usePost } from "../PostContext.jsx";
+import FormatTimestamp from "./FormatTimestamp.jsx";
 
 function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse,
     timestamp, owner, onDelete, likeStatus, repliesCount }) {
     const defaultProfilePic = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
     const displayProfilePic = profilePic || defaultProfilePic;
 
-    const formattedTimestamp = new Date(timestamp).toLocaleString();
+    const formattedTimestamp = FormatTimestamp(timestamp);
 
     const [isExpanded, setIsExpanded] = useState(false);
     const [likeCount, setLikeCount] = useState(likes);
@@ -197,12 +198,12 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                         src={displayProfilePic} alt={username} />
                     <div className="this">
                         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                            <p style={{ fontWeight: "600" }}>{username}</p>
+                            <div style={{ fontWeight: "600" }}>{username}</div>
                             <span style={{ marginTop: "0.15rem" }}>
                                 {titleBadges[userTitle]}
                             </span>
                         </div>
-                        <p style={{ color: "gray", fontSize: "0.75rem" }}>{formattedTimestamp}</p>
+                        <div style={{ color: "gray", fontSize: "0.75rem" }}>{formattedTimestamp}</div>
                     </div>
                 </div>
                 {owner && (

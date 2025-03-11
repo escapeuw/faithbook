@@ -494,8 +494,10 @@ textarea {
     flex-direction: column;
 }
 
-.this p {
-    line-height: 0.01;
+.this {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
 /* General Card Styles */
