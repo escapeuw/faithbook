@@ -73,4 +73,12 @@ Reply.beforeDestroy(async (reply, options) => {
     });
 });
 
+
+// Hook to update `repliesCount` when a reply is deleted
+Reply.afterDestroy(async (reply, options) => {
+    await Post.decrement("repliesCount", {
+        by: 1,
+        where: { id: reply.postId },
+    });
+});
 module.exports = Reply;
