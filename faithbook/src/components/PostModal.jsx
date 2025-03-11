@@ -128,7 +128,8 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                             objectFit: "cover", objectPosition: "center"
                         }}
                             src={selectedPost.profilePic} alt={selectedPost.username} />
-                        <div className="this">
+                        <div className="this"
+                            style={{ gap: selectedPost.userTitle === "skeptic" ? "0.15rem" : "0.25rem" }}>
                             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                                 <div style={{ fontWeight: "600" }}>
                                     {selectedPost.username}
