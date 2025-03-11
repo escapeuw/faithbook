@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Heart } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify"; // import toast
-import { Pencil, Trash2, CircleHelp, Search, MessageCircleMore, MessageCircleHeart, MessageCircle } from "lucide-react";
+import { Pencil, Trash2, MessageCircle } from "lucide-react";
 import "./ui.css";
 import ConfirmModal from "./ConfirmModal.jsx";
 import PostModal from "./PostModal.jsx";
 import { usePost } from "../PostContext.jsx";
 import FormatTimestamp from "./FormatTimestamp.jsx";
+import { titleBadges } from "./titleBadges.jsx";
 
 function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse,
     timestamp, owner, onDelete, likeStatus, repliesCount }) {
@@ -32,6 +33,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         setUpdatedRepliesCount(prevCount => prevCount + 1); // Increment the replies count
     };
 
+
     const { setSelectedPost } = usePost(); // get function to update selected post
 
     const likeUrl = `https://faithbook-production.up.railway.app/posts/${id}/like`;   // Ensure this matches the backend route
@@ -41,37 +43,6 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     const token = localStorage.getItem('token');
     const charLimit = 333;
 
-    const titleBadges = {
-        "committed-believer":
-            (<div className="tooltip-container">
-                <MessageCircleHeart
-                    className="title-icon title-committed"
-                    size="1rem" />
-                <div className="tooltip">Committed-Believer</div>
-            </div>),
-
-        "doubting-believer":
-            (<div className="tooltip-container">
-                <MessageCircleMore
-                    className="title-icon title-doubting"
-                    size="1rem" />
-                <div className="tooltip">Doubting-Believer</div>
-            </div>),
-        "seeker":
-            (<div className="tooltip-container">
-                <Search
-                    className="title-icon title-seeker"
-                    size="1rem" />
-                <div className="tooltip">Seeker</div>
-            </div>),
-        "skeptic":
-            (<div className="tooltip-container">
-                <CircleHelp
-                    className="title-icon title-skeptic"
-                    size="1rem" />
-                <div className="tooltip">Skeptic</div>
-            </div>)
-    };
 
     // edit and save a post
     const handleSave = async () => {
@@ -116,6 +87,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         }
     };
 
+
     // delete
     const handleDelete = async () => {
         if (isDeleting) return;
@@ -140,6 +112,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             setIsDeleting(false); // re-enable button
         }
     };
+
 
     const handleLike = async () => {
 
@@ -186,7 +159,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         setPostModal(true);
     }
 
-   
+
     return (
         <div className="center card">
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -196,9 +169,12 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                         objectFit: "cover", objectPosition: "center"
                     }}
                         src={displayProfilePic} alt={username} />
-                    <div className="this">
+                    <div className="this"
+                        style={{ gap: userTitle === "skeptic" ? "0.15rem" : "0.25rem" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                            <div style={{ fontWeight: "600" }}>{username}</div>
+                            <div style={{ fontWeight: "600" }}>
+                                {username}
+                            </div>
                             <span style={{ marginTop: "0.15rem" }}>
                                 {titleBadges[userTitle]}
                             </span>

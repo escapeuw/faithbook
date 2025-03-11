@@ -2,6 +2,8 @@ import "./ui.css";
 import { useState, useEffect } from "react";
 import { usePost } from "../PostContext";
 import { X, CircleChevronRight } from "lucide-react";
+import { titleBadges } from "./titleBadges.jsx";
+import FormatTimestamp from "./FormatTimestamp.jsx";
 
 const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
     const [comment, setComment] = useState("");
@@ -110,7 +112,7 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
     }
 
 
-    const formattedTimestamp = new Date(selectedPost.timestamp).toLocaleString();
+    const formattedTimestamp = FormatTimestamp(selectedPost.timestamp);
 
     return (
         <div className="modal-overlay">
@@ -128,10 +130,16 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                             src={selectedPost.profilePic} alt={selectedPost.username} />
                         <div className="this">
                             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                                <p style={{ fontWeight: "600" }}>{selectedPost.username}</p>
-
+                                <div style={{ fontWeight: "600" }}>
+                                    {selectedPost.username}
+                                </div>
+                                <span style={{ marginTop: "0.15rem" }}>
+                                    {titleBadges[selectedPost.userTitle]}
+                                </span>
                             </div>
-                            <p style={{ color: "gray", fontSize: "0.75rem" }}>{formattedTimestamp}</p>
+                            <div style={{ color: "gray", fontSize: "0.75rem" }}>
+                                {formattedTimestamp}
+                            </div>
                         </div>
                     </div>
                     <X size="1.25rem"
@@ -155,8 +163,11 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                     src={reply.User?.UserSpecific?.profilePic ||
                                         "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"} />
                                 <div className="comment-box">
-                                    <div style={{ fontWeight: "500" }}>
+                                    <div style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontWeight: "500" }}>
                                         {reply.User?.username}
+                                        <span style={{ marginTop: "0.15rem" }}>
+                                            {titleBadges[reply.User?.title]}
+                                        </span>
                                     </div>
                                     {reply.content}
                                 </div>

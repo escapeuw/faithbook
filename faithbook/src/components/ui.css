@@ -60,8 +60,8 @@
     flex-direction: column;
     width: 50rem;
     z-index: 20000;
-    max-height: 70vh;
-    height: 70%;
+    max-height: 75vh;
+    height: 75%;
     max-width: 100%;
 }
 
@@ -497,7 +497,6 @@ textarea {
 .this {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
 }
 
 /* General Card Styles */
