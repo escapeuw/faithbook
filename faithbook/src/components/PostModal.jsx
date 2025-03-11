@@ -176,9 +176,9 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                     <div className="comment-under">
                                         <span style={{ fontSize: "0.75rem" }}>{FormatTimestamp(reply.createdAt)}</span>
                                         <span>·</span>
-                                        <span style={{ display: "flex", gap: "0.15rem", alignItems: "center" }}>
-                                            <Heart size="0.85rem" style={{ marginTop: "0.1rem" }} />{reply.likes}</span>
-                                        <span style={{ fontWeight: "500" }}>Reply</span>
+                                        <span style={{ display: "flex", alignItems: "center"}}>
+                                            <Heart size="1rem" style={{ paddingRight: "0.25rem" }} />{reply.likes}</span>
+                                        <span style={{ fontWeight: "500", textAlign: "center" }}>Reply</span>
                                     </div>
                                 </div>
                             </div>
