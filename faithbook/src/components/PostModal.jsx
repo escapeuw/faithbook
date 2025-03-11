@@ -1,7 +1,7 @@
 import "./ui.css";
 import { useState, useEffect } from "react";
 import { usePost } from "../PostContext";
-import { X, CircleChevronRight } from "lucide-react";
+import { Heart, X, CircleChevronRight } from "lucide-react";
 import { titleBadges } from "./titleBadges.jsx";
 import FormatTimestamp from "./FormatTimestamp.jsx";
 
@@ -162,14 +162,24 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                 }}
                                     src={reply.User?.UserSpecific?.profilePic ||
                                         "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"} />
-                                <div className="comment-box">
-                                    <div style={{ display: "flex", alignItems: "center", gap: "0.3rem", fontWeight: "500" }}>
-                                        {reply.User?.username}
-                                        <span style={{ marginTop: "0.15rem" }}>
-                                            {titleBadges[reply.User?.title]}
-                                        </span>
+                                <div>
+                                    <div className="comment-box"
+                                        style={{ display: "inline-block" }}>
+                                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontWeight: "500" }}>
+                                            {reply.User?.username}
+                                            <span style={{ marginTop: "0.15rem" }}>
+                                                {titleBadges[reply.User?.title]}
+                                            </span>
+                                        </div>
+                                        {reply.content}
                                     </div>
-                                    {reply.content}
+                                    <div className="comment-under">
+                                        <span style={{ fontSize: "0.75rem" }}>{FormatTimestamp(reply.createdAt)}</span>
+                                        <span>·</span>
+                                        <span style={{ display: "flex", gap: "0.15rem", alignItems: "center" }}>
+                                            <Heart size="0.85rem" style={{ marginTop: "0.1rem" }} />{reply.likes}</span>
+                                        <span style={{ fontWeight: "500" }}>Reply</span>
+                                    </div>
                                 </div>
                             </div>
                         )

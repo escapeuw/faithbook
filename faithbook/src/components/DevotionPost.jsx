@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Heart } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-toastify"; // import toast
-import { Pencil, Trash2, MessageCircle } from "lucide-react";
+import { Heart, Pencil, Trash2, MessageCircle } from "lucide-react";
 import "./ui.css";
 import ConfirmModal from "./ConfirmModal.jsx";
 import PostModal from "./PostModal.jsx";
