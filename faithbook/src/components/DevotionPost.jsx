@@ -79,7 +79,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             return
         }
 
-        const inputRegex = /^[^\x00-\x1F\x7F-\x9F]+$/;
+        const inputRegex = /^[^\p{M}\x00-\x1F\x7F-\x9F]+$/u;
 
         // Check if the content matches the regex
         if (!inputRegex.test(edit)) {
