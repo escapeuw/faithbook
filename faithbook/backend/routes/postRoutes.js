@@ -63,7 +63,8 @@ router.get("/", async (req, res) => {
                     }
                 ],
                 order: [["createdAt", "DESC"]],
-                limit: 2
+                limit: 2,
+                logging: console.log
             });
     
             // Log likes to verify if any likes are found for the post
