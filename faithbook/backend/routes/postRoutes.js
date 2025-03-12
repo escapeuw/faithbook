@@ -64,6 +64,7 @@ router.get("/", async (req, res) => {
                 order: [["createdAt", "DESC"]],
                 limit: 2
             });
+            console.log("this is like", likes);
             
             const usersWhoLiked = likes.map(like => {
                 return {
