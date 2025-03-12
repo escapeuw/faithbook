@@ -67,7 +67,12 @@ router.get("/", async (req, res) => {
             });
     
             // Log likes to verify if any likes are found for the post
-            console.log("Fetched likes:", likes);
+            if (likes.length === 0) {
+                console.log("no likes")
+            } else {
+                console.log("Fetched likes:", likes);
+            }
+           
     
             return {
                 post,
