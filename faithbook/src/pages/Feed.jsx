@@ -30,6 +30,8 @@ function Feed() {
                 const data = await response.json();
                 
                 setPosts(data);
+
+
                 // user info
                 const token = localStorage.getItem("token");
                 const responseUser = await fetch("https://faithbook-production.up.railway.app/user", {
@@ -46,8 +48,9 @@ function Feed() {
                 setUser(dataUser);
 
 
+
                 // like status
-                const postIds = data.map(post => post.id);
+                const postIds = data.map(d => d.post.id);
 
                 const responseLike = await fetch("https://faithbook-production.up.railway.app/posts/like-status", {
                     method: "POST",
@@ -80,21 +83,22 @@ function Feed() {
         fetchPosts();
     }, []);
 
-
+ 
     return (
         (loading ? <div>Loading posts...</div> :
             <div className="wrapper">
                 <div className="feed-container">
-                    {posts.map(post => (
+                    {posts.map(p => (
                         <DevotionPost
-                            key={post.id}
-                            likeStatus={likeStatus[post.id] || false}
-                            owner={post.User?.id === user.id}
-                            {...post}
-                            profilePic={post.User?.UserSpecific?.profilePic}
-                            timestamp={post.createdAt}
-                            userTitle={post.User?.title}
-                            username={post.User?.username}
+                            likeDetails={{ likers: p.usersWhoLiked, others: p.othersCount }}
+                            key={p.post.id}
+                            likeStatus={likeStatus[p.post.id] || false}
+                            owner={p.post.User?.id === user.id}
+                            {...p.post}
+                            profilePic={p.post.User?.UserSpecific?.profilePic}
+                            timestamp={p.post.createdAt}
+                            userTitle={p.post.User?.title}
+                            username={p.post.User?.username}
                             onDelete={updateDelete}
                         />) // access username in User model
                     )}

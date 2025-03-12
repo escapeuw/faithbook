@@ -25,6 +25,15 @@
     padding-left: 0.1rem;
 }
 
+.likers {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(51, 50, 50, 0.836);
+}
+
 /* Modal overlay to cover the screen */
 .modal-overlay {
     width: 100%;

@@ -10,7 +10,7 @@ import FormatTimestamp from "./FormatTimestamp.jsx";
 import { titleBadges } from "./titleBadges.jsx";
 
 function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse,
-    timestamp, owner, onDelete, likeStatus, repliesCount }) {
+    timestamp, owner, onDelete, likeStatus, repliesCount, likeDetails }) {
     const defaultProfilePic = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
     const displayProfilePic = profilePic || defaultProfilePic;
 
@@ -158,6 +158,61 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         setPostModal(true);
     }
 
+    // Display users who liked the post 
+
+    const formatLiker = (detail) => {
+        if (detail.likers.length === 0) {
+            return
+        } else if (detail.likers.length === 1) {
+            return (
+                <span className="likers">
+                    <img src={detail.likers[0].profilePicture}
+                        style={{
+                            width: "1.25rem", height: "1.25rem", borderRadius: "50%",
+                            objectFit: "cover"
+                        }} />
+                    <span>&nbsp;{detail.likers[0].username}</span>
+                </span>
+            )
+        } else if (detail.likers.length === 2) {
+            return (
+                <span className="likers">
+                    <img src={detail.likers[0].profilePicture}
+                        style={{
+                            width: "1.25rem", height: "1.25rem", borderRadius: "50%",
+                            objectFit: "cover", marginRight: "-0.5rem"
+                        }} />
+                    <img src={detail.likers[1].profilePicture}
+                        style={{
+                            width: "1.25rem", height: "1.25rem", borderRadius: "50%",
+                            objectFit: "cover"
+                        }} />
+                    <span>&nbsp;{detail.likers[0].username} and&nbsp;</span>
+                    <span>{detail.likers[1].username}</span>
+                </span>
+            )
+        } else {
+            return (
+                <span className="likers">
+                    <img src={detail.likers[0].profilePicture}
+                        style={{
+                            width: "1.25rem", height: "1.25rem", borderRadius: "50%",
+                            objectFit: "cover", marginRight: "-0.5rem"
+                        }} />
+                    <img src={detail.likers[1].profilePicture}
+                        style={{
+                            width: "1.25rem", height: "1.25rem", borderRadius: "50%",
+                            objectFit: "cover"
+                        }} />
+                    <span>&nbsp;{detail.likers[0].username} , </span>
+                    <span>{detail.likers[1].username} </span>
+                    <span>and {detail.others} others</span>
+                </span>
+            )
+        }
+    }
+
+
 
     return (
         <div className="center card">
@@ -249,6 +304,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                             onClick={handleLike}
                         />
                         <span>{likeCount}</span>
+                        <span>{formatLiker(likeDetails)}</span>
                     </p>
                     <p>
                         <MessageCircle
