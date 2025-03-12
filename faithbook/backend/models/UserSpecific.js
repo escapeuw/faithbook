@@ -39,7 +39,7 @@ const UserSpecific = sequelize.define("UserSpecific", {
 
 
 // Define relationship between User and UserSpecific
-UserSpecific.belongsTo(User, { foreignKey: "userId" }); // UserSpecific belongs to User
+UserSpecific.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
 User.hasOne(UserSpecific, { foreignKey: "userId" }); // User has one UserSpecific
 
 module.exports = UserSpecific;

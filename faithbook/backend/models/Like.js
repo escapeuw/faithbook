@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const Post = require("./Post");
+const User = require("./User");
 
 const Like = sequelize.define("Like", {
     userId: {
@@ -30,10 +31,14 @@ const Like = sequelize.define("Like", {
     ]
 });
 
+Like.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });  // Cascade on user delete
+Like.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" });  // Cascade on post delete
+
+/*
 Like.associate = function (models) {
     Like.belongsTo(models.User, { foreignKey: "userId", onDelete: "CASCADE" });  // Cascade on user delete
     Like.belongsTo(models.Post, { foreignKey: "postId", onDelete: "CASCADE" });  // Cascade on post delete
-}
+} */
 
 Like.afterDestroy(async (like, options) => {
     const postId = like.postId;
