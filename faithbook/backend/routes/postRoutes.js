@@ -45,9 +45,10 @@ router.get("/", async (req, res) => {
             limit: 30, // Get only the top 30 posts
         });
         
-
-        const postsWithLikes = posts.map(async (post) => {
-            console.log("this is postIds", post.id);
+        const postsWithLikes = await Promise.all(posts.map(async (post) => {
+            // Log post id to verify the post exists
+            console.log("Fetching likes for post with ID:", post.id);
+    
             // Find the likes for each post (limit to 2 users as per your original request)
             const likes = await Like.findAll({
                 where: { postId: post.id },
@@ -64,24 +65,22 @@ router.get("/", async (req, res) => {
                 order: [["createdAt", "DESC"]],
                 limit: 2
             });
-            console.log("this is like", likes);
-            
-            const usersWhoLiked = likes.map(like => {
-                return {
-                    id: like.User.id,
-                    username: like.User.username,
-                    profilePicture: like.User.UserSpecific.profilePic
-                };
-            });
-
-            const totalLikes = post.likes;  // Assuming you have a likes field in Post model
-
+    
+            // Log likes to verify if any likes are found for the post
+            console.log("Fetched likes:", likes);
+    
             return {
                 post,
-                usersWhoLiked, // array of object
-                othersCount: totalLikes - usersWhoLiked.length // Count how many more people liked the post
+                usersWhoLiked: likes.map(like => {
+                    return {
+                        id: like.User.id,
+                        username: like.User.username,
+                        profilePicture: like.User.UserSpecific.profilePic
+                    };
+                })
             };
-        });
+        }));
+     
     
         return res.json(postsWithLikes);
     } catch (err) {
