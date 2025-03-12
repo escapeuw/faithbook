@@ -9,7 +9,7 @@ function Feed() {
     const [likeStatus, setLikeStatus] = useState({});
 
     const updateDelete = (postId) => {
-        setPosts((prevPosts) => prevPosts.filter(post => post.id !== postId));
+        setPosts((prevPosts) => prevPosts.filter(p => p.post.id !== postId));
     };
 
     useEffect(() => {

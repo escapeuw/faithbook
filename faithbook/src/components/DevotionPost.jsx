@@ -161,7 +161,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     // Display users who liked the post 
 
     const formatLiker = (detail) => {
-        if (detail.likers.length === 0) {
+        if (!detail || detail.likers.length === 0) {
             return
         } else if (detail.likers.length === 1) {
             return (

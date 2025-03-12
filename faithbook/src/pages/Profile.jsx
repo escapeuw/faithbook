@@ -15,7 +15,7 @@ function Profile() {
     const [likeStatus, setLikeStatus] = useState({});
 
     const updateDelete = (postId) => {
-        setPosts((prevPosts) => prevPosts.filter(post => post.id !== postId));
+        setPosts((prevPosts) => prevPosts.filter(p => p.post.id !== postId));
     };
 
 
@@ -113,8 +113,8 @@ function Profile() {
 
             if (response.ok) {
                 const newPost = await response.json();
-    
-                setPosts((prevPosts) => [newPost, ...prevPosts]); // caching new post
+
+                setPosts((prevPosts) => [{ post: newPost, usersWhoLiked: [] }, ...prevPosts]); // caching new post
 
                 alert("Post created!");
                 setDevotion(""); // Clear textarea
@@ -164,7 +164,7 @@ function Profile() {
                 setPosts(data2);
 
                 // like status
-                const postIds = data2.map(post => post.id);
+                const postIds = data2.map(p => p.post.id);
 
                 const responseLike = await fetch("https://faithbook-production.up.railway.app/posts/like-status", {
                     method: "POST",
@@ -200,6 +200,7 @@ function Profile() {
     if (loading) {
         return <div>Loading...</div>
     }
+
 
     return (
         (user && (
@@ -260,13 +261,14 @@ function Profile() {
                                 </p>
                             </div>
                         </div>) :
-                        (posts.map(post => (
+                        (posts.map(p => (
                             <DevotionPost
-                                likeStatus={likeStatus[post.id] || false}
+                                likeDetails={{ likers: p.usersWhoLiked, others: p.othersCount }}
+                                likeStatus={likeStatus[p.post.id] || false}
                                 owner={true}
-                                key={post.id}
-                                timestamp={post.createdAt}
-                                {...post}
+                                key={p.post.id}
+                                timestamp={p.post.createdAt}
+                                {...p.post}
                                 profilePic={profilePicture}
                                 userTitle={user.title}
                                 username={user.username}
