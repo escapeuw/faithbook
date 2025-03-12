@@ -33,11 +33,8 @@ const User = sequelize.define("User", {
 const Post = require("./Post"); // Import the Post model
 const Like = require("./Like");
 
-// Define relationship
-User.hasMany(Post, { foreignKey: "userId" });
-Post.belongsTo(User, { foreignKey: "userId",  onDelete: "CASCADE" });
 
-User.hasMany(Like, { foreignKey: "userId" })
+User.hasMany(Like, { foreignKey: "userId" });
  
 
 // hooks for user removal with error handling

@@ -1,43 +1,46 @@
-'use strict';
+const { Sequelize } = require("sequelize");
+const sequelize = require("../config/database");
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
-const db = {};
+const User = require("./User");
+const Post = require("./Post");
+const Like = require("./Like");
+const Reply = require("./Reply");
+const UserSpecific = require("./UserSpecific");
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+// Initialize models
+const models = { User, Post, Like, Reply, UserSpecific };
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 &&
-      file !== basename &&
-      file.slice(-3) === '.js' &&
-      file.indexOf('.test.js') === -1
-    );
-  })
-  .forEach(file => {
-    const model = new (require(path.join(__dirname, file)))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+// Attach models to Sequelize
+Object.values(models).forEach((model) => {
+  if (model.init) model.init(sequelize, Sequelize);
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
 
-module.exports = db;
+// Define associations here
+// Define relationship between User and UserSpecific
+UserSpecific.belongsTo(User, { foreignKey: "userId" }); // UserSpecific belongs to User
+User.hasOne(UserSpecific, { foreignKey: "userId" }); // User has one UserSpecific
+
+
+User.hasMany(Post, { foreignKey: "userId" });
+Post.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
+
+User.hasMany(Like, { foreignKey: "userId" });
+Post.hasMany(Like, { foreignKey: "postId" });
+Like.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
+Like.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" });
+
+User.hasMany(Reply, { foreignKey: "userId" });
+Post.hasMany(Reply, { foreignKey: "postId" });
+Reply.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
+Reply.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" });
+
+// Reply nesting (parent-child replies)
+Reply.hasMany(Reply, { as: "Replies", foreignKey: "parentReplyId" });
+Reply.belongsTo(Reply, { as: "Parent", foreignKey: "parentReplyId", onDelete: "CASCADE" });
+
+
+models.sequelize = sequelize;
+models.Sequelize = Sequelize;
+
+module.exports = models;
