@@ -60,7 +60,7 @@ router.get("/", async (req, res) => {
                     }
                 ],
                 order: [["createdAt", "DESC"]],
-                limit: 2
+                limit: 3
             });
 
             const usersWhoLiked = likes.map(like => {
@@ -121,7 +121,7 @@ router.get("/:userId", async (req, res) => {
                     }
                 ],
                 order: [["createdAt", "DESC"]],
-                limit: 2
+                limit: 3
             });
 
             const usersWhoLiked = likes.map(like => {
