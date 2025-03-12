@@ -44,27 +44,34 @@ router.get("/", async (req, res) => {
             order: [["createdAt", "DESC"]], // sort by latest
             limit: 30, // Get only the top 30 posts
         });
-        
+
         const postsWithLikes = await Promise.all(posts.map(async (post) => {
             // Log post id to verify the post exists
             console.log("Fetching likes for post with ID:", post.id);
-    
+
             // Find the likes for each post (limit to 2 users as per your original request)
             const likes = await Like.findAll({
                 where: { postId: post.id },
-                
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id', 'username'],
+                        include: {
+                            model: UserSpecific,
+                            attributes: ["profilePic"]
+                        }
+                    }
+                ],
                 order: [["createdAt", "DESC"]],
                 limit: 2,
             });
-    
+
             // Log likes to verify if any likes are found for the post
-            if (likes.length === 0) {
-                console.log("no likes")
-            } else {
-                console.log("Fetched likes:", likes);
-            }
-           
-    
+
+            console.log("Fetched likes:", likes);
+
+
+
             return {
                 post,
                 usersWhoLiked: likes.map(like => {
@@ -76,8 +83,8 @@ router.get("/", async (req, res) => {
                 })
             };
         }));
-     
-    
+
+
         return res.json(postsWithLikes);
     } catch (err) {
         return res.status(500).json({ error: "Failed to fetch posts" });
