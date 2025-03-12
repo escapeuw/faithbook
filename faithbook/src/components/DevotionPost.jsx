@@ -174,7 +174,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                     <span>&nbsp;{detail.likers[0].username}</span>
                 </span>
             )
-        } else if (detail.likers.length === 2) {
+        } else if (detail.likers.length === 2 && detail.others === 0) {
             return (
                 <span className="likers">
                     <img src={detail.likers[0].profilePicture}
