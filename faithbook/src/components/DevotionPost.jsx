@@ -171,7 +171,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                             width: "1.25rem", height: "1.25rem", borderRadius: "50%",
                             objectFit: "cover"
                         }} />
-                    <span>&nbsp;{detail.likers[0].username}</span>
+                    <span>&nbsp;{detail.likers[0].username.split(" ")[0]}</span>
                 </span>
             )
         } else if (detail.likers.length === 2) {
@@ -187,8 +187,8 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                             width: "1.25rem", height: "1.25rem", borderRadius: "50%",
                             objectFit: "cover"
                         }} />
-                    <span>&nbsp;{detail.likers[0].username} and&nbsp;</span>
-                    <span>{detail.likers[1].username}</span>
+                    <span>&nbsp;{detail.likers[0].username.split(" ")[0]} and&nbsp;</span>
+                    <span>{detail.likers[1].username.split(" ")[0]}</span>
                 </span>
             )
         } else {
@@ -202,11 +202,16 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                     <img src={detail.likers[1].profilePicture}
                         style={{
                             width: "1.25rem", height: "1.25rem", borderRadius: "50%",
+                            objectFit: "cover", marginRight: "-0.5rem"
+                        }} />
+                    <img src={detail.likers[2].profilePicture}
+                        style={{
+                            width: "1.25rem", height: "1.25rem", borderRadius: "50%",
                             objectFit: "cover"
                         }} />
-                    <span>&nbsp;{detail.likers[0].username} , </span>
-                    <span>{detail.likers[1].username}</span>
-                    <span>&nbsp;and {detail.others} others</span>
+                    <span>&nbsp;{detail.likers[0].username.split(" ")[0]} ,&nbsp;</span>
+                    <span>{detail.likers[1].username.split(" ")[0]}</span>
+                    <span>&nbsp;and others</span>
                 </span>
             )
         }
