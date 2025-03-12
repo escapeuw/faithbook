@@ -46,8 +46,10 @@ router.get("/", async (req, res) => {
         });
 
         const postsWithLikes = await Promise.all(posts.map(async (post) => {
-            // Log post id to verify the post exists
-            
+            console.log(Like.associations);
+            console.log(User.associations);
+            console.log(Post.associations);
+
 
             // Find the likes for each post (limit to 2 users as per your original request)
             const likes = await Like.findAll({
