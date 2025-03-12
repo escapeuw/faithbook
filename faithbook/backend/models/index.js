@@ -39,6 +39,9 @@ Reply.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" });
 Reply.hasMany(Reply, { as: "Replies", foreignKey: "parentReplyId" });
 Reply.belongsTo(Reply, { as: "Parent", foreignKey: "parentReplyId", onDelete: "CASCADE" });
 
+console.log(Like.associations);
+console.log(User.associations);
+console.log(Post.associations);
 
 models.sequelize = sequelize;
 models.Sequelize = Sequelize;
