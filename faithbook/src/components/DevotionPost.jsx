@@ -205,8 +205,8 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                             objectFit: "cover"
                         }} />
                     <span>&nbsp;{detail.likers[0].username} , </span>
-                    <span>{detail.likers[1].username} </span>
-                    <span>and {detail.others} others</span>
+                    <span>{detail.likers[1].username}</span>
+                    <span>&nbsp;and {detail.others} others</span>
                 </span>
             )
         }
