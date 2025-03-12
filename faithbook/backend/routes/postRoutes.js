@@ -46,17 +46,26 @@ router.get("/", async (req, res) => {
         });
 
         const postsWithLikes = await Promise.all(posts.map(async (post) => {
-            
+
 
 
             // Find the likes for each post (limit to 2 users as per your original request)
             const likes = await Like.findAll({
                 where: { postId: post.id },
-                
+                include: [
+                    {
+                        model: User,
+                        attributes: ["username", "title", "id"],
+                        include: {
+                            model: UserSpecific,
+                            attributes: ["profilePic"]
+                        }
+                    }],
+
                 order: [["createdAt", "DESC"]],
                 limit: 2,
             });
-            console.log(likes);
+
             // Log likes to verify if any likes are found for the post
 
             if (likes.length === 0) {
