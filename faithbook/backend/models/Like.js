@@ -30,6 +30,10 @@ const Like = sequelize.define("Like", {
     ]
 });
 
+Like.associate = function (models) {
+    Like.belongsTo(models.User, { foreignKey: "userId", onDelete: "CASCADE" });  // Cascade on user delete
+    Like.belongsTo(models.Post, { foreignKey: "postId", onDelete: "CASCADE" });  // Cascade on post delete
+}
 
 Like.afterDestroy(async (like, options) => {
     const postId = like.postId;
