@@ -34,9 +34,11 @@ const Post = require("./Post"); // Import the Post model
 const Like = require("./Like");
 
 // Define relationship
-User.hasMany(Post, { foreignKey: "userId", onDelete: "CASCADE" });
-Post.belongsTo(User, { foreignKey: "userId" });
+User.hasMany(Post, { foreignKey: "userId" });
+Post.belongsTo(User, { foreignKey: "userId",  onDelete: "CASCADE" });
 
+User.hasMany(Like, { foreignKey: "userId" })
+ 
 
 // hooks for user removal with error handling
 User.afterDestroy(async (user, options) => {

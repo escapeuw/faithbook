@@ -52,17 +52,18 @@ const Reply = sequelize.define("Reply", {
 
 // Relationships
 
-// post has many replies, reply belongs to post
-Post.hasMany(Reply, { foreignKey: "postId", onDelete: "CASCADE" });
-Reply.belongsTo(Post, { foreignKey: "postId" });
+// Post has many replies, Reply belongs to Post
+Post.hasMany(Reply, { foreignKey: "postId" });  
+Reply.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" }); 
 
-// User has many replies, reply belogns to user
-User.hasMany(Reply, { foreignKey: "userId", onDelete: "CASCADE" });
-Reply.belongsTo(User, { foreignKey: "userId" });
+// User has many replies, Reply belongs to User
+User.hasMany(Reply, { foreignKey: "userId" }); // 
+Reply.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
 
-//reply has many replies(nested), reply belongs to reply(parent)
-Reply.hasMany(Reply, { as: "Replies", foreignKey: "parentReplyId", onDelete: "CASCADE" });
-Reply.belongsTo(Reply, { as: "Parent", foreignKey: "parentReplyId" });
+// Reply has many replies (nested replies), Reply belongs to Reply (parent reply)
+Reply.hasMany(Reply, { as: "Replies", foreignKey: "parentReplyId" }); 
+Reply.belongsTo(Reply, { as: "Parent", foreignKey: "parentReplyId", onDelete: "CASCADE" }); 
+
 
 /* beforeDestroy HOOK: Ensures child replies are deleted upon parent */
 

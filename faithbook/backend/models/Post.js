@@ -43,4 +43,7 @@ const Post = sequelize.define("Post", {
     }
 });
 
+
+Post.hasMany(models.Like, { foreignKey: 'postId' });
+
 module.exports = Post;
