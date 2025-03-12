@@ -31,9 +31,6 @@ const Like = sequelize.define("Like", {
     ]
 });
 
-Like.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });  // Cascade on user delete
-Like.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" });  // Cascade on post delete
-
 /*
 Like.associate = function (models) {
     Like.belongsTo(models.User, { foreignKey: "userId", onDelete: "CASCADE" });  // Cascade on user delete

@@ -74,4 +74,8 @@ Post.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
 
 User.hasMany(Like, { foreignKey: "userId" })
 
+Like.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });  // Cascade on user delete
+Like.belongsTo(Post, { foreignKey: "postId", onDelete: "CASCADE" });  // Cascade on post delete
+
+
 module.exports = User;
