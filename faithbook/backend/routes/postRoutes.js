@@ -52,19 +52,9 @@ router.get("/", async (req, res) => {
             // Find the likes for each post (limit to 2 users as per your original request)
             const likes = await Like.findAll({
                 where: { postId: post.id },
-                include: [
-                    {
-                        model: User,
-                        attributes: ['id', 'username'],
-                        include: {
-                            model: UserSpecific,
-                            attributes: ["profilePic"]
-                        }
-                    }
-                ],
+                
                 order: [["createdAt", "DESC"]],
                 limit: 2,
-                logging: console.log
             });
     
             // Log likes to verify if any likes are found for the post
