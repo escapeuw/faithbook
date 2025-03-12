@@ -45,46 +45,47 @@ router.get("/", async (req, res) => {
             limit: 30, // Get only the top 30 posts
         });
 
-        /*        const postsWithLikes = await Promise.all(posts.map(async (post) => {
-        
-                    // Find the likes for each post (limit to 2 users as per your original request)
-                    const likes = await Like.findAll({
-                        where: { postId: post.id },
-                        include: [
-                            {
-                                model: User,
-                                attributes: ["username", "title", "id"],
-                                include: {
-                                    model: UserSpecific,
-                                    attributes: ["profilePic"]
-                                }
-                            }],
-        
-                        order: [["createdAt", "DESC"]],
-                        limit: 2,
-                    });
-        
-                    // Log likes to verify if any likes are found for the post
-        
-                    if (likes.length === 0) {
-                        console.log("No likes found for this post");
-                    } else {
-                        console.log("Likes found:", likes);
-                    }
-        
-        
+        const postsWithLikes = await Promise.all(posts.map(async (post) => {
+
+            // Find the likes for each post (limit to 2 users as per your original request)
+            const likes = await Like.findAll({
+                where: { postId: post.id },
+                include: [
+                    {
+                        model: User,
+                        attributes: ["username", "title", "id"],
+                        include: {
+                            model: UserSpecific,
+                            attributes: ["profilePic"]
+                        }
+                    }],
+
+                order: [["createdAt", "DESC"]],
+                limit: 2,
+            });
+
+
+            // Log likes to verify if any likes are found for the post
+
+            if (likes.length === 0) {
+                console.log("No likes found for this post");
+            } else {
+                console.log("Likes found:", likes);
+            }
+
+
+            return {
+                post,
+                usersWhoLiked: likes.map(like => {
                     return {
-                        post,
-                        usersWhoLiked: likes.map(like => {
-                            return {
-                                id: like.User.id,
-                                username: like.User.username,
-                                profilePicture: like.User.UserSpecific.profilePic
-                            };
-                        })
+                        id: like.User.id,
+                        username: like.User.username,
+                        profilePicture: like.User.UserSpecific.profilePic
                     };
-                }));
-        */
+                })
+            };
+        }));
+
 
         return res.json(posts);
     } catch (err) {
