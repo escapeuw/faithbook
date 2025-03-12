@@ -28,8 +28,8 @@ function Feed() {
                 if (!response.ok) throw new Error("Failed to fetch posts");
 
                 const data = await response.json();
-                console.log(data);
-                setPosts(data.post);
+                
+                setPosts(data);
                 // user info
                 const token = localStorage.getItem("token");
                 const responseUser = await fetch("https://faithbook-production.up.railway.app/user", {
@@ -47,7 +47,7 @@ function Feed() {
 
 
                 // like status
-                const postIds = data.post.map(post => post.id);
+                const postIds = data.map(post => post.id);
 
                 const responseLike = await fetch("https://faithbook-production.up.railway.app/posts/like-status", {
                     method: "POST",

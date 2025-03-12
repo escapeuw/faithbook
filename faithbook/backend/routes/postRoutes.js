@@ -246,7 +246,7 @@ router.delete('/:id', authenticate, async (req, res) => {
         }
 
         await post.destroy();
-        return res.json(200).json({ message: "Post deleted successfully" });
+        return res.status(200).json({ message: "Post deleted successfully" });
 
     } catch (error) {
         return res.status(500).json({ message: "Error deleting post", error });
