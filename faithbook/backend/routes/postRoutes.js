@@ -40,40 +40,45 @@ router.get("/", async (req, res) => {
                         model: UserSpecific,
                         attributes: ["profilePic"]
                     }
-                },
-                {
-                    model: Like,
-                    include: {
+                }],
+            order: [["createdAt", "DESC"]], // sort by latest
+            limit: 30, // Get only the top 30 posts
+        });
+
+        const postsWithLikes = await Promise.all(posts.map(async (post) => {
+            // Find the likes for each post (limit to 2 users as per your original request)
+            const likes = await Like.findAll({
+                where: { postId: post.id },
+                include: [
+                    {
                         model: User,
                         attributes: ['id', 'username'],
                         include: {
                             model: UserSpecific,
                             attributes: ["profilePic"]
-                        },
-                        order: [["createdAt", "DESC"]],
-                        limit: 2
+                        }
                     }
-                }],
-            order: [["createdAt", "DESC"]], // sort by latest
-            limit: 30, // Get only the top 30 posts
-        });
-        console.log(posts);
-        const postsWithLikes = posts.map(post => {
-            const usersWhoLiked = post?.Likes?.map(like => ({
-                id: like.User.id,
-                username: like.User.username,
-                profilePicture: like.User.UserSpecific.profilePicture
-            })) || [];   // return empty array of no likes
+                ],
+                order: [["createdAt", "DESC"]],
+                limit: 2
+            });
 
-            const totalLikes = post.likes;
+            const usersWhoLiked = likes.map(like => {
+                return {
+                    id: like.User.id,
+                    username: like.User.username,
+                    profilePicture: like.User.UserSpecific.profilePic
+                };
+            });
+
+            const totalLikes = post.likes;  // Assuming you have a likes field in Post model
 
             return {
-                post: post,
+                post,
                 usersWhoLiked,
-                othersCount: totalLikes - usersWhoLiked.length // like counts total - 2
+                othersCount: totalLikes - usersWhoLiked.length // Count how many more people liked the post
             };
-
-        });
+        }));
 
         return res.json(postsWithLikes);
     } catch (err) {
