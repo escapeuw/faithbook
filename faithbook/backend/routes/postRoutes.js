@@ -57,7 +57,7 @@ router.get("/", async (req, res) => {
             order: [["createdAt", "DESC"]], // sort by latest
             limit: 30, // Get only the top 30 posts
         });
-
+        console.log(posts);
         const postsWithLikes = posts.map(post => {
             const usersWhoLiked = post?.Likes?.map(like => ({
                 id: like.User.id,
