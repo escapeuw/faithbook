@@ -46,7 +46,7 @@ router.get("/", async (req, res) => {
         });
         
 
-        const postsWithLikes = await Promise.all(posts.map(async (post) => {
+        const postsWithLikes = posts.map(async (post) => {
             console.log("this is postIds", post.id);
             // Find the likes for each post (limit to 2 users as per your original request)
             const likes = await Like.findAll({
@@ -81,7 +81,7 @@ router.get("/", async (req, res) => {
                 usersWhoLiked, // array of object
                 othersCount: totalLikes - usersWhoLiked.length // Count how many more people liked the post
             };
-        }));
+        });
     
         return res.json(postsWithLikes);
     } catch (err) {
