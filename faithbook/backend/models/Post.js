@@ -43,6 +43,11 @@ const Post = sequelize.define("Post", {
     }
 });
 
+
+const Like = require("./Like");
+
+Post.hasMany(Like, { foreignKey: "postId" });  
+
 Post.associate = function (models) {
     Post.hasMany(models.Like, { foreignKey: 'postId' });
 }
