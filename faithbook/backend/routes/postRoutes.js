@@ -46,48 +46,42 @@ router.get("/", async (req, res) => {
         });
 
         const postsWithLikes = await Promise.all(posts.map(async (post) => {
-
             // Find the likes for each post (limit to 2 users as per your original request)
             const likes = await Like.findAll({
                 where: { postId: post.id },
                 include: [
                     {
                         model: User,
-                        attributes: ["username", "title", "id"],
+                        attributes: ['id', 'username'],
                         include: {
                             model: UserSpecific,
                             attributes: ["profilePic"]
                         }
-                    }],
-
+                    }
+                ],
                 order: [["createdAt", "DESC"]],
-                limit: 2,
+                limit: 2
             });
 
+            const usersWhoLiked = likes.map(like => {
+                return {
+                    id: like.User.id,
+                    username: like.User.username,
+                    profilePicture: like.User.UserSpecific.profilePic
+                };
+            });
 
-            // Log likes to verify if any likes are found for the post
-
-            if (likes.length === 0) {
-                console.log("No likes found for this post");
-            } else {
-                console.log("Likes found:", likes);
-            }
-
+            const totalLikes = post.likes;  // Assuming you have a likes field in Post model
 
             return {
                 post,
-                usersWhoLiked: likes.map(like => {
-                    return {
-                        id: like.User.id,
-                        username: like.User.username,
-                        profilePicture: like.User.UserSpecific.profilePic
-                    };
-                })
+                usersWhoLiked,
+                othersCount: totalLikes - usersWhoLiked.length // Count how many more people liked the post
             };
         }));
 
 
-        return res.json(posts);
+        return res.json(postsWithLikes);
     } catch (err) {
         return res.status(500).json({ error: "Failed to fetch posts" });
     }
