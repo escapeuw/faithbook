@@ -40,11 +40,44 @@ router.get("/", async (req, res) => {
                         model: UserSpecific,
                         attributes: ["profilePic"]
                     }
+                },
+                {
+                    model: Like, 
+                    include: {
+                        model: User,
+                        attributes: ['id', 'username'],
+                        include: {
+                            model: UserSpecific,
+                            attributes: ["profilePic"]
+                        },
+                        order: [["createdAt", "DESC"]], 
+                        limit: 2
+                    }
                 }],
             order: [["createdAt", "DESC"]], // sort by latest
             limit: 30, // Get only the top 30 posts
         });
-        return res.json(posts);
+
+        const postsWithLikes = posts.map(post => {
+            const usersWhoLiked = post.Likes.map(like => {
+                return {
+                    id: like.User.id,
+                    username: like.User.username,
+                    profilePicture: like.User.UserSpecific.profilePicture
+                };
+            });
+
+            const totalLikes = post.likes;  
+
+            return {
+                post: post,
+                usersWhoLiked,
+                othersCount: totalLikes - usersWhoLiked.length // like counts total - 2
+            };
+
+        });
+
+        return res.json(postsWithLikes);
     } catch (err) {
         return res.status(500).json({ error: "Failed to fetch posts" });
     }
