@@ -42,7 +42,7 @@ router.get("/", async (req, res) => {
                     }
                 },
                 {
-                    model: Like, 
+                    model: Like,
                     include: {
                         model: User,
                         attributes: ['id', 'username'],
@@ -50,7 +50,7 @@ router.get("/", async (req, res) => {
                             model: UserSpecific,
                             attributes: ["profilePic"]
                         },
-                        order: [["createdAt", "DESC"]], 
+                        order: [["createdAt", "DESC"]],
                         limit: 2
                     }
                 }],
@@ -59,15 +59,13 @@ router.get("/", async (req, res) => {
         });
 
         const postsWithLikes = posts.map(post => {
-            const usersWhoLiked = post.Likes.map(like => {
-                return {
-                    id: like.User.id,
-                    username: like.User.username,
-                    profilePicture: like.User.UserSpecific.profilePicture
-                };
-            });
+            const usersWhoLiked = post?.Likes?.map(like => ({
+                id: like.User.id,
+                username: like.User.username,
+                profilePicture: like.User.UserSpecific.profilePicture
+            })) || [];   // return empty array of no likes
 
-            const totalLikes = post.likes;  
+            const totalLikes = post.likes;
 
             return {
                 post: post,
