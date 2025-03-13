@@ -99,5 +99,22 @@ router.get("/user", authenticateToken, async (req, res) => {
 });
 
 
+// Verify user's token
+
+router.get("/verify-token", (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+        return res.status(401).json({ valid: false, message: "No token provided" });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ valid: false, message: "Invalid token" });
+        }
+        return res.json({ valid: true });
+    })
+})
+
 
 module.exports = router;
