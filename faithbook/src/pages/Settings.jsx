@@ -8,7 +8,7 @@ function Settings() {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        navigate("/#") // Redirects to login page
+        navigate("/") // Redirects to login page
     }
 
     return (

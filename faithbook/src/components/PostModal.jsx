@@ -68,14 +68,6 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
             alert("Comments cannot be blank");
             return
         }
-        const inputRegex = /^(?!.*[\p{M}]{3,})[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]+$/u;
-
-
-        // Check if the content matches the regex
-        if (!inputRegex.test(comment)) {
-            alert("Content contains invalid characters. Please use letters, numbers, and basic punctuation.");
-            return;
-        }
 
 
         setIsPosting(true);
@@ -173,7 +165,9 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                                 {titleBadges[reply.User?.title]}
                                             </span>
                                         </div>
-                                        {reply.content}
+                                        <div style={{ whiteSpace: "pre-wrap" }}>
+                                            {reply.content}
+                                        </div>
                                     </div>
                                     <div className="comment-under">
                                         <span style={{ fontSize: "0.75rem", display: "flex", alignItems: "center" }}>

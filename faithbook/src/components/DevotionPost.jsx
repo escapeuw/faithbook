@@ -50,17 +50,6 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             return
         }
 
-        const inputRegex = /^[^\p{M}\x00-\x1F\x7F-\x9F]+$/u;
-
-
-        // Check if the content matches the regex
-        if (!inputRegex.test(edit)) {
-            alert("Content contains invalid characters. Please use letters, numbers, and basic punctuation.");
-            setIsEditing(false);  // Immediately stop editing
-            setEdit(content);
-            return;
-        }
-
         if (isSaving) return;
         setIsSaving(true);
 
@@ -76,6 +65,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             console.log('Post updated:', response.data);
             // re-rendering
             setDisplayContent(edit);
+            setEdit(edit)
             // closes edit mode
             setIsEditing(false);
 
@@ -212,7 +202,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                         }} />
                     <span>&nbsp;{detail.likers[0].username.split(" ")[0]} ,&nbsp;</span>
                     <span>{detail.likers[1].username.split(" ")[0]}</span>
-                    <span>&nbsp;and others</span>
+                    <span>&nbsp;and <span style={{ fontWeight: "bold" }}>others</span></span>
                 </span>
             )
         }
