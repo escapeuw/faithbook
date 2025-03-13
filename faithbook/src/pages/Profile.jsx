@@ -94,7 +94,8 @@ function Profile() {
     const handlePost = async (e) => {
         e.preventDefault();
 
-        const inputRegex = /^[^\p{M}\x00-\x1F\x7F-\x9F]+$/u;
+        const inputRegex = /^(?!.*[\p{M}]{3,})[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]+$/u;
+
 
         if (!inputRegex.test(devotion) || !inputRegex.test(bibleVerse)) {
             alert("Invalid characters entered.");

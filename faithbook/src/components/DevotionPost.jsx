@@ -52,6 +52,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
 
         const inputRegex = /^[^\p{M}\x00-\x1F\x7F-\x9F]+$/u;
 
+
         // Check if the content matches the regex
         if (!inputRegex.test(edit)) {
             alert("Content contains invalid characters. Please use letters, numbers, and basic punctuation.");

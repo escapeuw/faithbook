@@ -68,7 +68,8 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
             alert("Comments cannot be blank");
             return
         }
-        const inputRegex = /^[^\p{M}\x00-\x1F\x7F-\x9F]+$/u;
+        const inputRegex = /^(?!.*[\p{M}]{3,})[^\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]+$/u;
+
 
         // Check if the content matches the regex
         if (!inputRegex.test(comment)) {
