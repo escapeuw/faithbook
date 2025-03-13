@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify"; // import toast
+import axios from "axios";
 import "./Login.css";
 
 
@@ -49,11 +50,41 @@ function Login() {
     }
   };
 
+
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        try {
+          const response = await axios.get("https://faithbook-production.up.railway.app/verify-token", {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+
+          if (response.data.valid) {
+            navigate("/home", { replace: true });
+
+          } else {
+            localStorage.removeItem("token"); // remove invalid token
+
+          }
+        } catch (error) {
+          console.error("Token verification failed:", error);
+          localStorage.removeItem("token");
+
+        }
+      }
+    };
+
+    checkToken();
+  }, []);
+
   return (
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
-          <h1 style={{ color: "#7358ed"}}>Faithbook</h1>
+          <h1 style={{ color: "#7358ed" }}>Faithbook</h1>
           <p>Sign in to continue to Faithbook</p>
         </div>
 
