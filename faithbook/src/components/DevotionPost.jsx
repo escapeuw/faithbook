@@ -5,6 +5,7 @@ import { Heart, Pencil, Trash2, MessageCircle } from "lucide-react";
 import "./ui.css";
 import ConfirmModal from "./ConfirmModal.jsx";
 import PostModal from "./PostModal.jsx";
+import LikeModal from "./LikeModal.jsx";
 import { usePost } from "../PostContext.jsx";
 import FormatTimestamp from "./FormatTimestamp.jsx";
 import { titleBadges } from "./titleBadges.jsx";
@@ -24,9 +25,11 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     const [displayContent, setDisplayContent] = useState(content);
     const [modal, setModal] = useState(false);
     const [postModal, setPostModal] = useState(false);
+    const [likeModal, setLikeModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [updatedRepliesCount, setUpdatedRepliesCount] = useState(repliesCount);
+    const [likedUsers, setLikedUsers] = useState([]);
 
     const handleReplyAdded = () => {
         setUpdatedRepliesCount(prevCount => prevCount + 1); // Increment the replies count
@@ -103,7 +106,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         }
     };
 
-
+    // when user clicks like button
     const handleLike = async () => {
 
         try {
@@ -128,6 +131,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         }
     };
 
+    // when user clicks comment button
     const handleCommentClick = () => {
         const postDetails = {
             id,
@@ -148,6 +152,25 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
         setSelectedPost(postDetails);
         setPostModal(true);
     }
+
+    // liked users list ( when "others" clicked )
+    const handleLikedUsers = async () => {
+        const likedUsersUrl = `https://faithbook-production.up.railway.app/posts/${id}/liked-users`;
+        try {
+            if (likedUsers.length === 0) {      // only fetch if no data is cached
+                const response = await axios.get(likedUsersUrl);
+                setLikedUsers(response.data);      // cache fetched data
+            }
+
+        } catch (err) {
+            console.error("Error fetching liked users", err.response?.data || err.message);
+        } finally {
+            setLikeModal(true);
+        }
+    }
+
+
+
 
     // Display users who liked the post 
 
@@ -202,7 +225,9 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                         }} />
                     <span>&nbsp;{detail.likers[0].username.split(" ")[0]} ,&nbsp;</span>
                     <span>{detail.likers[1].username.split(" ")[0]}</span>
-                    <span>&nbsp;and <span style={{ fontWeight: "bold" }}>others</span></span>
+                    <span>&nbsp;and <span
+                        style={{ fontWeight: "bold", cursor: "pointer" }}
+                        onClick={handleLikedUsers}>others</span></span>
                 </span>
             )
         }
@@ -319,6 +344,11 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                 onConfirm={handleDelete}
                 isDeleting={isDeleting}
                 setisDeleting={setIsDeleting}
+            />
+            <LikeModal
+                isOpen={likeModal}
+                likedUsers={likedUsers}
+                onClose={() => setLikeModal(false)}
             />
             <PostModal
                 isOpen={postModal}
