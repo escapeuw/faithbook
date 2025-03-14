@@ -238,6 +238,35 @@ router.post('/like-status', authenticate, async (req, res) => {
     }
 });
 
+// fetch list of users who liked the post
+router.get('/:id/liked-users', async (req, res) => {
+    const postId = req.params.id;
+
+    try {
+        const likes = await Like.findAll({
+            where: { postId },
+            include: [
+                {
+                    model: User,
+                    attributes: ["id", "username", "title"],
+                    include: {
+                        model: UserSpecific,
+                        attributes: ["profilePic"]
+                    }
+                }
+            ],
+            order: [["createdAt", "DESC"]]
+        });
+
+        const usersWhoLiked = likes.map(like => like.User);
+        
+        return res.json(usersWhoLiked);
+
+    } catch (err) {
+        return res.status(500).json({ message: "Failed to fetch liked users" });
+    }
+})
+
 
 // editing a post
 router.put('/:id', authenticate, async (req, res) => {
