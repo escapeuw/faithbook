@@ -172,7 +172,7 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                         <span style={{ fontSize: "0.75rem", display: "flex", alignItems: "center" }}>
                                             {FormatTimestamp(reply.createdAt)}
                                         </span>
-                                        <span>·</span>
+                                        <span></span>
                                         <span style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
                                             <Heart size="1rem" />
                                             {reply.likes}
