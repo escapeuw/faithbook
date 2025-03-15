@@ -47,7 +47,19 @@ const Reply = sequelize.define("Reply", {
     reports: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
+    },
+    nestedCount: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
     }
+}, {
+    indexes: [
+        { fields: ["postId"] },      // Index for fetching all replies of a post
+        { fields: ["postId", "parentReplyId"] },   // Fetching nested replies
+        { fields: ["userId"] },   // Index for fetching replies by a user
+        { fields: ["createdAt"] },  // Index for sorting by creation time
+        { fields: ["postId", "likes"] },
+    ]
 });
 
 Post.hasMany(Reply, { foreignKey: "postId" });
@@ -61,21 +73,5 @@ Reply.belongsTo(User, { foreignKey: "userId", onDelete: "CASCADE" });
 Reply.hasMany(Reply, { as: "Replies", foreignKey: "parentReplyId" });
 Reply.belongsTo(Reply, { as: "Parent", foreignKey: "parentReplyId", onDelete: "CASCADE" });
 
-/* beforeDestroy HOOK: Ensures child replies are deleted upon parent */
 
-Reply.beforeDestroy(async (reply, options) => {
-    await Reply.destroy({
-        where: { parentReplyId: reply.id },
-        transaction: options.transaction, // Ensures deletion happens inside transactions
-    });
-});
-
-
-// Hook to update `repliesCount` when a reply is deleted
-Reply.afterDestroy(async (reply, options) => {
-    await Post.decrement("repliesCount", {
-        by: 1,
-        where: { id: reply.postId },
-    });
-});
 module.exports = Reply;
