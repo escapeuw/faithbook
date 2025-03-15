@@ -156,16 +156,15 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                 }}
                                     src={reply.User?.UserSpecific?.profilePic ||
                                         "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"} />
-                                <div>
-                                    <div className="comment-box"
-                                        style={{ display: "inline-block" }}>
+                                <div style={{ width: "85%", maxWidth: "90%"}}>
+                                    <div className="comment-box">
                                         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontWeight: "500" }}>
                                             {reply.User?.username}
                                             <span style={{ marginTop: "0.15rem" }}>
                                                 {titleBadges[reply.User?.title]}
                                             </span>
                                         </div>
-                                        <div style={{ whiteSpace: "pre-wrap" }}>
+                                        <div className="comment-content">
                                             {reply.content}
                                         </div>
                                     </div>
@@ -187,11 +186,8 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                         )}
                     </div>
                 </div>
-                <div className="input-comment-container"
-                    style={{
-                        display: "flex", flexDirection: "column",
-                        height: "15%", marginTop: "0.5rem"
-                    }}>
+
+                <div className="input-comment-container">
                     <textarea
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
@@ -200,15 +196,13 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                         required
                         maxLength={500}>
                     </textarea>
-                    <div style={{
-                        display: "flex", justifyContent: "flex-end", margin: "0.25rem"
-                    }}>
+                    <div className="comment-actions">
                         <CircleChevronRight
-                            onClick={handleReply}
-                            color="#9b87f5"
-                            style={{ cursor: "pointer" }} />
+                            className="comment-send-icon"
+                            onClick={handleReply} />
                     </div>
                 </div>
+
             </div>
         </div >
     )

@@ -31,7 +31,7 @@ const LikeModal = ({ isOpen, likedUsers, onClose }) => {
                     height: "55%", maxHeight: "55vh", maxWidth: "100%"
                 }}>
                 <div style={{
-                    display: "flex", alignItems: "center", justifyContent: "center", borderBottom: "1px solid gray",
+                    display: "flex", alignItems: "center", justifyContent: "center", borderBottom: "1px solid rgb(194, 192, 192)",
                     position: "relative"
                 }}>
                     <h3 style={{ flex: "1" }}>Likes</h3>

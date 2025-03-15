@@ -66,17 +66,19 @@
 .post-modal {
     display: flex;
     flex-direction: column;
-    width: 50rem;
     z-index: 20000;
     max-height: 75vh;
     height: 75%;
-    max-width: 100%;
+    max-width: 95%;
+    width: 50rem;
 }
 
 .post-modal-inner {
     text-align: left;
     overflow-y: scroll;
-    height: 75%;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
 }
 
 .post-modal-inner::-webkit-scrollbar {
@@ -94,10 +96,39 @@
     padding: 0.5rem;
 }
 
+/* comment input box */
+
 .input-comment-container {
+    position: relative;    /* so icon is positioned inside */
     border: 1px solid #ddd;
     border-radius: 12px;
     background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    height: 7%;
+    margin-top: 0.5rem;
+    transition: height 0.3s ease;
+    padding-right: 2rem;   /* prevent text from overlapping with the icon */
+}
+
+.input-comment-container:focus-within {
+    height: 20%;
+}
+
+.comment-actions {
+    position: absolute;
+    bottom: 0.25rem;
+    right: 0.5rem;
+    display: flex;
+    align-items: center;  
+}
+
+.comment-send-icon {
+    color: var(--light);
+    cursor: pointer;
+}
+.comment-send-icon:hover {
+    color: var(--primary-dark);
 }
 
 .input-comment {
@@ -106,7 +137,7 @@
     border: none;
     outline: none;
     background-color: #f7f7f7;
-    padding: 0.75rem;
+    padding: 0.5rem;
     font-size: 1rem;
     line-height: 1.2;
     color: #333;
@@ -118,25 +149,39 @@
 .input-comment::-webkit-scrollbar {
     display: none;
 }
+
+/* comment display */
 .comment-container {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    width: 95%;
 }
 
 .comment {
     display: flex;
     gap: 1rem;
+    width: 100%;
 }
 
 .comment-box {
     display: flex;
     flex-direction: column;
-    width: auto;
+    width: fit-content;
+    max-width: 100%;
     padding: 0.35rem 1rem;
     border-radius: 15px;
     background-color: #eceaea;
 }
+
+.comment-content {
+    width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
 .comment-under {
     display: flex;
     align-items: center;
