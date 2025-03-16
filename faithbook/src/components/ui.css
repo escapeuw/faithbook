@@ -110,7 +110,7 @@
     margin: 0.15rem 0 0.25rem ;
     padding-right: 3rem;
     /* prevent text from overlapping with the icon */
-    max-width: 100%;
+    max-width: 90%;
     width: 20rem;
 }
 
