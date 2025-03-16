@@ -113,14 +113,15 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
             return
         } else if (reply.nestedCount === 1) {
             return (
-                <div>View 1 reply</div>
+                <div style={{ cursor: "pointer", width: "fit-content" }}>View 1 reply</div>
             )
         } else {
             return (
-                <div>View all {reply.nestedCount} replies</div>
+                <div style={{ cursor: "pointer", width: "fit-content" }}>View all {reply.nestedCount} replies</div>
             )
         }
     }
+    
     // reply to comments
     const handleNestedReply = async (reply) => {
         if (isPosting) return; // ensures repeated request is impossible
@@ -245,7 +246,9 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                         <span style={{ fontWeight: "500", whiteSpace: "nowrap", cursor: "pointer" }}
                                             onClick={() => setIsActiveReplyId(reply.id)}>Reply</span>
                                     </div>
-                                    {nestedReply(reply)}
+                                    <div style={{ margin: "0.25rem 1rem 0.5rem" }}>
+                                        {nestedReply(reply)}
+                                    </div>
                                     {isActiveReplyId === reply.id && (
                                         <div className="input-reply-container">
                                             <textarea
