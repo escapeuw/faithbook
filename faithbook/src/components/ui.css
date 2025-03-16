@@ -197,6 +197,7 @@
 
 .nested-reply-wrapper {
     max-width: 85%;
+    margin-bottom: 0.35rem;
 }
 .comment-container {
     display: flex;
@@ -235,6 +236,17 @@
     gap: 0.75rem;
     padding: 0.25rem 1rem;
     font-size: 0.85rem;
+    color: rgb(94, 93, 93);
+    text-align: center;
+}
+
+.nested-comment-under {
+    display: flex;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: 3rem;
+    font-size: 0.75rem;
     color: rgb(94, 93, 93);
     text-align: center;
 }

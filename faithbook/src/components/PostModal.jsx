@@ -11,8 +11,8 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
     const [postReplies, setPostReplies] = useState([]);
     const [isPosting, setIsPosting] = useState(false);
     const [isActiveReplyId, setIsActiveReplyId] = useState(null);
-    const [newNestedReply, setNewNestedReply] = useState(null);
-    const [nestedReplies, setNestedReplies] = useState([]);
+    const [newNestedReplyMap, setNewNestedReplyMap] = useState([]);
+    const [nestedRepliesMap, setNestedRepliesMap] = useState({});
 
     const { selectedPost, setSelectedPost } = usePost();
 
@@ -127,7 +127,17 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
             }
 
             const data = await response.json();
-            setNestedReplies(data);
+            setNestedRepliesMap(prev => ({
+                ...prev,
+                [parentReplyId]: data,  // Store replies under the corresponding comment
+            }));
+
+
+            // clear the cached newReplies if exists
+            setNewNestedReplyMap(prev => {
+                const { [parentReplyId]: _, ...rest } = prev;  // Remove the key from the map
+                return rest;
+            });
         } catch (error) {
             console.error("Error fetching replies:", error);
         } finally {
@@ -144,13 +154,13 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
             return (
                 <div
                     style={{ cursor: "pointer", width: "fit-content" }}
-                    onClick={() => fetchNestedReplies(reply.parentReplyId)}>View 1 reply</div>
+                    onClick={() => fetchNestedReplies(reply.id)}>View 1 reply</div>
             )
         } else {
             return (
                 <div
                     style={{ cursor: "pointer", width: "fit-content" }}
-                    onClick={() => fetchNestedReplies(reply.parentReplyId)}>View all {reply.nestedCount} replies</div>
+                    onClick={() => fetchNestedReplies(reply.id)}>View all {reply.nestedCount} replies</div>
             )
         }
     }
@@ -188,7 +198,10 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
 
             const newReply = await response.json();
 
-            setNewNestedReply(newReply); // caching new replies
+            setNewNestedReplyMap(prev => ({
+                ...prev,
+                [reply.id]: [...(prev[reply.id] || []), newReply]
+            })); // caching new replies
             onReplyAdded();
 
         } catch (err) {
@@ -279,36 +292,65 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                         <span style={{ fontWeight: "500", whiteSpace: "nowrap", cursor: "pointer" }}
                                             onClick={() => setIsActiveReplyId(reply.id)}>Reply</span>
                                     </div>
-                                    {nestedReplies.length === 0 ? (
+
+                                    {!nestedRepliesMap[reply.id] ? (
                                         <div style={{ margin: "0.25rem 1rem 0.5rem" }}>
                                             {openNestedReply(reply)}
                                         </div>
-                                    ) : (nestedReplies.map()
-                                    )}
+                                    ) : (nestedRepliesMap[reply.id]?.map(nestedReply => (
+                                        <div className="nested-reply-wrapper" key={nestedReply.id}>
+                                            <div className="comment">
+                                                <img style={{
+                                                    height: "1.5em", width: "1.5rem", borderRadius: "50%",
+                                                    objectFit: "cover", objectPosition: "center"
+                                                }}
+                                                    src={nestedReply.User?.UserSpecific?.profilePic}
+                                                    alt={nestedReply.username} />
+                                                <div className="comment-box">
+                                                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontWeight: "500" }}>
+                                                        {nestedReply.User?.username}
+                                                        <span style={{ marginTop: "0.15rem" }}>
+                                                            {titleBadges[nestedReply.User?.title]}
+                                                        </span>
+                                                    </div>
+                                                    <div className="comment-content">
+                                                        {nestedReply.content}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="nested-comment-under">
+                                                {FormatTimestamp(nestedReply.createdAt)}
+                                            </div>
+                                        </div>
+                                    )))
+                                    }
 
-                                    {newNestedReply && (
+                                    {newNestedReplyMap[reply.id]?.map(nestedReply => (
                                         <div className="nested-reply-wrapper">
                                             <div className="comment">
                                                 <img style={{
                                                     height: "1.5em", width: "1.5rem", borderRadius: "50%",
                                                     objectFit: "cover", objectPosition: "center"
                                                 }}
-                                                    src={newNestedReply.User?.UserSpecific?.profilePic}
-                                                    alt={newNestedReply.username} />
+                                                    src={nestedReply.User?.UserSpecific?.profilePic}
+                                                    alt={nestedReply.username} />
                                                 <div className="comment-box">
                                                     <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontWeight: "500" }}>
-                                                        {newNestedReply.User?.username}
+                                                        {nestedReply.User?.username}
                                                         <span style={{ marginTop: "0.15rem" }}>
-                                                            {titleBadges[newNestedReply.User?.title]}
+                                                            {titleBadges[nestedReply.User?.title]}
                                                         </span>
                                                     </div>
                                                     <div className="comment-content">
-                                                        {newNestedReply.content}
+                                                        {nestedReply.content}
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div className="nested-comment-under">
+                                                {FormatTimestamp(nestedReply.createdAt)}
+                                            </div>
                                         </div>
-                                    )}
+                                    ))}
 
                                     {isActiveReplyId === reply.id && (
                                         <div className="input-reply-container">
