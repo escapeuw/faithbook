@@ -299,9 +299,9 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                         </div>
                                     ) : (nestedRepliesMap[reply.id]?.map(nestedReply => (
                                         <div className="nested-reply-wrapper" key={nestedReply.id}>
-                                            <div className="comment">
+                                            <div className="comment" style={{ gap: "0.5rem" }}>
                                                 <img style={{
-                                                    height: "1.5em", width: "1.5rem", borderRadius: "50%",
+                                                    height: "2rem", width: "2rem", borderRadius: "50%",
                                                     objectFit: "cover", objectPosition: "center"
                                                 }}
                                                     src={nestedReply.User?.UserSpecific?.profilePic}
