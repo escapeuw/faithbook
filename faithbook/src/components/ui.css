@@ -98,8 +98,39 @@
 
 /* comment input box */
 
+.input-reply-container {
+    position: relative;
+    /* so icon is positioned inside */
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    height: 3rem;
+    margin: 0.15rem 0 0.25rem ;
+    padding-right: 3rem;
+    /* prevent text from overlapping with the icon */
+    width: 50%;
+}
+
+.reply-textarea {
+    width: 100%;
+    border-top: 1px solid #ddd;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    background-color: #f7f7f7;
+    padding: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.2;
+    color: #333;
+    resize: none;
+    font-family: 'Poppins', sans-serif;
+}
+
 .input-comment-container {
-    position: relative;    /* so icon is positioned inside */
+    position: relative;
+    /* so icon is positioned inside */
     border: 1px solid #ddd;
     border-radius: 12px;
     background-color: #f7f7f7;
@@ -108,7 +139,8 @@
     height: 7%;
     margin-top: 0.5rem;
     transition: height 0.3s ease;
-    padding-right: 2rem;   /* prevent text from overlapping with the icon */
+    padding-right: 2rem;
+    /* prevent text from overlapping with the icon */
 }
 
 .input-comment-container:focus-within {
@@ -120,13 +152,14 @@
     bottom: 0.25rem;
     right: 0.5rem;
     display: flex;
-    align-items: center;  
+    align-items: center;
 }
 
 .comment-send-icon {
     color: var(--light);
     cursor: pointer;
 }
+
 .comment-send-icon:hover {
     color: var(--primary-dark);
 }

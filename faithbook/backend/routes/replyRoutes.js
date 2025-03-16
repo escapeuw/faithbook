@@ -13,12 +13,17 @@ const router = express.Router();
 router.post("/create", authenticate, async (req, res) => {
     try {
         const userId = req.user.id; // extracted from token
-        const { postId, content } = req.body;
+        const { postId, content, parentReplyId } = req.body;
 
         if (!postId || !userId || !content) {
             return res.status(400).json({ message: "Required data is missing" });
         }
-        const data = await Reply.create({ userId, postId, content });
+        const data = await Reply.create({
+            userId,
+            postId,
+            content,
+            parentReplyId: parentReplyId || null
+        });
 
         const reply = await Reply.findOne({
             where: { id: data.id }, // Ensure we're fetching the just-created reply
@@ -33,12 +38,20 @@ router.post("/create", authenticate, async (req, res) => {
                 }
             ]
         });
+        
+        // if nested reply, increment nestedCount of parent
+        if (parentReplyId) {
+            await Reply.increment("nestedCount", {
+                by: 1,
+                where : { id: parentReplyId }
+            });
+        }
 
         await Post.increment("repliesCount", {
             by: 1,
             where: { id: postId },
         });
-        
+
         return res.status(201).json(reply);
 
     } catch (err) {
@@ -46,12 +59,12 @@ router.post("/create", authenticate, async (req, res) => {
     }
 });
 
-// Get all replies of Post
+// Get all parent replies of Post
 router.get("/:postId", async (req, res) => {
     const { postId } = req.params;
     try {
         const replies = await Reply.findAll({
-            where: { postId },
+            where: { postId, parentReplyId: null },
             include: [
                 {
                     model: User,

@@ -7,8 +7,11 @@ import FormatTimestamp from "./FormatTimestamp.jsx";
 
 const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
     const [comment, setComment] = useState("");
+    const [replyContent, setReplyContent] = useState("");
     const [postReplies, setPostReplies] = useState([]);
     const [isPosting, setIsPosting] = useState(false);
+    const [isActiveReplyId, setIsActiveReplyId] = useState(null);
+    const [newNestedReply, setNewNestedReply] = useState(null);
 
     const { selectedPost, setSelectedPost } = usePost();
 
@@ -61,7 +64,7 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
         return null;
     }
 
-
+    // direct comment to post 
     const handleReply = async () => {
         if (isPosting) return; // ensures repeated request is impossible
         if (comment === "") {
@@ -104,12 +107,73 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
         }
     }
 
+    // display number of replies
+    const nestedReply = (reply) => {
+        if (reply.nestedCount === 0) {
+            return
+        } else if (reply.nestedCount === 1) {
+            return (
+                <div>View 1 reply</div>
+            )
+        } else {
+            return (
+                <div>View all {reply.nestedCount} replies</div>
+            )
+        }
+    }
+    // reply to comments
+    const handleNestedReply = async (reply) => {
+        if (isPosting) return; // ensures repeated request is impossible
+        if (replyContent === "") {
+            alert("Replies cannot be blank");
+            return
+        }
+
+
+        setIsPosting(true);
+
+        try {
+            const token = localStorage.getItem("token")
+            const response = await fetch("https://faithbook-production.up.railway.app/reply/create", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    postId: selectedPost.id,
+                    content: replyContent,
+                    parentReplyId: reply.id
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData || "Failed to post reply");
+            }
+
+            const newReply = await response.json();
+
+            setNewNestedReply(newReply); // caching new replies
+            onReplyAdded();
+
+        } catch (err) {
+            console.error("Failed to post reply", err);
+        } finally {
+            setIsPosting(false);
+            setReplyContent("");
+            alert("Reply posted successfully");
+        }
+
+    }
+
 
     const formattedTimestamp = FormatTimestamp(selectedPost.timestamp);
 
     return (
         <div className="modal-overlay">
             <div className="card post-modal center">
+
                 <div style={{
                     display: "flex", justifyContent: "space-between",
                     borderBottom: "1px solid lightgray"
@@ -139,6 +203,7 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                     <X size="1.25rem"
                         onClick={onClose} />
                 </div>
+
                 <div className="post-modal-inner">
                     <p className="purple-bar bold">
                         {selectedPost.bibleVerse}
@@ -156,7 +221,7 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                 }}
                                     src={reply.User?.UserSpecific?.profilePic ||
                                         "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg"} />
-                                <div style={{ width: "85%", maxWidth: "90%"}}>
+                                <div style={{ width: "85%", maxWidth: "90%" }}>
                                     <div className="comment-box">
                                         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontWeight: "500" }}>
                                             {reply.User?.username}
@@ -177,13 +242,32 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                             <Heart size="1rem" />
                                             {reply.likes}
                                         </span>
-                                        <span style={{ fontWeight: "500", whiteSpace: "nowrap" }}>Reply</span>
+                                        <span style={{ fontWeight: "500", whiteSpace: "nowrap", cursor: "pointer" }}
+                                            onClick={() => setIsActiveReplyId(reply.id)}>Reply</span>
                                     </div>
+                                    {nestedReply(reply)}
+                                    {isActiveReplyId === reply.id && (
+                                        <div className="input-reply-container">
+                                            <textarea
+                                                value={replyContent}
+                                                onChange={(e) => setReplyContent(e.target.value)}
+                                                className="reply-textarea"
+                                                placeholder={`Reply to ${reply.User?.username} ...`}
+                                                required
+                                                maxLength={500}>
+                                            </textarea>
+                                            <div className="comment-actions">
+                                                <CircleChevronRight
+                                                    className="comment-send-icon"
+                                                    onClick={() => handleNestedReply(reply)}
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
 
                                 </div>
                             </div>
-                        )
-                        )}
+                        ))}
                     </div>
                 </div>
 
