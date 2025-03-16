@@ -12,6 +12,7 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
     const [isPosting, setIsPosting] = useState(false);
     const [isActiveReplyId, setIsActiveReplyId] = useState(null);
     const [newNestedReply, setNewNestedReply] = useState(null);
+    const [nestedReplies, setNestedReplies] = useState([]);
 
     const { selectedPost, setSelectedPost } = usePost();
 
@@ -105,23 +106,55 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
             setComment("");
             alert("Comment posted successfully");
         }
-    }
+    };
+
+    // Fetch nested replies of a comment
+    const fetchNestedReplies = async (parentReplyId) => {
+        if (isPosting) return;
+
+        setIsPosting(true);
+
+        try {
+            const response = await fetch(`https://faithbook-production.up.railway.app/reply/nested/${parentReplyId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            setNestedReplies(data);
+        } catch (error) {
+            console.error("Error fetching replies:", error);
+        } finally {
+            setIsPosting(false);
+        }
+    };
+
 
     // display number of replies
-    const nestedReply = (reply) => {
+    const openNestedReply = (reply) => {
         if (reply.nestedCount === 0) {
             return
         } else if (reply.nestedCount === 1) {
             return (
-                <div style={{ cursor: "pointer", width: "fit-content" }}>View 1 reply</div>
+                <div
+                    style={{ cursor: "pointer", width: "fit-content" }}
+                    onClick={() => fetchNestedReplies(reply.parentReplyId)}>View 1 reply</div>
             )
         } else {
             return (
-                <div style={{ cursor: "pointer", width: "fit-content" }}>View all {reply.nestedCount} replies</div>
+                <div
+                    style={{ cursor: "pointer", width: "fit-content" }}
+                    onClick={() => fetchNestedReplies(reply.parentReplyId)}>View all {reply.nestedCount} replies</div>
             )
         }
     }
-    
+
     // reply to comments
     const handleNestedReply = async (reply) => {
         if (isPosting) return; // ensures repeated request is impossible
@@ -246,9 +279,37 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                                         <span style={{ fontWeight: "500", whiteSpace: "nowrap", cursor: "pointer" }}
                                             onClick={() => setIsActiveReplyId(reply.id)}>Reply</span>
                                     </div>
-                                    <div style={{ margin: "0.25rem 1rem 0.5rem" }}>
-                                        {nestedReply(reply)}
-                                    </div>
+                                    {nestedReplies.length === 0 ? (
+                                        <div style={{ margin: "0.25rem 1rem 0.5rem" }}>
+                                            {openNestedReply(reply)}
+                                        </div>
+                                    ) : (nestedReplies.map()
+                                    )}
+
+                                    {newNestedReply && (
+                                        <div className="nested-reply-wrapper">
+                                            <div className="comment">
+                                                <img style={{
+                                                    height: "1.5em", width: "1.5rem", borderRadius: "50%",
+                                                    objectFit: "cover", objectPosition: "center"
+                                                }}
+                                                    src={newNestedReply.User?.UserSpecific?.profilePic}
+                                                    alt={newNestedReply.username} />
+                                                <div className="comment-box">
+                                                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontWeight: "500" }}>
+                                                        {newNestedReply.User?.username}
+                                                        <span style={{ marginTop: "0.15rem" }}>
+                                                            {titleBadges[newNestedReply.User?.title]}
+                                                        </span>
+                                                    </div>
+                                                    <div className="comment-content">
+                                                        {newNestedReply.content}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     {isActiveReplyId === reply.id && (
                                         <div className="input-reply-container">
                                             <textarea

@@ -38,12 +38,12 @@ router.post("/create", authenticate, async (req, res) => {
                 }
             ]
         });
-        
+
         // if nested reply, increment nestedCount of parent
         if (parentReplyId) {
             await Reply.increment("nestedCount", {
                 by: 1,
-                where : { id: parentReplyId }
+                where: { id: parentReplyId }
             });
         }
 
@@ -81,6 +81,32 @@ router.get("/:postId", async (req, res) => {
         return res.status(500).json({ error: "Failed to fetch replies" });
     }
 })
+
+// Get all nested replies of Comment 
+router.get("/nested/:parentReplyId", async (req, res) => {
+    const { parentReplyId } = req.params;
+
+    try {
+        const nestedReplies = await Reply.findAll({
+            where: { parentReplyId },
+            include: [
+                {
+                    model: User,
+                    attributes: ["username", "title"],
+                    include: {
+                        model: UserSpecific,
+                        attributes: ["profilePic"]
+                    }
+                }],
+            order: [["createdAt", "ASC"]]
+        });
+
+        res.json(nestedReplies);
+    } catch (error) {
+        console.error("Error fetching nested replies:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+});
 
 module.exports = router;
 
