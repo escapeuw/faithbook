@@ -5,6 +5,7 @@ const authRoutes = require("./routes/auth");
 const postRoutes = require("./routes/postRoutes");
 const replyRoutes = require("./routes/replyRoutes");
 const profileRoutes = require('./routes/profileRoutes');
+const bibleRoutes = require("./routes/bibleRoutes");
 
 
 require("dotenv").config();
@@ -63,6 +64,7 @@ app.use("/", authRoutes);
 app.use("/posts", postRoutes);  // base path
 app.use("/reply", replyRoutes);
 app.use("/profile", profileRoutes);
+app.use("/verse", bibleRoutes);
 
 // it handles react routes on refresh
 const path = require("path");
