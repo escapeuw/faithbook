@@ -83,7 +83,7 @@ function Feed() {
         fetchPosts();
     }, []);
 
- 
+    console.log(posts)
     return (
         (loading ? <div>Loading posts...</div> :
             <div className="wrapper">

@@ -10,7 +10,7 @@ import { usePost } from "../PostContext.jsx";
 import FormatTimestamp from "./FormatTimestamp.jsx";
 import { titleBadges } from "./titleBadges.jsx";
 
-function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, bibleVerse,
+function DevotionPost({ id, userTitle, username, profilePic, likes, reports, content, title, bibleVerse,
     timestamp, owner, onDelete, likeStatus, repliesCount, likeDetails }) {
     const defaultProfilePic = "https://faithbookbucket.s3.amazonaws.com/empty_profile.jpg";
     const displayProfilePic = profilePic || defaultProfilePic;
@@ -141,6 +141,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             likes,
             reports,
             content,
+            title,
             bibleVerse,
             timestamp,
             owner,
@@ -234,7 +235,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     }
 
 
-
+    
     return (
         <div className="center card">
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -269,7 +270,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             </div>
 
             <div style={{ textAlign: "left", overflow: "hidden" }}>
-                <p className="purple-bar bold">{bibleVerse}</p>
+                <p className="purple-bar bold">{title}</p>
                 {isEditing ? (
                     <div>
                         <div className="post-textarea" style={{ width: "100%" }}>

@@ -17,6 +17,11 @@ const Post = sequelize.define("Post", {
         },
         onDelete: "CASCADE",
     },
+    type: {
+        type: DataTypes.ENUM("devotion", "story"),
+        allowNull: false,
+        defaultValue: "devotion"
+    },
     content: {
         type: DataTypes.TEXT,
         allowNull: false,
@@ -25,9 +30,13 @@ const Post = sequelize.define("Post", {
         type: DataTypes.STRING,
         allowNull: true,        // optional
     },
-    bibleVerse: {
+    title: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false,        // Rename from bibleVerse (for both devotion and story posts)
+    },
+    bibleVerse: {
+        type: DataTypes.TEXT,
+        allowNull: true,           // Only for devotion posts
     },
     likes: {
         type: DataTypes.INTEGER,
