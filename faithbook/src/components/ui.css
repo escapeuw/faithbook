@@ -371,7 +371,7 @@ textarea {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.post-textarea .verse {
+.post-textarea .post-title {
     height: 1rem;
     overflow: hidden;
 }

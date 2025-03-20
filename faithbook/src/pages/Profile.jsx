@@ -1,18 +1,25 @@
 import { useEffect, useState } from "react";
 import DevotionPost from "/src/components/DevotionPost.jsx";
+import axios from "axios";
 import { Camera, CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
 import imageCompression from 'browser-image-compression';
 import "/src/components/ui.css";
 
 function Profile() {
     const [devotion, setDevotion] = useState("");
+    const [postTitle, setPostTitle] = useState("");
     const [bibleVerse, setBibleVerse] = useState("");
+    const [startBook, setStartBook] = useState("");
+    const [startChapter, setStartChapter] = useState("");
+    const [startVerse, setStartVerse] = useState("");
+
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [profilePicture, setProfilePicture] = useState(null);
     const [isPostingDisabled, setIsPostingDisabled] = useState(false);
     const [likeStatus, setLikeStatus] = useState({});
+    const [isFetching, setIsFetching] = useState(false);
 
     const updateDelete = (postId) => {
         setPosts((prevPosts) => prevPosts.filter(p => p.post.id !== postId));
@@ -94,14 +101,13 @@ function Profile() {
     const handlePost = async (e) => {
         e.preventDefault();
 
-
         setIsPostingDisabled(true); // Disable button before sending request
 
         try {
             const response = await fetch("https://faithbook-production.up.railway.app/posts/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userId: user.id, bibleVerse, content: devotion })
+                body: JSON.stringify({ userId: user.id, title: postTitle, content: devotion })
             });
 
             if (response.ok) {
@@ -111,7 +117,7 @@ function Profile() {
 
                 alert("Post created!");
                 setDevotion(""); // Clear textarea
-                setBibleVerse(""); // Clear bibleVerse
+                setPostTitle(""); // Clear post title
             } else {
                 alert("Failed to post.");
             }
@@ -122,6 +128,34 @@ function Profile() {
             setIsPostingDisabled(false);
         }
     };
+
+
+    const fetchVerse = async () => {
+        if (isFetching) return;
+
+        if (!startBook || !startChapter || !startVerse) {
+            alert("Bible verse cannot be blank");
+            return;
+        }
+
+        setIsFetching(true);
+
+        const verseUrl = `https://faithbook-production.up.railway.app/verse?book=${startBook}&chapter=${startChapter}&verse=${startVerse}`;
+        
+        try {
+            const res = await axios.get(verseUrl);
+            setBibleVerse(res.data);
+
+        } catch (err) {
+            console.error("Error:", err)
+            setBibleVerse("")
+        } finally {
+            setIsFetching(false);
+        }
+    }
+
+
+
 
     useEffect(() => {
 
@@ -224,16 +258,52 @@ function Profile() {
                         </div>
                         <p>"Walking with faith, sharing daily devotions, and growing in Christ."</p>
                     </div>
+
                     <form className="write-post" onSubmit={handlePost}>
                         <div className="post-textarea">
-                            <textarea className="verse input-text"
-                                value={bibleVerse}
-                                onChange={(e) => setBibleVerse(e.target.value)}
-                                placeholder="include bible verse...  e.g. Genesis 1:1"
+                            <textarea className="post-title input-text"
+                                value={postTitle}
+                                onChange={(e) => setPostTitle(e.target.value)}
+                                placeholder="write a title..."
                                 required
                                 maxLength={20}
                             />
                         </div>
+
+                        {/* BibleVerse Section */}
+                        <div className="post-textarea">
+                            <input
+                                type="text"
+                                id="book-name"
+                                value={startBook}
+                                onChange={(e) => setStartBook(e.target.value)}
+                                placeholder="Book (e.g. 요한복음 or 요)"
+                            />
+                            <input
+                                type="text"
+                                id="chapter"
+                                value={startChapter}
+                                onChange={(e) => setStartChapter(e.target.value)}
+                                placeholder="Chapter (e.g. 3)"
+                            />
+                            <input
+                                type="text"
+                                id="verse"
+                                value={startVerse}
+                                onChange={(e) => setStartVerse(e.target.value)}
+                                placeholder="Chapter (e.g. 16)"
+                            />
+
+                            <button
+                                type="button"
+                                onClick={fetchVerse}
+                                disabled={isFetching}>Get Verse</button>
+                        </div>
+
+                        {/* Fetched Verse */}
+                        <div className="post-textarea">{bibleVerse}</div>
+
+                        {/* Post Content Section */}
                         <div className="post-textarea">
                             <textarea className="content input-text"
                                 value={devotion}
@@ -245,6 +315,7 @@ function Profile() {
                         <button type="submit" className="post-button"
                             disabled={isPostingDisabled}>Post</button>
                     </form>
+
                     {posts.length === 0 ?
                         (<div className="card">
                             <div style={{ textAlign: "center", height: "7rem" }}>
