@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
             return res.status(404).json({ error: "Verse not found." });
         }
 
-        return res.json(bibleVerse.text);
+        return res.json(bibleVerse);
 
     } catch (err) {
         return res.status(500).json({ error: "Failed to fetch verses" });
