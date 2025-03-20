@@ -253,7 +253,7 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
 
                 <div className="post-modal-inner">
                     <p className="purple-bar bold">
-                        {selectedPost.bibleVerse}
+                        {selectedPost.title}
                     </p>
                     <p className="post-modal-content">
                         {selectedPost.content}
