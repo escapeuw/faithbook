@@ -13,14 +13,14 @@ const router = express.Router();
 // Create a new Post
 router.post("/create", async (req, res) => {
     try {
-        const { userId, content, imageUrl, bibleVerse } = req.body;
+        const { userId, content, imageUrl, title, bibleVerse } = req.body;
 
 
         if (!userId || !content) {
             return res.status(400).json({ error: "User ID and content are required" });
         }
 
-        const post = await Post.create({ userId, content, imageUrl, bibleVerse });
+        const post = await Post.create({ userId, content, imageUrl, title, bibleVerse });
         return res.status(201).json(post);
     } catch (err) {
         return res.status(500).json({ error: "Failed to create post" });

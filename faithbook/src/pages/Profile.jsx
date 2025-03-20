@@ -107,7 +107,7 @@ function Profile() {
             const response = await fetch("https://faithbook-production.up.railway.app/posts/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userId: user.id, title: postTitle, content: devotion })
+                body: JSON.stringify({ userId: user.id, title: postTitle, content: devotion, bibleVerse })
             });
 
             if (response.ok) {
@@ -141,7 +141,7 @@ function Profile() {
         setIsFetching(true);
 
         const verseUrl = `https://faithbook-production.up.railway.app/verse?book=${startBook}&chapter=${startChapter}&verse=${startVerse}`;
-        
+
         try {
             const res = await axios.get(verseUrl);
             setBibleVerse(res.data);
@@ -276,6 +276,7 @@ function Profile() {
                                 type="text"
                                 id="book-name"
                                 value={startBook}
+                                required
                                 onChange={(e) => setStartBook(e.target.value)}
                                 placeholder="Book (e.g. 요한복음 or 요)"
                             />
@@ -283,6 +284,7 @@ function Profile() {
                                 type="text"
                                 id="chapter"
                                 value={startChapter}
+                                required
                                 onChange={(e) => setStartChapter(e.target.value)}
                                 placeholder="Chapter (e.g. 3)"
                             />
@@ -290,6 +292,7 @@ function Profile() {
                                 type="text"
                                 id="verse"
                                 value={startVerse}
+                                required
                                 onChange={(e) => setStartVerse(e.target.value)}
                                 placeholder="Chapter (e.g. 16)"
                             />
