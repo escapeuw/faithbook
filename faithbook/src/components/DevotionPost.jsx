@@ -271,7 +271,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
 
             <div style={{ textAlign: "left", overflow: "hidden" }}>
                 <p className="purple-bar bold">{title}</p>
-                <p className="purple-bar bold">{bibleVerse}</p>
+                <p className="purple-bar bold" style={{ whiteSpace: "pre-line", fontSize: "0.85rem" }}>{bibleVerse}</p>
                 {isEditing ? (
                     <div>
                         <div className="post-textarea" style={{ width: "100%" }}>

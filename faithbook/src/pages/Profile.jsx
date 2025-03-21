@@ -144,7 +144,8 @@ function Profile() {
 
         try {
             const res = await axios.get(verseUrl);
-            setBibleVerse(res.data);
+            const formattedVerse = `${res.data.book}${res.data.chapter}:${res.data.verse}\n${res.data.text}`;
+            setBibleVerse(formattedVerse);
 
         } catch (err) {
             console.error("Error:", err)
@@ -304,7 +305,7 @@ function Profile() {
                         </div>
 
                         {/* Fetched Verse */}
-                        <div className="post-textarea">{bibleVerse}</div>
+                        <div className="post-textarea" style={{ whiteSpace: "pre-line" }}>{bibleVerse}</div>
 
                         {/* Post Content Section */}
                         <div className="post-textarea">
