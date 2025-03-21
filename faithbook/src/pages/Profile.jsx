@@ -274,6 +274,7 @@ function Profile() {
                         {/* BibleVerse Section */}
                         <div className="post-textarea">
                             <input
+                                className="bible-input"
                                 type="text"
                                 id="book-name"
                                 value={startBook}
@@ -282,6 +283,7 @@ function Profile() {
                                 placeholder="Book (e.g. 요한복음 or 요)"
                             />
                             <input
+                                className="bible-input"
                                 type="text"
                                 id="chapter"
                                 value={startChapter}
@@ -290,6 +292,7 @@ function Profile() {
                                 placeholder="Chapter (e.g. 3)"
                             />
                             <input
+                                className="bible-input"
                                 type="text"
                                 id="verse"
                                 value={startVerse}
@@ -299,9 +302,10 @@ function Profile() {
                             />
 
                             <button
+                                className="bible-input"
                                 type="button"
                                 onClick={fetchVerse}
-                                disabled={isFetching}>Get Verse</button>
+                                disabled={isFetching}>Apply</button>
                         </div>
 
                         {/* Fetched Verse */}
