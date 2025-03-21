@@ -361,6 +361,13 @@ textarea {
     border: 1px solid #1b1b1b;
     padding: 0.25rem;
 }
+.bible-input-button {
+    width: auto;
+    background-color: var(--light);
+    padding: 0.25em;
+    color: white;
+    border: 2px solid var(--light);
+}
 
 .post-button {
     width: 85%;

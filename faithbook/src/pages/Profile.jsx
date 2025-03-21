@@ -274,15 +274,17 @@ function Profile() {
                         {/* BibleVerse Section */}
                         <div className="post-textarea">
                             <input
+                                style={{ maxWidth: "35%" }}
                                 className="bible-input"
                                 type="text"
                                 id="book-name"
                                 value={startBook}
                                 required
                                 onChange={(e) => setStartBook(e.target.value)}
-                                placeholder="Book (e.g. 요한복음 or 요)"
+                                placeholder="Book (요, 요한복음)"
                             />
                             <input
+                                style={{ maxWidth: "20%" }}
                                 className="bible-input"
                                 type="text"
                                 id="chapter"
@@ -292,17 +294,19 @@ function Profile() {
                                 placeholder="Chapter (e.g. 3)"
                             />
                             <input
+                                style={{ maxWidth: "20%" }}
                                 className="bible-input"
                                 type="text"
                                 id="verse"
                                 value={startVerse}
                                 required
                                 onChange={(e) => setStartVerse(e.target.value)}
-                                placeholder="Chapter (e.g. 16)"
+                                placeholder="Verse (e.g. 16)"
                             />
 
                             <button
-                                className="bible-input"
+                                style={{ maxWidth: "20%" }}
+                                className="bible-input-button"
                                 type="button"
                                 onClick={fetchVerse}
                                 disabled={isFetching}>Apply</button>
