@@ -3,6 +3,7 @@ import DevotionPost from "/src/components/DevotionPost.jsx";
 import axios from "axios";
 import { Camera, CircleHelp, Search, MessageCircleMore, MessageCircleHeart } from "lucide-react";
 import imageCompression from 'browser-image-compression';
+import { getAbbreviatedBook, getFullBookName } from "../utils/bookMapping";
 import "/src/components/ui.css";
 
 function Profile() {
@@ -14,6 +15,7 @@ function Profile() {
     const [startVerse, setStartVerse] = useState("");
     const [endChapter, setEndChapter] = useState("");
     const [endVerse, setEndVerse] = useState("");
+    const [showRange, setShowRange] = useState(false);
 
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
@@ -139,10 +141,13 @@ function Profile() {
             alert("Bible verse cannot be blank");
             return;
         }
-
         setIsFetching(true);
 
-        const verseUrl = `https://faithbook-production.up.railway.app/verse?book=${startBook}&chapter=${startChapter}&verse=${startVerse}`;
+        const abbreviatedBook = getAbbreviatedBook(startBook.trim())
+
+        const verseUrl = `https://faithbook-production.up.railway.app/verse?book=${abbreviatedBook}&chapter=${startChapter.trim()}&verse=${startVerse.trim()}`
+            + (endChapter ? `&endChapter=${endChapter.trim()}` : "")
+            + (endVerse ? `&endVerse=${endVerse.trim()}` : "");
 
         try {
             const res = await axios.get(verseUrl);
@@ -274,72 +279,75 @@ function Profile() {
                         </div>
 
                         {/* BibleVerse Section */}
-                        <div
-                            className="post-textarea"
-                            style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            <div style={{ border: "1px solid red ", maxWidth: "100%"}}>
+                        <div className="post-textarea" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                            {/* First Row - Default Inputs */}
+                            <div style={{ display: "flex", gap: "0.25rem", width: "100%", alignItems: "center", justifyContent: "center" }}>
                                 <input
-                                    style={{ maxWidth: "35%" }}
                                     className="bible-input"
                                     type="text"
-                                    id="book-name"
                                     value={startBook}
-                                    required
                                     onChange={(e) => setStartBook(e.target.value)}
                                     placeholder="Book (요, 요한복음)"
+                                    required
                                 />
                                 <input
-                                    style={{ maxWidth: "20%", width: "125px"}}
                                     className="bible-input"
                                     type="text"
-                                    id="chapter"
                                     value={startChapter}
-                                    required
                                     onChange={(e) => setStartChapter(e.target.value)}
                                     placeholder="Chapter (e.g. 3)"
+                                    required
                                 />
                                 <input
-                                    style={{ maxWidth: "20%", width: "125px"}}
                                     className="bible-input"
                                     type="text"
-                                    id="verse"
                                     value={startVerse}
-                                    required
                                     onChange={(e) => setStartVerse(e.target.value)}
                                     placeholder="Verse (e.g. 16)"
-                                />
-                            </div>
-                            <div style={{ border: "1px solid red ", maxWidth: "100%" }}>
-                                <span>to </span>
-                                <span style={{ fontSize: "0.7rem" }}>(leave blank for single verse)</span>
-                                <input
-                                    style={{ maxWidth: "20%" }}
-                                    className="bible-input"
-                                    type="text"
-                                    id="endchapter"
-                                    value={endChapter}
                                     required
-                                    onChange={(e) => setEndChapter(e.target.value)}
-                                    placeholder="Chapter (e.g. 3)"
-                                />
-                                <input
-                                    style={{ maxWidth: "20%" }}
-                                    className="bible-input"
-                                    type="text"
-                                    id="endverse"
-                                    value={endVerse}
-                                    required
-                                    onChange={(e) => setEndChapter(e.target.value)}
-                                    placeholder="Verse (e.g. 16)"
                                 />
                                 <button
-                                    style={{ maxWidth: "20%" }}
-                                    className="bible-input-button"
+                                    className="bible-to-button"
                                     type="button"
-                                    onClick={fetchVerse}
-                                    disabled={isFetching}>Apply</button>
+                                    onClick={() => setShowRange(!showRange)}
+                                >
+                                    {showRange ? "Cancel" : "To"}
+                                </button>
                             </div>
+
+                            {/* Second Row - Additional Inputs (Only Show When Toggled) */}
+                            {showRange && (
+                                <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginTop: "10px" }}>
+                                    <span style={{ fontWeight: "400" }}>to</span>
+                                    <input
+                                        className="bible-input"
+                                        type="text"
+                                        value={endChapter}
+                                        onChange={(e) => setEndChapter(e.target.value)}
+                                        placeholder="Chapter (e.g. 3)"
+                                    />
+                                    <input
+                                        className="bible-input"
+                                        type="text"
+                                        value={endVerse}
+                                        onChange={(e) => setEndVerse(e.target.value)}
+                                        placeholder="Verse (e.g. 16)"
+                                    />
+                                </div>
+                            )}
+
+                            {/* Apply Button - Always Visible */}
+                            <button
+                                className="bible-input-button"
+                                type="button"
+                                onClick={fetchVerse}
+                                disabled={isFetching}
+                                style={{ marginTop: "10px" }}
+                            >
+                                Apply
+                            </button>
                         </div>
+
 
                         {/* Fetched Verse */}
                         <div className="post-textarea" style={{ whiteSpace: "pre-line" }}>{bibleVerse}</div>

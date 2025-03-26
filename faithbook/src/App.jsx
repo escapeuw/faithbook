@@ -14,7 +14,6 @@ const ProtectedRoute = ({ element }) => {
   if (!token) {
     return <Navigate to="/" />;
   }
-
   return element;
 };
 
