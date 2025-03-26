@@ -1,4 +1,5 @@
 const express = require("express");
+const { Op } = require("sequelize");
 const BibleVerseKr = require("../models/BibleVerseKr");
 
 require("dotenv").config();
@@ -36,15 +37,15 @@ router.get("/", async (req, res) => {
                 whereCondition = {
                     book,
                     [Op.or]: [
-                        { 
-                            chapter, 
+                        {
+                            chapter,
                             verse: { [Op.gte]: verse } // First chapter: start from given verse
                         },
-                        { 
+                        {
                             chapter: { [Op.gt]: chapter, [Op.lt]: endChapter } // Full chapters in between
                         },
-                        { 
-                            chapter: endChapter, 
+                        {
+                            chapter: endChapter,
                             verse: { [Op.lte]: endVerse } // Last chapter: up to given verse
                         }
                     ]
