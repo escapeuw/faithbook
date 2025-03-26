@@ -151,7 +151,9 @@ function Profile() {
 
         try {
             const res = await axios.get(verseUrl);
-            const formattedVerse = `${res.data.book}${res.data.chapter}:${res.data.verse}\n${res.data.text}`;
+            const verses = res.data.bibleVerses.map(verse => `\n${verse.verse} ${verse.text}`).join('');
+
+            const formattedVerse = `[${res.data.verseTitle}]${verses}`;
             setBibleVerse(formattedVerse);
 
         } catch (err) {
@@ -279,7 +281,8 @@ function Profile() {
                         </div>
 
                         {/* BibleVerse Section */}
-                        <div className="post-textarea" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <div className="post-textarea"
+                            style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                             {/* First Row - Default Inputs */}
                             <div style={{ display: "flex", gap: "0.25rem", width: "100%", alignItems: "center", justifyContent: "center" }}>
                                 <input
@@ -317,7 +320,7 @@ function Profile() {
 
                             {/* Second Row - Additional Inputs (Only Show When Toggled) */}
                             {showRange && (
-                                <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", marginTop: "10px" }}>
+                                <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", justifyContent: "center", marginTop: "10px" }}>
                                     <span style={{ fontWeight: "400" }}>to</span>
                                     <input
                                         className="bible-input"
@@ -350,7 +353,12 @@ function Profile() {
 
 
                         {/* Fetched Verse */}
-                        <div className="post-textarea" style={{ whiteSpace: "pre-line" }}>{bibleVerse}</div>
+                        <div style={{
+                            whiteSpace: "pre-line", fontSize: "0.85rem",
+                            height: "100px", maxWidth: "95%", overflowY: "auto", marginBottom: "0.5rem", border: "1px solid lightgray"
+                        }}>
+                            {bibleVerse}
+                        </div>
 
                         {/* Post Content Section */}
                         <div className="post-textarea">

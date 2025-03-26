@@ -357,6 +357,7 @@ textarea {
 
 .bible-input {
     width: auto;
+    max-width: 20%;
     border: none;
     border: 1px solid #1b1b1b;
     padding: 0.25rem;

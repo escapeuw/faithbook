@@ -63,7 +63,7 @@ router.get("/", async (req, res) => {
         }
 
         // Build the verseTitle
-        const verseTitle = `${book} ${chapter}:${verse}` + (endChapter ? `- ${endChapter}:${endVerse}` : "");
+        const verseTitle = `${book} ${chapter}:${verse}` + (endChapter ? ` - ${endChapter}:${endVerse}` : "");
 
         // Return both bibleVerses and verseTitle
         return res.json({
