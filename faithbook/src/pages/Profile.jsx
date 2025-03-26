@@ -12,6 +12,8 @@ function Profile() {
     const [startBook, setStartBook] = useState("");
     const [startChapter, setStartChapter] = useState("");
     const [startVerse, setStartVerse] = useState("");
+    const [endChapter, setEndChapter] = useState("");
+    const [endVerse, setEndVerse] = useState("");
 
     const [user, setUser] = useState(null);
     const [posts, setPosts] = useState([]);
@@ -272,44 +274,71 @@ function Profile() {
                         </div>
 
                         {/* BibleVerse Section */}
-                        <div className="post-textarea">
-                            <input
-                                style={{ maxWidth: "35%" }}
-                                className="bible-input"
-                                type="text"
-                                id="book-name"
-                                value={startBook}
-                                required
-                                onChange={(e) => setStartBook(e.target.value)}
-                                placeholder="Book (요, 요한복음)"
-                            />
-                            <input
-                                style={{ maxWidth: "20%" }}
-                                className="bible-input"
-                                type="text"
-                                id="chapter"
-                                value={startChapter}
-                                required
-                                onChange={(e) => setStartChapter(e.target.value)}
-                                placeholder="Chapter (e.g. 3)"
-                            />
-                            <input
-                                style={{ maxWidth: "20%" }}
-                                className="bible-input"
-                                type="text"
-                                id="verse"
-                                value={startVerse}
-                                required
-                                onChange={(e) => setStartVerse(e.target.value)}
-                                placeholder="Verse (e.g. 16)"
-                            />
-
-                            <button
-                                style={{ maxWidth: "20%" }}
-                                className="bible-input-button"
-                                type="button"
-                                onClick={fetchVerse}
-                                disabled={isFetching}>Apply</button>
+                        <div
+                            className="post-textarea"
+                            style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                            <div style={{ border: "1px solid red ", maxWidth: "100%"}}>
+                                <input
+                                    style={{ maxWidth: "35%" }}
+                                    className="bible-input"
+                                    type="text"
+                                    id="book-name"
+                                    value={startBook}
+                                    required
+                                    onChange={(e) => setStartBook(e.target.value)}
+                                    placeholder="Book (요, 요한복음)"
+                                />
+                                <input
+                                    style={{ maxWidth: "20%", width: "125px"}}
+                                    className="bible-input"
+                                    type="text"
+                                    id="chapter"
+                                    value={startChapter}
+                                    required
+                                    onChange={(e) => setStartChapter(e.target.value)}
+                                    placeholder="Chapter (e.g. 3)"
+                                />
+                                <input
+                                    style={{ maxWidth: "20%", width: "125px"}}
+                                    className="bible-input"
+                                    type="text"
+                                    id="verse"
+                                    value={startVerse}
+                                    required
+                                    onChange={(e) => setStartVerse(e.target.value)}
+                                    placeholder="Verse (e.g. 16)"
+                                />
+                            </div>
+                            <div style={{ border: "1px solid red ", maxWidth: "100%" }}>
+                                <span>to </span>
+                                <span style={{ fontSize: "0.7rem" }}>(leave blank for single verse)</span>
+                                <input
+                                    style={{ maxWidth: "20%" }}
+                                    className="bible-input"
+                                    type="text"
+                                    id="endchapter"
+                                    value={endChapter}
+                                    required
+                                    onChange={(e) => setEndChapter(e.target.value)}
+                                    placeholder="Chapter (e.g. 3)"
+                                />
+                                <input
+                                    style={{ maxWidth: "20%" }}
+                                    className="bible-input"
+                                    type="text"
+                                    id="endverse"
+                                    value={endVerse}
+                                    required
+                                    onChange={(e) => setEndChapter(e.target.value)}
+                                    placeholder="Verse (e.g. 16)"
+                                />
+                                <button
+                                    style={{ maxWidth: "20%" }}
+                                    className="bible-input-button"
+                                    type="button"
+                                    onClick={fetchVerse}
+                                    disabled={isFetching}>Apply</button>
+                            </div>
                         </div>
 
                         {/* Fetched Verse */}
