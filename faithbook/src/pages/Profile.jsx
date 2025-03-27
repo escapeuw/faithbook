@@ -141,9 +141,15 @@ function Profile() {
             alert("Bible verse cannot be blank");
             return;
         }
+
+        if ((!endChapter && endVerse) || (endChapter && !endVerse)) {
+            alert("Both chapter and verse are required");
+            return;
+        }
         setIsFetching(true);
 
-        const abbreviatedBook = getAbbreviatedBook(startBook.trim())
+        const abbreviatedBook = getAbbreviatedBook(startBook.trim());
+        const fullBook = getFullBookName(startBook.trim());
 
         const verseUrl = `https://faithbook-production.up.railway.app/verse?book=${abbreviatedBook}&chapter=${startChapter.trim()}&verse=${startVerse.trim()}`
             + (endChapter ? `&endChapter=${endChapter.trim()}` : "")
@@ -153,6 +159,10 @@ function Profile() {
             const res = await axios.get(verseUrl);
             const verses = res.data.bibleVerses.map(verse => `\n${verse.verse} ${verse.text}`).join('');
 
+            if (postTitle === "") {
+                const defaultTitle = `${fullBook} ${startChapter}:${startVerse}` + (endChapter ? ` - ${endChapter}:${endVerse}` : "");
+                setPostTitle(defaultTitle);
+            }
             const formattedVerse = `[${res.data.verseTitle}]${verses}`;
             setBibleVerse(formattedVerse);
 
@@ -312,7 +322,11 @@ function Profile() {
                                 <button
                                     className="bible-to-button"
                                     type="button"
-                                    onClick={() => setShowRange(!showRange)}
+                                    onClick={() => {
+                                        setShowRange(!showRange);
+                                        setEndChapter("");
+                                        setEndVerse("")
+                                    }}
                                 >
                                     {showRange ? "Cancel" : "To"}
                                 </button>
@@ -355,7 +369,7 @@ function Profile() {
                         {/* Fetched Verse */}
                         <div style={{
                             whiteSpace: "pre-line", fontSize: "0.85rem",
-                            height: "100px", maxWidth: "95%", overflowY: "auto", marginBottom: "0.5rem", border: "1px solid lightgray"
+                            maxHeight: "100px", maxWidth: "95%", overflowY: "auto", marginBottom: "0.5rem", border: "1px solid lightgray"
                         }}>
                             {bibleVerse}
                         </div>

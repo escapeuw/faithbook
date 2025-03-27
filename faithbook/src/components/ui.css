@@ -376,6 +376,7 @@ textarea {
 .bible-to-button {
     padding: 0.2rem 0.3rem;
     font-size: 0.9rem;
+    color: black;
     background-color: rgb(228, 225, 225);
     border: 1px solid gray;
     border-radius: 2px;

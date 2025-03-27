@@ -255,6 +255,12 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                     <p className="purple-bar bold">
                         {selectedPost.title}
                     </p>
+                    {selectedPost.bibleVerse ?
+                    <p className="purple-bar bold"
+                        style={{
+                            whiteSpace: "pre-line", fontSize: "0.85rem", maxHeight: "50px",
+                            overflowY: "auto", border: "1px solid lightgray", borderRadius: "3px", color: "#3b3b3b"
+                        }}>{selectedPost.bibleVerse}</p> : null}
                     <p className="post-modal-content">
                         {selectedPost.content}
                     </p>

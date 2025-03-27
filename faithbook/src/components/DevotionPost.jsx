@@ -235,7 +235,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
     }
 
 
-    
+
     return (
         <div className="center card">
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -271,7 +271,12 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
 
             <div style={{ textAlign: "left", overflow: "hidden" }}>
                 <p className="purple-bar bold">{title}</p>
-                <p className="purple-bar bold" style={{ whiteSpace: "pre-line", fontSize: "0.85rem" }}>{bibleVerse}</p>
+                {bibleVerse ?
+                    <p className="purple-bar bold"
+                        style={{
+                            whiteSpace: "pre-line", fontSize: "0.85rem", maxHeight: "80px",
+                            overflowY: "auto", border: "1px solid lightgray", borderRadius: "3px", color: "#3b3b3b"
+                        }}>{bibleVerse}</p> : null}
                 {isEditing ? (
                     <div>
                         <div className="post-textarea" style={{ width: "100%" }}>
