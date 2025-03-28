@@ -280,7 +280,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                     {bibleVerse ?
                         <div style={{
                             display: "flex", background: "#edeceb", padding: "0.5rem",
-                            borderRadius: "10px"
+                            borderRadius: "10px", justifyContent: "center"
                         }}>
                             <div>
                                 <Quote style={{ transform: "rotate(180deg)" }}
@@ -291,6 +291,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                                     whiteSpace: "pre-line", fontSize: "0.85rem", maxHeight: "80px",
                                     overflowY: "auto", borderRadius: "3px", color: "#3b3b3b",
                                     margin: "0.1rem 0.15rem", fontWeight: "500"
+                                 
                                 }}>
                                 {bibleVerse}
                             </div>
