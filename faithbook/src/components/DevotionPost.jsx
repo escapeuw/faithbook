@@ -269,7 +269,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                     </div>)}
             </div>
 
-            <div style={{ textAlign: "left", overflow: "hidden" }}>
+            <div style={{ textAlign: "left", overflow: "hidden"}}>
                 {/* Post title and bible verse */}
                 <div className="purple-bar"
                     style={{
@@ -280,11 +280,12 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                     {bibleVerse ?
                         <div style={{
                             display: "flex", background: "#edeceb", padding: "0.5rem",
-                            borderRadius: "10px", justifyContent: "center"
+                            borderRadius: "10px", justifyContent: "center", width: "max-content",
+                            maxWidth: "95%"
                         }}>
                             <div>
                                 <Quote style={{ transform: "rotate(180deg)" }}
-                                    fill="#8e8d8c" size="0.75rem" color="#8e8d8c" />
+                                    fill="#7F7E7E" size="0.75rem" color="#8e8d8c" />
                             </div>
                             <div className="display-verse">
                                 
@@ -293,7 +294,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                             <div style={{
                                 display: "flex", alignItems: "flex-end"
                             }}>
-                                <Quote size="0.75rem" fill="#8e8d8c" color="#8e8d8c" />
+                                <Quote size="0.75rem" fill="#7F7E7E" color="#8e8d8c" />
                             </div>
                         </div> : null}
                 </div>
