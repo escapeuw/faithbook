@@ -6,6 +6,26 @@
     scrollbar-width: thin;
 }
 
+.display-verse {
+    white-space: pre-line;
+    font-size: 0.85rem; 
+    max-height: 80px;
+    overflow-y: auto; 
+    border-radius: 3px;
+    color: #3b3b3b;
+    margin: 0.1rem 0.15rem;
+    font-weight: 500;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+}
+
+.display-verse::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
 .post-bottom {
     display: flex;
     flex-direction: row;
@@ -76,10 +96,12 @@
 .x-button {
     padding: 0.25rem;
 }
+
 .x-button:hover {
     background-color: lightgray;
     padding: 0.25rem;
 }
+
 .post-modal-inner {
     text-align: left;
     overflow-y: scroll;
@@ -114,7 +136,7 @@
     display: flex;
     flex-direction: column;
     height: 3rem;
-    margin: 0.15rem 0 0.25rem ;
+    margin: 0.15rem 0 0.25rem;
     padding-right: 3rem;
     /* prevent text from overlapping with the icon */
     width: min(20rem, 75%);
@@ -206,6 +228,7 @@
     max-width: 85%;
     margin-bottom: 0.35rem;
 }
+
 .comment-container {
     display: flex;
     flex-direction: column;
@@ -370,6 +393,7 @@ textarea {
     padding: 0.25rem;
     transition: all 0.3s ease;
 }
+
 .bible-input-button {
     width: auto;
     background-color: var(--light);
@@ -389,6 +413,7 @@ textarea {
     border-radius: 2px;
     transition: background-color 0.3s ease;
 }
+
 .bible-to-button:hover {
     background-color: rgb(192, 190, 190);
 }
@@ -404,7 +429,8 @@ textarea {
     transition: background-color 0.3s ease;
 }
 
-.post-button:hover:not(:disabled), .bible-input-button:hover {
+.post-button:hover:not(:disabled),
+.bible-input-button:hover {
     background: var(--primary-dark);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
@@ -432,7 +458,8 @@ textarea {
     font-family: 'Poppins', sans-serif;
 }
 
-.input-text:focus, .bible-input:focus {
+.input-text:focus,
+.bible-input:focus {
     outline: none;
     border-color: var(--accent);
     background-color: #fff;
