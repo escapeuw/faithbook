@@ -73,6 +73,13 @@
     width: 50rem;
 }
 
+.x-button {
+    padding: 0.25rem;
+}
+.x-button:hover {
+    background-color: lightgray;
+    padding: 0.25rem;
+}
 .post-modal-inner {
     text-align: left;
     overflow-y: scroll;

@@ -247,7 +247,7 @@ const PostModal = ({ isOpen, onClose, onReplyAdded }) => {
                             </div>
                         </div>
                     </div>
-                    <X size="1.25rem"
+                    <X className="x-button" size="1.25rem"
                         onClick={onClose} />
                 </div>
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify"; // import toast
-import { Heart, Pencil, Trash2, MessageCircle } from "lucide-react";
+import { Heart, Pencil, Trash2, MessageCircle, Quote } from "lucide-react";
 import "./ui.css";
 import ConfirmModal from "./ConfirmModal.jsx";
 import PostModal from "./PostModal.jsx";
@@ -270,13 +270,37 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
             </div>
 
             <div style={{ textAlign: "left", overflow: "hidden" }}>
-                <p className="purple-bar bold">{title}</p>
-                {bibleVerse ?
-                    <p className="purple-bar bold"
-                        style={{
-                            whiteSpace: "pre-line", fontSize: "0.85rem", maxHeight: "80px",
-                            overflowY: "auto", border: "1px solid lightgray", borderRadius: "3px", color: "#3b3b3b"
-                        }}>{bibleVerse}</p> : null}
+                {/* Post title and bible verse */}
+                <div className="purple-bar"
+                    style={{
+                        display: "flex", flexDirection: "column", gap: "0.5rem",
+                        margin: "0.75rem 0"
+                    }}>
+                    <div className="bold">{title}</div>
+                    {bibleVerse ?
+                        <div style={{
+                            display: "flex", background: "#edeceb", padding: "0.5rem",
+                            borderRadius: "10px"
+                        }}>
+                            <div>
+                                <Quote style={{ transform: "rotate(180deg)" }}
+                                    fill="#8e8d8c" size="0.75rem" color="#8e8d8c" />
+                            </div>
+                            <div
+                                style={{
+                                    whiteSpace: "pre-line", fontSize: "0.85rem", maxHeight: "80px",
+                                    overflowY: "auto", borderRadius: "3px", color: "#3b3b3b",
+                                    margin: "0.1rem 0.15rem", fontWeight: "500"
+                                }}>
+                                {bibleVerse}
+                            </div>
+                            <div style={{
+                                display: "flex", alignItems: "flex-end"
+                            }}>
+                                <Quote size="0.75rem" fill="#8e8d8c" color="#8e8d8c" />
+                            </div>
+                        </div> : null}
+                </div>
                 {isEditing ? (
                     <div>
                         <div className="post-textarea" style={{ width: "100%" }}>
