@@ -294,9 +294,10 @@ function Profile() {
                         <div className="post-textarea"
                             style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                             {/* First Row - Default Inputs */}
-                            <div style={{ display: "flex", gap: "0.25rem", maxWidth: "100%", alignItems: "center", justifyContent: "center"
-                               
-                             }}>
+                            <div style={{
+                                display: "flex", maxWidth: "100%", alignItems: "center", justifyContent: "flex-end",
+                                border: "1px solid black", borderRadius: "12px", width: "550px"
+                            }}>
                                 <input
                                     className="bible-input"
                                     type="text"
@@ -332,6 +333,7 @@ function Profile() {
                                 >
                                     {showRange ? "Cancel" : "To"}
                                 </button>
+
                             </div>
 
                             {/* Second Row - Additional Inputs (Only Show When Toggled) */}

@@ -22,7 +22,7 @@ function App() {
   return (
     <BrowserRouter basename='/'>
 
-      <div>
+      <div className="app">
         <ToastContainer position="top-center" autoClose={7000} hideProgressBar={true} />
         <Routes>
           <Route path="/" element={<Login />} />
