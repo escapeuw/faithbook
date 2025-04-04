@@ -285,7 +285,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                         }}>
                             <div>
                                 <Quote style={{ transform: "rotate(180deg)" }}
-                                    fill="#7F7E7E" size="0.75rem" color="#8e8d8c" />
+                                    fill="#8b8a8a" size="0.7rem" color="#8b8a8a" />
                             </div>
                             <div className="display-verse">
                                 
@@ -294,7 +294,7 @@ function DevotionPost({ id, userTitle, username, profilePic, likes, reports, con
                             <div style={{
                                 display: "flex", alignItems: "flex-end"
                             }}>
-                                <Quote size="0.75rem" fill="#7F7E7E" color="#8e8d8c" />
+                                <Quote size="0.7rem" fill="#8b8a8a" color="#8b8a8a" />
                             </div>
                         </div> : null}
                 </div>

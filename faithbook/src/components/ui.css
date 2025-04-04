@@ -374,6 +374,7 @@ textarea {
     align-items: center;
     width: 100%;
     justify-content: center;
+    padding: 1rem 0;
 }
 
 .post-textarea {
@@ -391,7 +392,9 @@ textarea {
     border: none;
     border-radius: 12px;
     transition: all 0.3s ease;
+    background: #f7f7f7
 }
+/* verse apply button (without verseTo)*/
 .bible-input-button {
     width: auto;
     background-color: var(--light);
@@ -405,12 +408,12 @@ textarea {
 .bible-to-button {
     width: 100px;
     max-width: 20%;
-    font-size: 1rem;
+    font-size: 0.75rem;
     color: black;
     background-color: rgb(228, 225, 225);
     border: none;
-    border-left: 1px solid gray;
-    border-radius: 0 12px 12px 0;
+    border-left: 1px solid lightgray;
+    border-radius: 0 11px 11px 0;
     padding: 0.5rem;
     transition: background-color 0.3s ease;
 }
@@ -448,7 +451,7 @@ textarea {
 .input-text {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ddd;
+    border: 1px solid lightgray;
     border-radius: 8px;
     font-size: 1rem;
     line-height: 1.2;

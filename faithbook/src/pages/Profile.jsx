@@ -278,118 +278,130 @@ function Profile() {
                         </div>
                         <p>"Walking with faith, sharing daily devotions, and growing in Christ."</p>
                     </div>
-
-                    <form className="write-post" onSubmit={handlePost}>
-                        <div className="post-textarea">
-                            <textarea className="post-title input-text"
-                                value={postTitle}
-                                onChange={(e) => setPostTitle(e.target.value)}
-                                placeholder="write a title..."
-                                required
-                                maxLength={20}
-                            />
-                        </div>
-
-                        {/* BibleVerse Section */}
-                        <div className="post-textarea"
-                            style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                            {/* First Row - Default Inputs */}
-                            <div style={{
-                                display: "flex", maxWidth: "100%", alignItems: "center", justifyContent: "flex-end",
-                                border: "1px solid black", borderRadius: "12px", width: "550px"
-                            }}>
-                                <input
-                                    className="bible-input"
-                                    type="text"
-                                    value={startBook}
-                                    onChange={(e) => setStartBook(e.target.value)}
-                                    placeholder="Book (요, 요한복음)"
+                    <div className="card">
+                        <form className="write-post" onSubmit={handlePost}>
+                            <div className="post-textarea">
+                                <textarea className="post-title input-text"
+                                    value={postTitle}
+                                    onChange={(e) => setPostTitle(e.target.value)}
+                                    placeholder="write a title..."
                                     required
+                                    maxLength={20}
                                 />
-                                <input
-                                    className="bible-input"
-                                    type="text"
-                                    value={startChapter}
-                                    onChange={(e) => setStartChapter(e.target.value)}
-                                    placeholder="Chapter (e.g. 3)"
-                                    required
-                                />
-                                <input
-                                    className="bible-input"
-                                    type="text"
-                                    value={startVerse}
-                                    onChange={(e) => setStartVerse(e.target.value)}
-                                    placeholder="Verse (e.g. 16)"
-                                    required
-                                />
-                                <button
-                                    className="bible-to-button"
-                                    type="button"
-                                    onClick={() => {
-                                        setShowRange(!showRange);
-                                        setEndChapter("");
-                                        setEndVerse("")
-                                    }}
-                                >
-                                    {showRange ? "Cancel" : "To"}
-                                </button>
-
                             </div>
 
-                            {/* Second Row - Additional Inputs (Only Show When Toggled) */}
-                            {showRange && (
-                                <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", justifyContent: "center", marginTop: "10px" }}>
-                                    <span style={{ fontWeight: "400" }}>to</span>
+                            {/* BibleVerse Section */}
+                            <div className="post-textarea"
+                                style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                                {/* First Row - Default Inputs */}
+                                <div style={{
+                                    display: "flex", maxWidth: "100%", alignItems: "center", justifyContent: "flex-end",
+                                    border: "1px solid lightgray", borderRadius: "12px", width: "550px", background: "#f7f7f7"
+                                }}>
                                     <input
                                         className="bible-input"
                                         type="text"
-                                        value={endChapter}
-                                        onChange={(e) => setEndChapter(e.target.value)}
-                                        placeholder="Chapter (e.g. 3)"
+                                        maxLength={8}
+                                        value={startBook}
+                                        onChange={(e) => setStartBook(e.target.value)}
+                                        placeholder="Book (요, 요한복음)"
+                                        required
                                     />
                                     <input
                                         className="bible-input"
                                         type="text"
-                                        value={endVerse}
-                                        onChange={(e) => setEndVerse(e.target.value)}
-                                        placeholder="Verse (e.g. 16)"
+                                        maxLength={3}
+                                        value={startChapter}
+                                        onChange={(e) => setStartChapter(e.target.value)}
+                                        placeholder="Chapter (3)"
+                                        required
                                     />
+                                    <input
+                                        className="bible-input"
+                                        type="text"
+                                        maxLength={3}
+                                        value={startVerse}
+                                        onChange={(e) => setStartVerse(e.target.value)}
+                                        placeholder="Verse (16)"
+                                        required
+                                    />
+                                    <button
+                                        className="bible-to-button"
+                                        type="button"
+                                        onClick={() => {
+                                            setShowRange(!showRange);
+                                            setEndChapter("");
+                                            setEndVerse("")
+                                        }}
+                                    >
+                                        {showRange ? "Cancel" : "To"}
+                                    </button>
+
                                 </div>
-                            )}
 
-                            {/* Apply Button - Always Visible */}
-                            <button
-                                className="bible-input-button"
-                                type="button"
-                                onClick={fetchVerse}
-                                disabled={isFetching}
-                                style={{ marginTop: "10px" }}
-                            >
-                                Apply
-                            </button>
-                        </div>
+                                {/* Second Row - Additional Inputs (Only Show When Toggled) */}
+                                {showRange && (
+
+                                    <div style={{
+                                        display: "flex", maxWidth: "75%", width: "300px", alignItems: "center", justifyContent: "space-between", marginTop: "10px",
+                                        border: "1px solid lightgray", borderRadius: "12px", background: "#f7f7f7"
+                                    }}>
+                                        <span style={{ width: "10px", fontWeight: "500", fontSize: "0.75rem", marginLeft: "1rem", padding: "0.5rem" }}>TO</span>
+                                        <input
+                                            className="bible-input"
+                                            style={{ maxWidth: "30%" }}
+                                            type="text"
+                                            maxLength={3}
+                                            value={endChapter}
+                                            onChange={(e) => setEndChapter(e.target.value)}
+                                            placeholder="Chapter (4)"
+                                        />
+                                        <input
+                                            className="bible-input"
+                                            type="text"
+                                            style={{ maxWidth: "30%" }}
+                                            maxLength={3}
+                                            value={endVerse}
+                                            onChange={(e) => setEndVerse(e.target.value)}
+                                            placeholder="Verse (1)"
+                                        />
+                                    </div>
+                                )}
+
+                                {/* Apply Button - Always Visible */}
+                                <button
+                                    className="bible-input-button"
+                                    type="button"
+                                    onClick={fetchVerse}
+                                    disabled={isFetching}
+                                    style={{ marginTop: "10px" }}
+                                >
+                                    Apply
+                                </button>
+                            </div>
 
 
-                        {/* Fetched Verse */}
-                        <div style={{
-                            whiteSpace: "pre-line", fontSize: "0.85rem",
-                            maxHeight: "100px", maxWidth: "95%", overflowY: "auto", marginBottom: "0.5rem", border: "1px solid lightgray"
-                        }}>
-                            {bibleVerse}
-                        </div>
+                            {/* Fetched Verse */}
+                            <div style={{
+                                whiteSpace: "pre-line", fontSize: "0.85rem",
+                                maxHeight: "100px", maxWidth: "95%", overflowY: "auto", marginBottom: "0.5rem", border: "1px solid lightgray", background: "#f7f7f7"
+                            }}>
+                                {bibleVerse}
+                            </div>
 
-                        {/* Post Content Section */}
-                        <div className="post-textarea">
-                            <textarea className="content input-text"
-                                value={devotion}
-                                onChange={(e) => setDevotion(e.target.value)}
-                                placeholder="write something..."
-                                required
-                            />
-                        </div>
-                        <button type="submit" className="post-button"
-                            disabled={isPostingDisabled}>Post</button>
-                    </form>
+                            {/* Post Content Section */}
+                            <div className="post-textarea">
+                                <textarea className="content input-text"
+                                    value={devotion}
+                                    onChange={(e) => setDevotion(e.target.value)}
+                                    placeholder="write something..."
+                                    required
+                                />
+                            </div>
+                            <button type="submit" className="post-button"
+                                disabled={isPostingDisabled}>Post</button>
+                        </form>
+                    </div>
 
                     {posts.length === 0 ?
                         (<div className="card">
