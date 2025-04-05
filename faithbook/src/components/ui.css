@@ -388,11 +388,10 @@ textarea {
 
 .bible-input {
     width: 150px;
-    max-width: 25%;
+    max-width: 30%;
     border: none;
-    border-radius: 12px;
     transition: all 0.3s ease;
-    background: #f7f7f7
+    background: #f7f7f7;
 }
 /* verse apply button (without verseTo)*/
 .bible-input-button {
@@ -406,7 +405,7 @@ textarea {
 }
 
 .bible-to-button {
-    width: 100px;
+    width: 150px;
     max-width: 20%;
     font-size: 0.75rem;
     color: black;

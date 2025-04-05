@@ -295,11 +295,12 @@ function Profile() {
                                 style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                                 {/* First Row - Default Inputs */}
                                 <div style={{
-                                    display: "flex", maxWidth: "100%", alignItems: "center", justifyContent: "flex-end",
+                                    display: "flex", maxWidth: "100%", alignItems: "center", justifyContent: "space-between",
                                     border: "1px solid lightgray", borderRadius: "12px", width: "550px", background: "#f7f7f7"
                                 }}>
                                     <input
                                         className="bible-input"
+                                        style={{ marginLeft: "0.5rem" }}
                                         type="text"
                                         maxLength={8}
                                         value={startBook}
@@ -309,6 +310,7 @@ function Profile() {
                                     />
                                     <input
                                         className="bible-input"
+                                        style={{ maxWidth: "20%"}}
                                         type="text"
                                         maxLength={3}
                                         value={startChapter}
@@ -318,6 +320,7 @@ function Profile() {
                                     />
                                     <input
                                         className="bible-input"
+                                        style={{ maxWidth: "20%"}}
                                         type="text"
                                         maxLength={3}
                                         value={startVerse}
